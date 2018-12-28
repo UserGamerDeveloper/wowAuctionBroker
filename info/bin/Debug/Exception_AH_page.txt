@@ -1,0 +1,4 @@
+28.12.2018 0:08:43
+System.Net.WebException: The operation has timed out
+   at System.Net.HttpWebRequest.GetResponse()
+   at habrJob.Program.getAHPage(Uri target, Server[] servers, Int32 idServer) in F:\d\прожекты\C#\wow\info\Program.cs:line 494

@@ -1,0 +1,4 @@
+28.12.2018 12:53:38
+System.Net.WebException: The operation has timed out
+   at System.Net.HttpWebRequest.GetResponse()
+   at habrJob.Program.getDBPage(Uri DB) in F:\d\прожекты\C#\wow\info\Program.cs:line 455

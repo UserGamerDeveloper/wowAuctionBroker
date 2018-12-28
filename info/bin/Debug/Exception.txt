@@ -1,0 +1,124 @@
+27.11.2018 9:10:16
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:16
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:16
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:17
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:17
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:17
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:17
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:17
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:17
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:18
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:18
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:18
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:18
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:18
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:19
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:19
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+27.11.2018 9:10:19
+System.ArgumentOutOfRangeException: Count cannot be less than zero.
+Parameter name: count
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 71
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+09.12.2018 0:11:43
+System.OutOfMemoryException: Exception of type 'System.OutOfMemoryException' was thrown.
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 83
+   at habrJob.Program.Server.isUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 91
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 279
+17.12.2018 18:41:59
+System.OutOfMemoryException: Exception of type 'System.OutOfMemoryException' was thrown.
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 83
+   at habrJob.Program.Server.isUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 91
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 279
+17.12.2018 18:42:04
+System.OutOfMemoryException: Exception of type 'System.OutOfMemoryException' was thrown.
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 70
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+17.12.2018 18:42:06
+System.OutOfMemoryException: Exception of type 'System.OutOfMemoryException' was thrown.
+   at System.String.Remove(Int32 startIndex, Int32 count)
+   at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 70
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272

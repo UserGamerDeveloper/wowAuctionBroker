@@ -1,0 +1,13 @@
+F:\d\прожекты\C#\wow\info\bin\Release\info.exe
+F:\d\прожекты\C#\wow\info\bin\Release\info.exe.config
+F:\d\прожекты\C#\wow\info\bin\Release\HtmlAgilityPack.dll
+F:\d\прожекты\C#\wow\info\bin\Release\Newtonsoft.Json.dll
+F:\d\прожекты\C#\wow\info\bin\Release\HtmlAgilityPack.pdb
+F:\d\прожекты\C#\wow\info\bin\Release\HtmlAgilityPack.xml
+F:\d\прожекты\C#\wow\info\bin\Release\Newtonsoft.Json.xml
+F:\d\прожекты\C#\wow\info\obj\Release\info.csproj.CoreCompileInputs.cache
+F:\d\прожекты\C#\wow\info\obj\Release\info.csproj.CopyComplete
+F:\d\прожекты\C#\wow\info\obj\Release\info.exe
+F:\d\прожекты\C#\wow\info\obj\Release\info.pdb
+F:\d\прожекты\C#\wow\info\bin\Release\info.pdb
+F:\d\прожекты\C#\wow\info\obj\Release\info.csprojAssemblyReference.cache
