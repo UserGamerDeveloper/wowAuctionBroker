@@ -52,6 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bid.cs" />
+    <Compile Include="ItemInfo.cs" />
+    <Compile Include="ItemType.cs" />
+    <Compile Include="ServerId.cs" />
+    <Compile Include="HTMLParser.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
