@@ -122,3 +122,7 @@ System.OutOfMemoryException: Exception of type 'System.OutOfMemoryException' was
    at System.String.Remove(Int32 startIndex, Int32 count)
    at habrJob.Program.Server.getFirstTimeUpdate() in F:\d\прожекты\C#\wow\info\Program.cs:line 70
    at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 272
+29.12.2018 14:36:25
+System.IndexOutOfRangeException: Index was outside the bounds of the array.
+   at habrJob.Program.getItemsCount(HtmlNodeCollection pads) in F:\d\прожекты\C#\wow\info\Program.cs:line 452
+   at habrJob.Program.start() in F:\d\прожекты\C#\wow\info\Program.cs:line 312
