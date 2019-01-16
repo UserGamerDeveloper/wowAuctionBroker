@@ -1,4 +1,0 @@
-16.01.2019 12:25:57
-System.Net.WebException: The remote name could not be resolved: 'www.tradeskillmaster.com'
-   at System.Net.HttpWebRequest.GetResponse()
-   at info.AuctionPageHTMLParser.getAHPageHTML(Uri uri, String cookie) in F:\d\прожекты\C#\wow\info\HTMLParser.cs:line 77
