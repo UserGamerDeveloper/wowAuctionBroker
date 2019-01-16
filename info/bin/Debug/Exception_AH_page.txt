@@ -1,4 +1,4 @@
-30.12.2018 1:06:02
-System.Net.WebException: The operation has timed out
+16.01.2019 12:25:57
+System.Net.WebException: The remote name could not be resolved: 'www.tradeskillmaster.com'
    at System.Net.HttpWebRequest.GetResponse()
-   at habrJob.Program.getAHPageHTML(Uri target, Server[] servers, Int32 idServer) in F:\d\прожекты\C#\wow\info\Program.cs:line 510
+   at info.AuctionPageHTMLParser.getAHPageHTML(Uri uri, String cookie) in F:\d\прожекты\C#\wow\info\HTMLParser.cs:line 77
