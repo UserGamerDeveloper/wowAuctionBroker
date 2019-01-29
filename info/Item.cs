@@ -12,17 +12,19 @@ namespace info
     class Item : IComparable
     {
         public string itemName;
-        public int profit;
+        public long profit;
         public List<Bid> bids = new List<Bid>();
         public int count;
         public long costSell;
         public Uri uri;
+        public double TIME_NEED;
 
-        public Item(string itemName, long costSell, string uri)
+        public Item(string itemName, long costSell, string uri, double TIME_NEED)
         {
             this.itemName = itemName;
             this.costSell = costSell;
             this.uri = new Uri(uri);
+            this.TIME_NEED = TIME_NEED;
         }
 
         public int CompareTo(object obj)
@@ -36,7 +38,7 @@ namespace info
             return profit / 10000f / count;
         }
 
-        public void print()
+        public void printAndLog()
         {
             if (bids.Count > 0)
             {
@@ -44,16 +46,16 @@ namespace info
                 int maxCount = 0;
                 foreach (var bid in bids)
                 {
-                    if ((bid.cost == bids[0].cost))
+                    if ((bid.costPerItem == bids[0].costPerItem))
                     {
                         minCount++;
                     }
-                    if ((bid.cost == bids[bids.Count - 1].cost) && bids[bids.Count - 1].autor.Equals(bid.autor))
+                    if ((bid.costPerItem == bids[bids.Count - 1].costPerItem) && bids[bids.Count - 1].autor.Equals(bid.autor))
                     {
                         maxCount++;
                     }
                 }
-                string printStr = itemName + "               " + String.Format("{0:# ## ##} x{1}", bids[0].cost, minCount) + "             " + String.Format("{0:# ## ##} x{1}    {2}", bids[bids.Count - 1].cost, maxCount, bids[bids.Count - 1].autor);
+                string printStr = String.Format("\t{0}\t{1:# ## ##} x{2}\t{3:# ## ##} x{4}\t{5}", itemName, bids[0].costPerItem, minCount, bids[bids.Count - 1].costPerItem, maxCount, bids[bids.Count - 1].autor);
                 Console.WriteLine(printStr);
                 File.AppendAllText("log.txt", printStr + "\n");
             }

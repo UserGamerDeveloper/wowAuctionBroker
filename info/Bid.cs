@@ -10,17 +10,17 @@ namespace info
     {
         public ItemType itemType;
         public int count;
-        public long cost;
-        public int profit;
-        public int profitPerItem;
+        public long costPerItem;
+        public long profit;
+        public long profitPerItem;
         public string autor;
 
-        public Bid(ItemType itemType, int count, long cost, string autor)
+        public Bid(ItemType itemType, int count, long costPerItem, string autor, long profit)
         {
             this.itemType = itemType;
             this.count = count;
-            this.cost = cost;
-            profit = (int)(Program.costsItem[itemType] - cost) * count;
+            this.costPerItem = costPerItem;
+            this.profit = profit;
             profitPerItem = profit / count;
             this.autor = autor;
         }

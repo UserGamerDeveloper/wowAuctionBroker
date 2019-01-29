@@ -25,8 +25,8 @@ namespace info
         [XmlIgnore]
         public long firstTimeUpdate;
         public List<ItemType> activeItems;
-        public int time;
-        public int delaySecond;
+        private int time;
+        private int delaySecond;
 
         public Server() { }
 

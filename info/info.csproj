@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bid.cs" />
+    <Compile Include="Recipe.cs" />
+    <Compile Include="Recipes.cs" />
     <Compile Include="ItemInfo.cs" />
     <Compile Include="ItemType.cs" />
     <Compile Include="ServerId.cs" />
