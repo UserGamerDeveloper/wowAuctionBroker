@@ -388,16 +388,12 @@ namespace info
 
                         Item[] itemsArray = (new List<Item>(items.Values)).ToArray();
                         Array.Sort(itemsArray);
-                        for (int i = itemsArray.Length - 1; i >= 0; i--)
-                        {
-                            itemsArray[i].printAndLog(false);
-                        }
 
-                        if (getFormatProfit(profit_all) >= settings.TARGET_PROFIT / 2)
+                        if (getFormatProfit(profit_all) >= settings.TARGET_PROFIT)
                         {
                             for (int i = itemsArray.Length - 1; i >= 0; i--)
                             {
-                                itemsArray[i].printAndLog(true);
+                                itemsArray[i].print();
                             }
                             if (getFormatProfit(profit_all) >= settings.TARGET_PROFIT && incomeInHour >= settings.TARGET_INCOME_IN_HOUR)
                             {
@@ -416,9 +412,13 @@ namespace info
                                 Console.WriteLine(str + profit_allStr);
                             }
                         }
+                        for (int i = itemsArray.Length - 1; i >= 0; i--)
+                        {
+                            itemsArray[i].log();
+                        }
                         File.AppendAllText("log.txt", str + profit_allStr + "\n\n");
 
-                        using (FileStream fs = new FileStream("data.xml", FileMode.Create))
+                        using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
                         {
                             serverXmlSerializer.Serialize(fs, servers);
                         }
