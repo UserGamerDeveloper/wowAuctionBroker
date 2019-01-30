@@ -14,8 +14,9 @@ namespace info
         public long profit;
         public long profitPerItem;
         public string autor;
+        public double timeNeed;
 
-        public Bid(ItemType itemType, int count, long costPerItem, string autor, long profit)
+        public Bid(ItemType itemType, int count, long costPerItem, string autor, long profit, double timeNeedPerItem)
         {
             this.itemType = itemType;
             this.count = count;
@@ -23,12 +24,15 @@ namespace info
             this.profit = profit;
             profitPerItem = profit / count;
             this.autor = autor;
+            timeNeed = timeNeedPerItem * count;
         }
 
         public int CompareTo(object obj)
         {
             Bid bid = obj as Bid;
-            return profitPerItem.CompareTo(bid.profitPerItem);
+            double income = profit / timeNeed;
+            double incomee = bid.profit / bid.timeNeed;
+            return income.CompareTo(incomee);
         }
     }
 }

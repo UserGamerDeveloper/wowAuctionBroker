@@ -20,8 +20,6 @@ namespace info
         const int COST_SCALE = 23292;
         const int COST_Tidespray_Linen = 19949;
         static int TARGET_PROFIT;
-        static SoundPlayer alert = new SoundPlayer(@"F:\d\прожекты\C#\wow\info\bin\Debug\alert.wav");
-        static SoundPlayer simpleSound = new SoundPlayer(@"F:\d\прожекты\C#\wow\info\bin\Debug\music.wav");
         const string SILK = "https://www.tradeskillmaster.com/items/shal-dorei-silk-124437?sort=buyout";
         const string LEATHER = "https://www.tradeskillmaster.com/items/stonehide-leather-124113?sort=buyout";
         const string SCALE = "https://www.tradeskillmaster.com/items/stormscale-124115?sort=buyout";
@@ -82,6 +80,7 @@ namespace info
                 {
                     File.AppendAllText("Exception.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
                     Console.WriteLine("Перезагрузка \n");
+                    SoundPlayer alert = new SoundPlayer("alert.wav");
                     alert.Play();
                     start();
                 }
@@ -166,7 +165,16 @@ namespace info
                                     if (costPerItem > 0)
                                     {
                                         countBloodStainedBone += countInBid;
-                                        bidsBloodStainedBone.Add(new Bid(ItemType.BloodStainedBone, countInBid, costPerItem, parserBloodStainedBone.getAutor(indexBloodStainedBone), 0));
+                                        bidsBloodStainedBone.Add(
+                                            new Bid(
+                                                ItemType.BloodStainedBone,
+                                                countInBid,
+                                                costPerItem,
+                                                parserBloodStainedBone.getAutor(indexBloodStainedBone),
+                                                0,
+                                                items[ItemType.BloodStainedBone].TIME_NEED
+                                            )
+                                        );
                                         if (countBloodStainedBone % 8 == 0)
                                         {
                                             break;
@@ -186,7 +194,16 @@ namespace info
                                             if (costPerItem > 0)
                                             {
                                                 countCoarseLeather += countInBid;
-                                                bidsCoarseLeather.Add(new Bid(ItemType.CoarseLeather, countInBid, costPerItem, parserCoarseLeather.getAutor(indexCoarseLeather), 0));
+                                                bidsCoarseLeather.Add(
+                                                    new Bid(
+                                                        ItemType.CoarseLeather,
+                                                        countInBid,
+                                                        costPerItem,
+                                                        parserCoarseLeather.getAutor(indexCoarseLeather),
+                                                        0,
+                                                        items[ItemType.CoarseLeather].TIME_NEED
+                                                    )
+                                                );
                                                 if (countCoarseLeather / 10 >= countRecipe)
                                                 {
                                                     break;
@@ -204,7 +221,16 @@ namespace info
                                             if (costPerItem > 0)
                                             {
                                                 countShimmerscale += countInBid;
-                                                bidsShimmerscale.Add(new Bid(ItemType.Shimmerscale, countInBid, costPerItem, parserShimmerscale.getAutor(indexShimmerscale), 0));
+                                                bidsShimmerscale.Add(
+                                                    new Bid(
+                                                        ItemType.Shimmerscale,
+                                                        countInBid,
+                                                        costPerItem,
+                                                        parserShimmerscale.getAutor(indexShimmerscale),
+                                                        0,
+                                                        items[ItemType.Shimmerscale].TIME_NEED
+                                                    )
+                                                );
                                                 if (countShimmerscale / 10 >= countRecipe)
                                                 {
                                                     break;
@@ -306,7 +332,16 @@ namespace info
                                         {
                                             if (countInBid > count_IN_STACK)
                                             {
-                                                bids.Add(new Bid(item, countInBid, costPerItem, parser.getAutor(i), (itemData.costSell - costPerItem) * countInBid));
+                                                bids.Add(
+                                                    new Bid(
+                                                        item,
+                                                        countInBid,
+                                                        costPerItem,
+                                                        parser.getAutor(i),
+                                                        (itemData.costSell - costPerItem) * countInBid,
+                                                        itemData.TIME_NEED
+                                                    )
+                                                );
                                             }
                                         }
                                         else
@@ -318,7 +353,7 @@ namespace info
                             }
                         }
 
-                        bids.Sort(); //поменять
+                        bids.Sort();
 
                         long profit_all = 0;
                         DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
@@ -332,7 +367,7 @@ namespace info
                                 items[bids[i].itemType].bids.Add(bids[i]);
 
                                 profit_all += bids[i].profit;
-                                timeNeed = timeNeed.AddMilliseconds(items[bids[i].itemType].TIME_NEED * bids[i].count);
+                                timeNeed = timeNeed.AddMilliseconds(bids[i].timeNeed);
                                 //if (DateTime.Now.Hour >= servers[idServer].time)
                                 //{
                                 //    timeNeed = timeNeed.AddSeconds(servers[idServer].delaySecond);
@@ -344,12 +379,12 @@ namespace info
                             }
                             else
                             {
-                                DateTime tempTimeNeed = timeNeed.AddMilliseconds(items[bids[i].itemType].TIME_NEED * bids[i].count);
+                                DateTime tempTimeNeed = timeNeed.AddMilliseconds(bids[i].timeNeed);
                                 //if (DateTime.Now.Hour >= servers[idServer].time)
                                 //{
                                 //    tempTimeNeed = tempTimeNeed.AddSeconds(servers[idServer].delaySecond);
                                 //}
-                                double tempIncome = getIncomeInHour(profit_all + bids[i].profit, timeNeed);
+                                double tempIncome = getIncomeInHour(profit_all + bids[i].profit, tempTimeNeed);
                                 if (tempIncome >= TARGET_INCOME_IN_HOUR)
                                 {
                                     profit_all += bids[i].profit;
@@ -391,6 +426,7 @@ namespace info
                                 Console.ResetColor();
                                 Console.WriteLine(profit_allStr);
 
+                                SoundPlayer simpleSound = new SoundPlayer("music.wav");
                                 simpleSound.PlayLooping();
                                 Console.ReadLine();
                                 simpleSound.Stop();
