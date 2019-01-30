@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace info
 {
-    class Bid : IComparable
+    public class Bid : IComparable
     {
-        public ItemType itemType;
+        public int idItem;
         public int count;
         public long costPerItem;
         public long profit;
@@ -16,9 +16,9 @@ namespace info
         public string autor;
         public double timeNeed;
 
-        public Bid(ItemType itemType, int count, long costPerItem, string autor, long profit, double timeNeedPerItem)
+        public Bid(int idItem, int count, long costPerItem, string autor, long profit, double timeNeedPerItem)
         {
-            this.itemType = itemType;
+            this.idItem = idItem;
             this.count = count;
             this.costPerItem = costPerItem;
             this.profit = profit;

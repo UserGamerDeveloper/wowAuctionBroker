@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<Settings>
+  <TARGET_PROFIT>1500</TARGET_PROFIT>
+  <count_IN_STACK>10</count_IN_STACK>
+  <TARGET_INCOME_IN_HOUR>30000</TARGET_INCOME_IN_HOUR>
+</Settings>

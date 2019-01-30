@@ -24,13 +24,13 @@ namespace info
         public long timeUpdate;
         [XmlIgnore]
         public long firstTimeUpdate;
-        public List<ItemType> activeItems;
+        public List<int> activeItems;
         private int time;
         private int delaySecond;
 
         public Server() { }
 
-        public Server(int id, string cookie, List<ItemType> activeItems, string name, int time, int delaySecond)
+        public Server(int id, string cookie, List<int> activeItems, string name, int time, int delaySecond)
         {
             this.id = id;
             this.cookie = cookie;
