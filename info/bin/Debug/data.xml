@@ -1,10 +1,34 @@
 <?xml version="1.0"?>
 <ArrayOfServer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Server>
-    <id>436</id>
-    <name>malganis</name>
-    <cookie>8108e41136d7d492af435be3e2ba019ca5cd4fe25b17955be6d128f1d4d7f14da%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A437%3B%7D</cookie>
-    <timeUpdate>1548839672</timeUpdate>
+    <id>333</id>
+    <name>Blackmoore</name>
+    <cookie>833adf3275b85e5ce95b750245f3013212fe3bff64cc4bd93df24598a982a7d5a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A333%3B%7D</cookie>
+    <timeUpdate>1548840831</timeUpdate>
+    <activeItems>
+      <ItemType>SILK</ItemType>
+      <ItemType>LEATHER</ItemType>
+      <ItemType>SCALE</ItemType>
+      <ItemType>Tidespray_Linen</ItemType>
+    </activeItems>
+  </Server>
+  <Server>
+    <id>502</id>
+    <name>свежеватель</name>
+    <cookie>47f9045c0840cbff05b27392572249648406aede97b1cf58a2f262dc08cd31d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A502%3B%7D</cookie>
+    <timeUpdate>1548838353</timeUpdate>
+    <activeItems>
+      <ItemType>SILK</ItemType>
+      <ItemType>LEATHER</ItemType>
+      <ItemType>SCALE</ItemType>
+      <ItemType>Tidespray_Linen</ItemType>
+    </activeItems>
+  </Server>
+  <Server>
+    <id>323</id>
+    <name>Azjol-Nerub</name>
+    <cookie>9edded7a6c3280d4d88b8d7131a5edbbed9110c9ea177d7a51a1b1d3b50429d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A323%3B%7D</cookie>
+    <timeUpdate>1548838653</timeUpdate>
     <activeItems>
       <ItemType>SILK</ItemType>
       <ItemType>LEATHER</ItemType>
@@ -37,58 +61,34 @@
     </activeItems>
   </Server>
   <Server>
-    <id>511</id>
-    <name>Twisting Nether</name>
-    <cookie>90fa4178b714cf2b6db247b90969bd497c299c5bd1406170107c262a01cc8657a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A511%3B%7D</cookie>
-    <timeUpdate>1548838732</timeUpdate>
-    <activeItems>
-      <ItemType>SILK</ItemType>
-      <ItemType>LEATHER</ItemType>
-      <ItemType>SCALE</ItemType>
-      <ItemType>Tidespray_Linen</ItemType>
-    </activeItems>
-  </Server>
-  <Server>
-    <id>502</id>
-    <name>свежеватель</name>
-    <cookie>47f9045c0840cbff05b27392572249648406aede97b1cf58a2f262dc08cd31d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A502%3B%7D</cookie>
-    <timeUpdate>1548838353</timeUpdate>
-    <activeItems>
-      <ItemType>SILK</ItemType>
-      <ItemType>LEATHER</ItemType>
-      <ItemType>SCALE</ItemType>
-      <ItemType>Tidespray_Linen</ItemType>
-    </activeItems>
-  </Server>
-  <Server>
-    <id>333</id>
-    <name>Blackmoore</name>
-    <cookie>833adf3275b85e5ce95b750245f3013212fe3bff64cc4bd93df24598a982a7d5a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A333%3B%7D</cookie>
-    <timeUpdate>1548840831</timeUpdate>
-    <activeItems>
-      <ItemType>SILK</ItemType>
-      <ItemType>LEATHER</ItemType>
-      <ItemType>SCALE</ItemType>
-      <ItemType>Tidespray_Linen</ItemType>
-    </activeItems>
-  </Server>
-  <Server>
-    <id>323</id>
-    <name>Azjol-Nerub</name>
-    <cookie>9edded7a6c3280d4d88b8d7131a5edbbed9110c9ea177d7a51a1b1d3b50429d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A323%3B%7D</cookie>
-    <timeUpdate>1548838653</timeUpdate>
-    <activeItems>
-      <ItemType>SILK</ItemType>
-      <ItemType>LEATHER</ItemType>
-      <ItemType>SCALE</ItemType>
-      <ItemType>Tidespray_Linen</ItemType>
-    </activeItems>
-  </Server>
-  <Server>
     <id>289</id>
     <name>Antonidas</name>
     <cookie>4189f471c98b39465bf62b9def9057c8aa4e28cce9ddc285580e5d5448caa3f7a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A289%3B%7D</cookie>
-    <timeUpdate>1548839254</timeUpdate>
+    <timeUpdate>1548842433</timeUpdate>
+    <activeItems>
+      <ItemType>SILK</ItemType>
+      <ItemType>LEATHER</ItemType>
+      <ItemType>SCALE</ItemType>
+      <ItemType>Tidespray_Linen</ItemType>
+    </activeItems>
+  </Server>
+  <Server>
+    <id>436</id>
+    <name>malganis</name>
+    <cookie>8108e41136d7d492af435be3e2ba019ca5cd4fe25b17955be6d128f1d4d7f14da%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A437%3B%7D</cookie>
+    <timeUpdate>1548842852</timeUpdate>
+    <activeItems>
+      <ItemType>SILK</ItemType>
+      <ItemType>LEATHER</ItemType>
+      <ItemType>SCALE</ItemType>
+      <ItemType>Tidespray_Linen</ItemType>
+    </activeItems>
+  </Server>
+  <Server>
+    <id>511</id>
+    <name>Twisting Nether</name>
+    <cookie>90fa4178b714cf2b6db247b90969bd497c299c5bd1406170107c262a01cc8657a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A511%3B%7D</cookie>
+    <timeUpdate>1548842932</timeUpdate>
     <activeItems>
       <ItemType>SILK</ItemType>
       <ItemType>LEATHER</ItemType>

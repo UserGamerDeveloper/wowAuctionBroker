@@ -15,7 +15,7 @@ namespace info
     public class Server : IComparable
     {
         const string uri_DB = "http://app-server{0}.tradeskillmaster.com/v2/auctiondb/realm/";
-
+        
         int idTSMServer = 4;
         int timeOutDBPage = 2000;
         public int id;

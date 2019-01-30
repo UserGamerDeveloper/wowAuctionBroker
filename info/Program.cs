@@ -19,7 +19,6 @@ namespace info
         const int COST_LEATHER = 23648;
         const int COST_SCALE = 23292;
         const int COST_Tidespray_Linen = 19949;
-        static int TARGET_PROFIT;
         const string SILK = "https://www.tradeskillmaster.com/items/shal-dorei-silk-124437?sort=buyout";
         const string LEATHER = "https://www.tradeskillmaster.com/items/stonehide-leather-124113?sort=buyout";
         const string SCALE = "https://www.tradeskillmaster.com/items/stormscale-124115?sort=buyout";
@@ -27,13 +26,12 @@ namespace info
         const string Shimmerscale = "https://www.tradeskillmaster.com/items/shimmerscale-153050?sort=buyout";
         const string BloodStainedBone = "https://www.tradeskillmaster.com/items/blood-stained-bone-154164?sort=buyout";
         const string CoarseLeather = "https://www.tradeskillmaster.com/items/coarse-leather-152541?sort=buyout";
-        static int count_IN_STACK;
-        static int TARGET_INCOME_IN_HOUR;
         const double TIME_NEED = 166.66666666666666666666666666666666;
         const double TIME_NEED_BloodStainedBone = 250;
         private const int ShimmerscaleStrikerCost = 561697;
         private const int CoarseLeatherCestusCost = 563788;
         static Server[] servers;
+        static Settings settings;
         //const string antonidas = "4189f471c98b39465bf62b9def9057c8aa4e28cce9ddc285580e5d5448caa3f7a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A289%3B%7D";
         //const string blackmoore = "833adf3275b85e5ce95b750245f3013212fe3bff64cc4bd93df24598a982a7d5a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A333%3B%7D";
         //const string malganis = "8108e41136d7d492af435be3e2ba019ca5cd4fe25b17955be6d128f1d4d7f14da%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A437%3B%7D";
@@ -50,59 +48,41 @@ namespace info
         //    new Server((int)ServerId.svezewatel, svezewatel,new List<ItemType>{ ItemType.SILK, ItemType.LEATHER, ItemType.SCALE},"свежеватель",18,0),
         //    new Server((int)ServerId.gorduni, gorduni,new List<ItemType>{ ItemType.LEATHER, ItemType.SCALE},"гордунни",18,0)
         //};
-        public static Dictionary<ItemType, long> costsItem;
         static XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server[]));
         // static XmlSerializer itemXmlSerializer = new XmlSerializer(typeof(Item[]));
 
         static void Main(string[] args)
         {
-            if (args.Length == 6)
+            try
             {
-                TARGET_PROFIT = Convert.ToInt32(args[0]);
-                int COST_BONUS_Shaldorei_Silk = Convert.ToInt32(args[1]);
-                int COST_BONUS_LEATHER = Convert.ToInt32(args[2]);
-                int COST_BONUS_SCALE = Convert.ToInt32(args[3]);
-                count_IN_STACK = Convert.ToInt32(args[4]);
-                TARGET_INCOME_IN_HOUR = Convert.ToInt32(args[5]);
-                costsItem = new Dictionary<ItemType, long>
-                {
-                                { ItemType.SILK,COST_Shaldorei_Silk},
-                                { ItemType.LEATHER,COST_LEATHER},
-                                { ItemType.SCALE,COST_SCALE},
-                                { ItemType.Tidespray_Linen,COST_Tidespray_Linen}
-                };
-                try
-                {
-
-                    start();
-                }
-                catch (Exception e)
-                {
-                    File.AppendAllText("Exception.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                    Console.WriteLine("Перезагрузка \n");
-                    SoundPlayer alert = new SoundPlayer("alert.wav");
-                    alert.Play();
-                    start();
-                }
+                start();
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("нет аргумента");
-                Console.ReadLine();
+                File.AppendAllText("Exception.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n\n");
+                Console.WriteLine("Перезагрузка\n");
+                SoundPlayer alert = new SoundPlayer("alert.wav");
+                alert.Play();
+                start();
             }
         }
 
         private static void start()
         {
-            using (FileStream fs = new FileStream("data.xml", FileMode.Open))
+            using (FileStream fs = new FileStream("servers.xml", FileMode.Open))
             {
                 servers = (Server[])serverXmlSerializer.Deserialize(fs);
             }
-            //using (FileStream fs = new FileStream("data.xml", FileMode.Create))
+            //using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
             //{
             //    formatter.Serialize(fs, servers);
             //}
-            //using (FileStream fs = new FileStream("item.xml", FileMode.Create))
+            using (FileStream fs = new FileStream("settings.xml", FileMode.Open))
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
+                settings = (Settings)xmlSerializer.Deserialize(fs);
+            }
+            //using (FileStream fs = new FileStream("items.xml", FileMode.Create))
             //{
             //    serverXmlSerializer.Serialize(fs, servers);
             //}
@@ -122,10 +102,10 @@ namespace info
 
                         List<Bid> bids = new List<Bid>();
 
-                        Item silk = new Item("ткань", costsItem[ItemType.SILK], SILK, TIME_NEED);
-                        Item leather = new Item("кожа", costsItem[ItemType.LEATHER], LEATHER, TIME_NEED);
-                        Item scale = new Item("чещуя", costsItem[ItemType.SCALE], SCALE, TIME_NEED);
-                        Item Linen = new Item("лен", costsItem[ItemType.Tidespray_Linen], Tidespray_Linen, TIME_NEED);
+                        Item silk = new Item("ткань", COST_Shaldorei_Silk, SILK, TIME_NEED);
+                        Item leather = new Item("кожа", COST_LEATHER, LEATHER, TIME_NEED);
+                        Item scale = new Item("чещуя", COST_SCALE, SCALE, TIME_NEED);
+                        Item Linen = new Item("лен", COST_Tidespray_Linen, Tidespray_Linen, TIME_NEED);
                         Item shimmerscale = new Item("Shimmerscale", 0, Shimmerscale, 0);
                         Item bloodStainedBone = new Item("BloodStainedBone", 0, BloodStainedBone, TIME_NEED_BloodStainedBone);
                         Item coarseLeather = new Item("CoarseLeather", 0, CoarseLeather, 0);
@@ -330,7 +310,7 @@ namespace info
                                     {
                                         if (costPerItem <= itemData.costSell)
                                         {
-                                            if (countInBid > count_IN_STACK)
+                                            if (countInBid >= settings.count_IN_STACK)
                                             {
                                                 bids.Add(
                                                     new Bid(
@@ -372,7 +352,7 @@ namespace info
                                 //{
                                 //    timeNeed = timeNeed.AddSeconds(servers[idServer].delaySecond);
                                 //}
-                                if (getFormatProfit(profit_all) >= TARGET_PROFIT)
+                                if (getFormatProfit(profit_all) >= settings.TARGET_PROFIT)
                                 {
                                     isCollectMoney = true;
                                 }
@@ -385,7 +365,7 @@ namespace info
                                 //    tempTimeNeed = tempTimeNeed.AddSeconds(servers[idServer].delaySecond);
                                 //}
                                 double tempIncome = getIncomeInHour(profit_all + bids[i].profit, tempTimeNeed);
-                                if (tempIncome >= TARGET_INCOME_IN_HOUR)
+                                if (tempIncome >= settings.TARGET_INCOME_IN_HOUR)
                                 {
                                     profit_all += bids[i].profit;
                                     timeNeed = tempTimeNeed;
@@ -413,13 +393,13 @@ namespace info
                             itemsArray[i].printAndLog(false);
                         }
 
-                        if (getFormatProfit(profit_all) >= TARGET_PROFIT / 2)
+                        if (getFormatProfit(profit_all) >= settings.TARGET_PROFIT / 2)
                         {
                             for (int i = itemsArray.Length - 1; i >= 0; i--)
                             {
-                                itemsArray[i].printAndLog(false);
+                                itemsArray[i].printAndLog(true);
                             }
-                            if (getFormatProfit(profit_all) >= TARGET_PROFIT && incomeInHour >= TARGET_INCOME_IN_HOUR)
+                            if (getFormatProfit(profit_all) >= settings.TARGET_PROFIT && incomeInHour >= settings.TARGET_INCOME_IN_HOUR)
                             {
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.Write(str);
