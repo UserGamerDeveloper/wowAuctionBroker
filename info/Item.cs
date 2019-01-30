@@ -38,7 +38,7 @@ namespace info
             return profit / 10000f / count;
         }
 
-        public void printAndLog()
+        public void printAndLog(bool print)
         {
             if (bids.Count > 0)
             {
@@ -56,7 +56,10 @@ namespace info
                     }
                 }
                 string printStr = String.Format("\t{0}\t{1:# ## ##} x{2}\t{3:# ## ##} x{4}\t{5}", itemName, bids[0].costPerItem, minCount, bids[bids.Count - 1].costPerItem, maxCount, bids[bids.Count - 1].autor);
-                Console.WriteLine(printStr);
+                if (print)
+                {
+                    Console.WriteLine(printStr);
+                }
                 File.AppendAllText("log.txt", printStr + "\n");
             }
         }

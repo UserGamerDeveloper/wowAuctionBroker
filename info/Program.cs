@@ -33,6 +33,8 @@ namespace info
         static int TARGET_INCOME_IN_HOUR;
         const double TIME_NEED = 166.66666666666666666666666666666666;
         const double TIME_NEED_BloodStainedBone = 250;
+        private const int ShimmerscaleStrikerCost = 561697;
+        private const int CoarseLeatherCestusCost = 563788;
         static Server[] servers;
         //const string antonidas = "4189f471c98b39465bf62b9def9057c8aa4e28cce9ddc285580e5d5448caa3f7a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A289%3B%7D";
         //const string blackmoore = "833adf3275b85e5ce95b750245f3013212fe3bff64cc4bd93df24598a982a7d5a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A333%3B%7D";
@@ -140,39 +142,6 @@ namespace info
                                 { ItemType.CoarseLeather,coarseLeather}
                             };
 
-                        //Recipe coarseLeatherCestus = new Recipe(
-                        //    new List<ItemType>
-                        //    {
-                        //        ItemType.BloodStainedBone,
-                        //        ItemType.CoarseLeather
-                        //    },
-                        //    new Dictionary<ItemType, int>
-                        //    {
-                        //        { ItemType.BloodStainedBone,8},
-                        //        { ItemType.CoarseLeather,10}
-                        //    },
-                        //    563788
-                        //);
-                        //Recipe shimmerscaleStriker = new Recipe(
-                        //    new List<ItemType>
-                        //    {
-                        //        ItemType.BloodStainedBone,
-                        //        ItemType.Shimmerscale
-                        //    },
-                        //    new Dictionary<ItemType, int>
-                        //    {
-                        //        { ItemType.BloodStainedBone,8},
-                        //        { ItemType.Shimmerscale,10}
-                        //    },
-                        //    561697
-                        //);
-
-                        //Dictionary<Recipes, Recipe> recipesDictionary = new Dictionary<Recipes, Recipe>
-                        //{
-                        //    { Recipes.CoarseLeatherCestus,coarseLeatherCestus},
-                        //    { Recipes.ShimmerscaleStriker,shimmerscaleStriker}
-                        //};
-
                         int indexBloodStainedBone = 0;
                         int indexCoarseLeather = 0;
                         int indexShimmerscale = 0;
@@ -243,48 +212,28 @@ namespace info
                                             }
                                         }
                                     }
-                                    long costBidsBloodStainedBone = 0;
-                                    foreach (Bid bid in bidsBloodStainedBone)
-                                    {
-                                        costBidsBloodStainedBone += bid.costPerItem * bid.count;
-                                    }
+                                    long costBidsBloodStainedBone = getCostBids(bidsBloodStainedBone);
                                     long costBloodStainedBone = costBidsBloodStainedBone / countBloodStainedBone;
                                     if ((countCoarseLeather / 10f == countRecipe) && (countCoarseLeather > 0))
                                     {
-                                        long costBidsCoarseLeather = 0;
-                                        foreach (Bid bid in bidsCoarseLeather)
-                                        {
-                                            costBidsCoarseLeather += bid.costPerItem * bid.count;
-                                        }
+                                        long costBidsCoarseLeather = getCostBids(bidsCoarseLeather);
                                         long costCoarseLeather = costBidsCoarseLeather / countCoarseLeather;
-                                        long profit = 563788 - (costBloodStainedBone * 8 + costCoarseLeather * 10);
+                                        long profitCoarseLeatherCestus = CoarseLeatherCestusCost - (costBloodStainedBone * 8 + costCoarseLeather * 10);
                                         if ((countShimmerscale / 10f == countRecipe) && (countShimmerscale > 0))
                                         {
-                                            long costBidsShimmerscale = 0;
-                                            foreach (Bid bid in bidsShimmerscale)
-                                            {
-                                                costBidsShimmerscale += bid.costPerItem * bid.count;
-                                            }
+                                            long costBidsShimmerscale = getCostBids(bidsShimmerscale);
                                             long costShimmerscale = costBidsShimmerscale / countShimmerscale;
-                                            long profitt = 561697 - (costBloodStainedBone * 8 + costShimmerscale * 10);
-                                            if ((profitt > 0) || (profit > 0))
+                                            long profitShimmerscaleStriker = ShimmerscaleStrikerCost - (costBloodStainedBone * 8 + costShimmerscale * 10);
+                                            if ((profitShimmerscaleStriker > 0) || (profitCoarseLeatherCestus > 0))
                                             {
-                                                if (profitt > profit)
+                                                if (profitShimmerscaleStriker > profitCoarseLeatherCestus)
                                                 {
-                                                    foreach (Bid bid in bidsBloodStainedBone)
-                                                    {
-                                                        bid.profitPerItem = profitt / 8;
-                                                        bid.profit = bid.profitPerItem * bid.count;
-                                                    }
+                                                    setProfitInBids(bidsBloodStainedBone, profitShimmerscaleStriker);
                                                     items[ItemType.Shimmerscale].bids.AddRange(bidsShimmerscale);
                                                 }
                                                 else
                                                 {
-                                                    foreach (Bid bid in bidsBloodStainedBone)
-                                                    {
-                                                        bid.profitPerItem = profit / 8;
-                                                        bid.profit = bid.profitPerItem * bid.count;
-                                                    }
+                                                    setProfitInBids(bidsBloodStainedBone, profitCoarseLeatherCestus);
                                                     items[ItemType.CoarseLeather].bids.AddRange(bidsCoarseLeather);
                                                 }
                                                 bids.AddRange(bidsBloodStainedBone);
@@ -296,13 +245,9 @@ namespace info
                                         }
                                         else
                                         {
-                                            if (profit > 0)
+                                            if (profitCoarseLeatherCestus > 0)
                                             {
-                                                foreach (Bid bid in bidsBloodStainedBone)
-                                                {
-                                                    bid.profitPerItem = profit / 8;
-                                                    bid.profit = bid.profitPerItem * bid.count;
-                                                }
+                                                setProfitInBids(bidsBloodStainedBone, profitCoarseLeatherCestus);
                                                 items[ItemType.CoarseLeather].bids.AddRange(bidsCoarseLeather);
                                                 bids.AddRange(bidsBloodStainedBone);
                                             }
@@ -317,20 +262,12 @@ namespace info
                                     {
                                         if ((countShimmerscale / 10f == countRecipe) && (countShimmerscale > 0))
                                         {
-                                            long costBidsShimmerscale = 0;
-                                            foreach (Bid bid in bidsShimmerscale)
-                                            {
-                                                costBidsShimmerscale += bid.costPerItem * bid.count;
-                                            }
+                                            long costBidsShimmerscale = getCostBids(bidsShimmerscale);
                                             long costShimmerscale = costBidsShimmerscale / countShimmerscale;
-                                            long profitt = 561697 - (costBloodStainedBone * 8 + costShimmerscale * 10);
-                                            if (profitt > 0)
+                                            long profitShimmerscaleStriker = ShimmerscaleStrikerCost - (costBloodStainedBone * 8 + costShimmerscale * 10);
+                                            if (profitShimmerscaleStriker > 0)
                                             {
-                                                foreach (Bid bid in bidsBloodStainedBone)
-                                                {
-                                                    bid.profitPerItem = profitt / 8;
-                                                    bid.profit = bid.profitPerItem * bid.count;
-                                                }
+                                                setProfitInBids(bidsBloodStainedBone, profitShimmerscaleStriker);
                                                 items[ItemType.Shimmerscale].bids.AddRange(bidsShimmerscale);
                                                 bids.AddRange(bidsBloodStainedBone);
                                             }
@@ -381,7 +318,7 @@ namespace info
                             }
                         }
 
-                        bids.Sort();
+                        bids.Sort(); //поменять
 
                         long profit_all = 0;
                         DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
@@ -438,11 +375,15 @@ namespace info
                         Array.Sort(itemsArray);
                         for (int i = itemsArray.Length - 1; i >= 0; i--)
                         {
-                            itemsArray[i].printAndLog();
+                            itemsArray[i].printAndLog(false);
                         }
 
                         if (getFormatProfit(profit_all) >= TARGET_PROFIT / 2)
                         {
+                            for (int i = itemsArray.Length - 1; i >= 0; i--)
+                            {
+                                itemsArray[i].printAndLog(false);
+                            }
                             if (getFormatProfit(profit_all) >= TARGET_PROFIT && incomeInHour >= TARGET_INCOME_IN_HOUR)
                             {
                                 Console.ForegroundColor = ConsoleColor.Green;
@@ -469,6 +410,26 @@ namespace info
                     }
                     Thread.Sleep(3000);
                 }
+            }
+        }
+
+        private static long getCostBids(List<Bid> bidsBloodStainedBone)
+        {
+            long costBidsBloodStainedBone = 0;
+            foreach (Bid bid in bidsBloodStainedBone)
+            {
+                costBidsBloodStainedBone += bid.costPerItem * bid.count;
+            }
+
+            return costBidsBloodStainedBone;
+        }
+
+        private static void setProfitInBids(List<Bid> bidsBloodStainedBone, long profit)
+        {
+            foreach (Bid bid in bidsBloodStainedBone)
+            {
+                bid.profitPerItem = profit / 8;
+                bid.profit = bid.profitPerItem * bid.count;
             }
         }
 
