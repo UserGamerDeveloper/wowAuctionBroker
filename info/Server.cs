@@ -22,25 +22,25 @@ namespace info
         public string name;
         public string cookie;
         public long timeUpdate;
+        public XmlSerializableDictionary<int, long> idRecipeAndSpending;
+        [XmlIgnore]
+        public List<RecipeData> recipes;
         [XmlIgnore]
         public long firstTimeUpdate;
-        public List<int> activeItems;
-        private int time;
-        private int delaySecond;
+        [XmlIgnore]
+        public List<HashSet<RecipeData>> recipeDataTrees = new List<HashSet<RecipeData>>();
 
         public Server() { }
 
-        public Server(int id, string cookie, List<int> activeItems, string name, int time, int delaySecond)
+        public Server(ServerId serverId, string cookie, XmlSerializableDictionary<int, long> idRecipeAndSpending)
         {
-            this.id = id;
+            this.id = (int)serverId;
             this.cookie = cookie;
-            this.activeItems = activeItems;
-            this.name = name;
-            this.time = time;
-            this.delaySecond = delaySecond;
+            this.idRecipeAndSpending = idRecipeAndSpending;
+            this.name = serverId.ToString();
         }
 
-        public void getFirstTimeUpdate()
+        public void SetFirstTimeUpdate()
         {
             string b;
 
@@ -51,6 +51,15 @@ namespace info
             b = DB_page.Remove(0, 38);
             firstTimeUpdate = Convert.ToInt64(b.Remove(10, b.Length - 10));
             Thread.Sleep(1000);
+        }
+
+        internal void SetRecipes(Dictionary<int, RecipeData> recipeData)
+        {
+            recipes = new List<RecipeData>();
+            foreach (var idRecipe in idRecipeAndSpending.Keys)
+            {
+                recipes.Add(new RecipeData(recipeData[idRecipe], idRecipeAndSpending[idRecipe]));
+            }
         }
 
         public void getTimeUpdate()

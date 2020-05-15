@@ -1,52 +1,38 @@
 <?xml version="1.0"?>
-<ArrayOfItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Item>
+<ArrayOfItemData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ItemData>
     <id>124437</id>
-    <itemName>ткань</itemName>
-    <costSell>23936</costSell>
+    <itemName>Shal'dorei Silk | Шал'дорайский шелк</itemName>
     <uri>https://www.tradeskillmaster.com/items/shal-dorei-silk-124437?sort=buyout</uri>
-    <TIME_NEED>166.66666666666666</TIME_NEED>
-  </Item>
-  <Item>
+  </ItemData>
+  <ItemData>
     <id>124113</id>
-    <itemName>кожа</itemName>
-    <costSell>23648</costSell>
+    <itemName>Stonehide Leather | Твердокаменная кожа</itemName>
     <uri>https://www.tradeskillmaster.com/items/stonehide-leather-124113?sort=buyout</uri>
-    <TIME_NEED>166.66666666666666</TIME_NEED>
-  </Item>
-  <Item>
+  </ItemData>
+  <ItemData>
     <id>124115</id>
-    <itemName>чещуя</itemName>
-    <costSell>23292</costSell>
+    <itemName>Stormscale | Штормовая чешуя</itemName>
     <uri>https://www.tradeskillmaster.com/items/stormscale-124115?sort=buyout</uri>
-    <TIME_NEED>166.66666666666666</TIME_NEED>
-  </Item>
-  <Item>
+  </ItemData>
+  <ItemData>
     <id>152576</id>
-    <itemName>лен</itemName>
-    <costSell>19949</costSell>
+    <itemName>Tidespray Linen | Морской лен</itemName>
     <uri>https://www.tradeskillmaster.com/items/tidespray-linen-152576?sort=buyout</uri>
-    <TIME_NEED>166.66666666666666</TIME_NEED>
-  </Item>
-  <Item>
+  </ItemData>
+  <ItemData>
     <id>153050</id>
-    <itemName>Shimmerscale</itemName>
-    <costSell>0</costSell>
+    <itemName>Shimmerscale | Поблескивающая чешуя</itemName>
     <uri>https://www.tradeskillmaster.com/items/shimmerscale-153050?sort=buyout</uri>
-    <TIME_NEED>0</TIME_NEED>
-  </Item>
-  <Item>
+  </ItemData>
+  <ItemData>
     <id>154164</id>
-    <itemName>BloodStainedBone</itemName>
-    <costSell>0</costSell>
+    <itemName>Blood-Stained Bone | Окровавленная кость</itemName>
     <uri>https://www.tradeskillmaster.com/items/blood-stained-bone-154164?sort=buyout</uri>
-    <TIME_NEED>250</TIME_NEED>
-  </Item>
-  <Item>
+  </ItemData>
+  <ItemData>
     <id>152541</id>
-    <itemName>CoarseLeather</itemName>
-    <costSell>0</costSell>
+    <itemName>Coarse Leather | Шершавая кожа</itemName>
     <uri>https://www.tradeskillmaster.com/items/coarse-leather-152541?sort=buyout</uri>
-    <TIME_NEED>0</TIME_NEED>
-  </Item>
-</ArrayOfItem>
+  </ItemData>
+</ArrayOfItemData>
