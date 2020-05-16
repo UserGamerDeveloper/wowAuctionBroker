@@ -236,7 +236,7 @@ namespace info
                         {(int)RecipeId.Shimmerscale_Striker, 0},
                         {(int)RecipeId.Silkweave_Slippers, 417},
                         {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
                     ServerId.Blackmoore,
@@ -247,7 +247,7 @@ namespace info
                         {(int)RecipeId.Shimmerscale_Striker, 0},
                         {(int)RecipeId.Silkweave_Slippers, 417},
                         {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
                     ServerId.Antonidas,
@@ -258,7 +258,7 @@ namespace info
                         {(int)RecipeId.Shimmerscale_Striker, 0},
                         {(int)RecipeId.Silkweave_Slippers, 417},
                         {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
                     ServerId.Ravencrest,
@@ -269,7 +269,7 @@ namespace info
                         {(int)RecipeId.Shimmerscale_Striker, 0},
                         {(int)RecipeId.Silkweave_Slippers, 417},
                         {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
                     ServerId.svezewatel,
@@ -280,7 +280,7 @@ namespace info
                         {(int)RecipeId.Shimmerscale_Striker, 0},
                         {(int)RecipeId.Silkweave_Slippers, 417},
                         {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
                     ServerId.gorduni,
@@ -291,7 +291,30 @@ namespace info
                         {(int)RecipeId.Shimmerscale_Striker, 0},
                         {(int)RecipeId.Silkweave_Slippers, 417},
                         {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                    }),
+                new Server(
+                    ServerId.Azjol_Nerub,
+                    "9edded7a6c3280d4d88b8d7131a5edbbed9110c9ea177d7a51a1b1d3b50429d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A323%3B%7D",
+                    new XmlSerializableDictionary<int, long>{
+                        {(int)RecipeId.Battlebound_Spaulders, 0},
+                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeId.Shimmerscale_Striker, 0},
+                        {(int)RecipeId.Silkweave_Slippers, 417},
+                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                    }),
+                new Server(
+                    ServerId.Kazzak,
+                    "5cea7fd01755cdcdbf49d3a0616c12e7766e729cb7bf439abfe10d7cc54e36d1a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A470%3B%7D",
+                    new XmlSerializableDictionary<int, long>{
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                    }),
+                new Server(
+                    ServerId.Silvermoon,
+                    "ad0d4e64b8e6ccf1b277208434dbee62f1fa7390efc68ab47eb3439b1e216d47a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A501%3B%7D",
+                    new XmlSerializableDictionary<int, long>{
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
                     ServerId.malganis,
@@ -302,7 +325,7 @@ namespace info
                         {(int)RecipeId.Shimmerscale_Striker, 0},
                         {(int)RecipeId.Silkweave_Slippers, 417},
                         {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0},
+                        {(int)RecipeId.Warhide_Shoulderguard, 0}
                     })
             };
             using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
@@ -311,7 +334,6 @@ namespace info
                 serverXmlSerializer.Serialize(fs, servers);
             }
         }
-
 
         private static void parseServer()
         {
@@ -416,17 +438,15 @@ namespace info
 
                     long globalProfit = 0;
                     DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                    List<Recipe> targetProfitRecipes = new List<Recipe>();
                     bool isCollectMoney = false;
                     for (int i = recipes.Count - 1; i >= 0; i--)
                     {
                         if (!isCollectMoney)
                         {
                             globalProfit += recipes[i].profit;
+                            targetProfitRecipes.Add(recipes[i]);
                             timeNeed = timeNeed.AddMilliseconds(recipes[i].recipeData.TIME_NEED);
-                            //if (DateTime.Now.Hour >= servers[idServer].time)
-                            //{
-                            //    timeNeed = timeNeed.AddSeconds(servers[idServer].delaySecond);
-                            //}
                             if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT)
                             {
                                 isCollectMoney = true;
@@ -435,14 +455,11 @@ namespace info
                         else
                         {
                             DateTime tempTimeNeed = timeNeed.AddMilliseconds(recipes[i].recipeData.TIME_NEED);
-                            //if (DateTime.Now.Hour >= servers[idServer].time)
-                            //{
-                            //    tempTimeNeed = tempTimeNeed.AddSeconds(servers[idServer].delaySecond);
-                            //}
                             double tempIncome = getIncomeInHour(globalProfit + recipes[i].profit, tempTimeNeed);
                             if (tempIncome >= settings.TARGET_INCOME_IN_HOUR)
                             {
                                 globalProfit += recipes[i].profit;
+                                targetProfitRecipes.Add(recipes[i]);
                                 timeNeed = tempTimeNeed;
                             }
                             else
@@ -453,13 +470,14 @@ namespace info
                     }
 
                     double incomeInHour = getIncomeInHour(globalProfit, timeNeed);
+                    const string ITEM_STRING = "\t{0}\n\t\tКол-во: {1}\tЦена: {2:# ##}";
                     const string STRING = "Профит ";
                     string globalProfitString = Math.Floor(getProfitInGold(globalProfit)) + " " + Math.Floor(incomeInHour) + " " +
                         getTimeInSeconds(timeNeed) / 60 + " мин";
 
                     Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
                     HashSet<int> itemsId = new HashSet<int>();
-                    foreach (var recipe in recipes)
+                    foreach (var recipe in targetProfitRecipes)
                     {
                         foreach (var idItem in recipe.items.Keys)
                         {
@@ -470,7 +488,7 @@ namespace info
                     {
                         items.Add(itemId, new List<Item>());
                     }
-                    foreach (var recipe in recipes)
+                    foreach (var recipe in targetProfitRecipes)
                     {
                         foreach (var idItem in recipe.items.Keys)
                         {
@@ -490,7 +508,7 @@ namespace info
                             {
                                 cost += item.cost;
                             }
-                            string printStr = String.Format("   {0}\tКол-во: {1}\tЦена: {2:#g##s}", ITEMS_DATA[idItem].itemName, items[idItem].Count, convertToSilver(cost));
+                            string printStr = String.Format(ITEM_STRING, ITEMS_DATA[idItem].itemName, items[idItem].Count, convertToSilver(cost));
                             Console.WriteLine(printStr);
                         }
                         if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT && incomeInHour >= settings.TARGET_INCOME_IN_HOUR)
@@ -517,7 +535,7 @@ namespace info
                         {
                             cost += item.cost;
                         }
-                        string printStr = String.Format("   {0}\tКол-во: {1}\tЦена: {2:#g##s}", ITEMS_DATA[idItem].itemName, items[idItem].Count, convertToSilver(cost));
+                        string printStr = String.Format(ITEM_STRING, ITEMS_DATA[idItem].itemName, items[idItem].Count, convertToSilver(cost));
                         File.AppendAllText("log.txt", printStr + "\n");
                     }
                     File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");

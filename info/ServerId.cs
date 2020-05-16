@@ -14,6 +14,9 @@ namespace info
         Antonidas = 289,
         malganis = 436,
         svezewatel = 502,
-        gorduni = 463
+        gorduni = 463,
+        Kazzak = 470,
+        Azjol_Nerub = 323,
+        Silvermoon = 501
     }
 }
