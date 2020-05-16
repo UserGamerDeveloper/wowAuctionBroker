@@ -11,6 +11,7 @@ namespace info
         public RecipeData recipeData;
         public long profit;
         public Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
+        public double income;
 
         public Recipe(RecipeData recipeData)
         {
@@ -25,9 +26,12 @@ namespace info
         public int CompareTo(object obj)
         {
             Recipe comparableRecipe = obj as Recipe;
-            double income = profit / recipeData.TIME_NEED;
-            double incomeComparableRecipe = comparableRecipe.profit / comparableRecipe.recipeData.TIME_NEED;
-            return income.CompareTo(incomeComparableRecipe);
+            return income.CompareTo(comparableRecipe.income);
+        }
+
+        internal void SetIncome()
+        {
+            income = Util.getIncomeGoldInHour(profit, new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddMilliseconds(recipeData.TIME_NEED));
         }
     }
 }

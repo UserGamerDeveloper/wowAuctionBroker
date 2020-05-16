@@ -8,6 +8,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Media;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace info
 {
@@ -391,7 +392,6 @@ namespace info
                                     //enoughItemsForRecipe = enoughItemsForRecipe && itemsForTree[idItem].Count >= recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem];
                                     enoughItemsForRecipe = enoughItemsForRecipe && parsersForTree[idItem].HasRequiredAmount(recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem]);
                                 }
-                                //if (enoughItemsForRecipe)
                                 if (enoughItemsForRecipe)
                                 {
                                     Recipe recipe = new Recipe(recipeData);
@@ -418,6 +418,7 @@ namespace info
                             if (recipesTree.Count > 0)
                             {
                                 recipesTree.Sort();
+                                recipesTree[recipesTree.Count - 1].SetIncome();
                                 recipes.Add(recipesTree[recipesTree.Count - 1]);
                                 foreach (var idItem in recipesTree[recipesTree.Count - 1].items.Keys)
                                 {
@@ -440,19 +441,25 @@ namespace info
                     DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
                     //List<Recipe> targetProfitRecipes = new List<Recipe>();
                     Dictionary<int, List<Recipe>> targetProfitRecipes = new Dictionary<int, List<Recipe>>();
+                    Dictionary<int, double> averageIncomeRecipesByRecipeId = new Dictionary<int, double>();
                     bool isCollectMoney = false;
                     for (int i = recipes.Count - 1; i >= 0; i--)
                     {
                         if (!targetProfitRecipes.ContainsKey(recipes[i].recipeData.ID))
                         {
-                            targetProfitRecipes.Add(recipes[i].recipeData.ID,new List<Recipe>());
+                            targetProfitRecipes.Add(recipes[i].recipeData.ID, new List<Recipe>());
+                        }
+                        if (!averageIncomeRecipesByRecipeId.ContainsKey(recipes[i].recipeData.ID))
+                        {
+                            averageIncomeRecipesByRecipeId.Add(recipes[i].recipeData.ID, 0f);
                         }
                         if (!isCollectMoney)
                         {
                             globalProfit += recipes[i].profit;
                             targetProfitRecipes[recipes[i].recipeData.ID].Add(recipes[i]);
+                            averageIncomeRecipesByRecipeId[recipes[i].recipeData.ID] = (averageIncomeRecipesByRecipeId[recipes[i].recipeData.ID] + recipes[i].income) / 2f;
                             timeNeed = timeNeed.AddMilliseconds(recipes[i].recipeData.TIME_NEED);
-                            if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT)
+                            if (Util.getProfitInGold(globalProfit) >= settings.TARGET_PROFIT)
                             {
                                 isCollectMoney = true;
                             }
@@ -460,11 +467,12 @@ namespace info
                         else
                         {
                             DateTime tempTimeNeed = timeNeed.AddMilliseconds(recipes[i].recipeData.TIME_NEED);
-                            double tempIncome = getIncomeInHour(globalProfit + recipes[i].profit, tempTimeNeed);
+                            double tempIncome = Util.getIncomeGoldInHour(globalProfit + recipes[i].profit, tempTimeNeed);
                             if (tempIncome >= settings.TARGET_INCOME_IN_HOUR)
                             {
                                 globalProfit += recipes[i].profit;
                                 targetProfitRecipes[recipes[i].recipeData.ID].Add(recipes[i]);
+                                averageIncomeRecipesByRecipeId[recipes[i].recipeData.ID] = (averageIncomeRecipesByRecipeId[recipes[i].recipeData.ID] + recipes[i].income) / 2f;
                                 timeNeed = tempTimeNeed;
                             }
                             else
@@ -474,49 +482,26 @@ namespace info
                         }
                     }
 
-                    double incomeInHour = getIncomeInHour(globalProfit, timeNeed);
+                    double incomeInHour = Util.getIncomeGoldInHour(globalProfit, timeNeed);
                     const string ITEM_STRING = "\t\t{0}\n\t\t\tКол-во: {1}\tЦена: {2:# ##}";
                     const string STRING = "Профит ";
-                    string globalProfitString = Math.Floor(getProfitInGold(globalProfit)) + " " + Math.Floor(incomeInHour) + " " +
-                        getTimeInSeconds(timeNeed) / 60 + " мин";
+                    string globalProfitString = Math.Floor(Util.getProfitInGold(globalProfit)) + " " + Math.Floor(incomeInHour) + " " +
+                        Math.Floor(Util.getTimeInMinuts(timeNeed)) + " мин";
 
-                    //Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
-                    //HashSet<int> itemsId = new HashSet<int>();
-                    //foreach (var recipe in targetProfitRecipes)
-                    //{
-                    //    foreach (var idItem in recipe.items.Keys)
-                    //    {
-                    //        itemsId.Add(idItem);
-                    //    }
-                    //}
-                    //foreach (var itemId in itemsId)
-                    //{
-                    //    items.Add(itemId, new List<Item>());
-                    //}
-                    //foreach (var recipe in targetProfitRecipes)
-                    //{
-                    //    foreach (var idItem in recipe.items.Keys)
-                    //    {
-                    //        foreach (var item in recipe.items[idItem])
-                    //        {
-                    //            items[idItem].Add(item);
-                    //        }
-                    //    }
-                    //}
                     //if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT)
-                    Console.WriteLine();
                     if (true)
                     {
-                        foreach (var targetProfitRecipesList in targetProfitRecipes.Values)
+                        foreach (var averageIncomeRecipesPair in averageIncomeRecipesByRecipeId.OrderByDescending(pair => pair.Value))
                         {
-                            string recipeString = String.Format("\t{0}", targetProfitRecipesList[0].recipeData.name);
+                            Console.WriteLine();
+                            string recipeString = String.Format("\t{0}\t\t\tСредний инком: {1}", targetProfitRecipes[averageIncomeRecipesPair.Key][0].recipeData.name, Math.Floor(averageIncomeRecipesPair.Value));
                             Console.WriteLine(recipeString);
                             File.AppendAllText("log.txt", recipeString + "\n");
-                            foreach (var itemId in targetProfitRecipesList[0].recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                            foreach (var itemId in targetProfitRecipes[averageIncomeRecipesPair.Key][0].recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
                             {
                                 int countItems = 0;
                                 long cost = 0;
-                                foreach (var recipe in targetProfitRecipesList)
+                                foreach (var recipe in targetProfitRecipes[averageIncomeRecipesPair.Key])
                                 {
                                     foreach (var item in recipe.items[itemId])
                                     {
@@ -524,13 +509,15 @@ namespace info
                                         cost += item.cost;
                                     }
                                 }
-                                string printStr = String.Format(ITEM_STRING, ITEMS_DATA[itemId].itemName, countItems, convertToSilver(cost));
+                                string printStr = String.Format(ITEM_STRING, ITEMS_DATA[itemId].itemName, countItems, Util.convertToSilver(cost));
                                 Console.WriteLine(printStr);
                                 File.AppendAllText("log.txt", printStr + "\n");
                             }
-                            Console.WriteLine();
                         }
-                        if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT && incomeInHour >= settings.TARGET_INCOME_IN_HOUR)
+                        foreach (var targetProfitRecipesList in targetProfitRecipes.Values)
+                        {
+                        }
+                        if (Util.getProfitInGold(globalProfit) >= settings.TARGET_PROFIT && incomeInHour >= settings.TARGET_INCOME_IN_HOUR)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.Write(STRING);
@@ -569,26 +556,6 @@ namespace info
                 }
                 Thread.Sleep(3000);
             }
-        }
-
-        private static long convertToSilver(long cost)
-        {
-            return (long)Math.Floor(cost / 100f);
-        }
-
-        private static double getIncomeInHour(long profit_all, DateTime timeNeed)
-        {
-            return getProfitInGold(profit_all) / getTimeInSeconds(timeNeed) * 3600;
-        }
-
-        private static float getProfitInGold(long profit_all)
-        {
-            return profit_all / 10000f;
-        }
-
-        private static int getTimeInSeconds(DateTime tempTimeNeed)
-        {
-            return tempTimeNeed.Millisecond / 1000 + tempTimeNeed.Second + tempTimeNeed.Minute * 60 + tempTimeNeed.Hour * 3600;
         }
     }
 }
