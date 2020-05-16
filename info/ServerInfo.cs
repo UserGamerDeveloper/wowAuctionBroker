@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace info
 {
-    public enum ServerId
+    public enum ServerInfo
     {
         Twisting_Nether = 511,
         Ravencrest = 496,

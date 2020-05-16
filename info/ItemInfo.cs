@@ -1,6 +1,6 @@
 ﻿namespace info
 {
-    public enum ItemId
+    public enum ItemInfo
     {
         Shaldorei_Silk = 124437,
         Stonehide_Leather = 124113,

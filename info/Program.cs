@@ -38,8 +38,8 @@ namespace info
             DeserializeServers();
             //SerializeServers();
 
-            Dictionary<int, RecipeData> recipeIdAndRecipeData = DeserializeRecipes();
             //SerializeRecipes();
+            Dictionary<int, RecipeData> recipeIdAndRecipeData = DeserializeRecipes();
 
             using (FileStream fs = new FileStream("settings.xml", FileMode.Open))
             {
@@ -126,51 +126,51 @@ namespace info
         {
             RecipeData[] recipeData = new RecipeData[]{
                 new RecipeData(
-                    RecipeId.Shimmerscale_Striker,
+                    RecipeInfo.Shimmerscale_Striker,
                     new XmlSerializableDictionary<int, int>(){
-                        {(int)ItemId.Shimmerscale , 10}, {(int)ItemId.BloodStainedBone , 8}
+                        {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     561697,
                     2000),
                 new RecipeData(
-                    RecipeId.Silkweave_Slippers,
+                    RecipeInfo.Silkweave_Slippers,
                     new XmlSerializableDictionary<int, int>(){
-                        {(int)ItemId.Shaldorei_Silk , 1}
+                        {(int)ItemInfo.Shaldorei_Silk , 1}
                     },
                     24353,
                     166.6666666666666666666666666666),
                 new RecipeData(
-                    RecipeId.Tidespray_Linen_Pants,
+                    RecipeInfo.Tidespray_Linen_Pants,
                     new XmlSerializableDictionary<int, int>(){
-                        {(int)ItemId.Tidespray_Linen , 1}
+                        {(int)ItemInfo.Tidespray_Linen , 1}
                     },
                     23477,
                     117.64705885352),
                 new RecipeData(
-                    RecipeId.Coarse_Leather_Cestus,
+                    RecipeInfo.Coarse_Leather_Cestus,
                     new XmlSerializableDictionary<int, int>(){
-                        {(int)ItemId.CoarseLeather , 10}, {(int)ItemId.BloodStainedBone , 8}
+                        {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     563788,
                     2000),
                 new RecipeData(
-                    RecipeId.Battlebound_Spaulders,
+                    RecipeInfo.Battlebound_Spaulders,
                     new XmlSerializableDictionary<int, int>(){
-                        {(int)ItemId.Stormscale , 1}
+                        {(int)ItemInfo.Stormscale , 1}
                     },
                     23292,
                     166.6666666666666666666666666666),
                 new RecipeData(
-                    RecipeId.Warhide_Shoulderguard,
+                    RecipeInfo.Warhide_Shoulderguard,
                     new XmlSerializableDictionary<int, int>(){
-                        {(int)ItemId.Stonehide_Leather , 1}
+                        {(int)ItemInfo.Stonehide_Leather , 1}
                     },
                     23648,
                     166.6666666666666666666666666666),
                 new RecipeData(
-                    RecipeId.Crafted_Dreadful_Gladiators_Cloak_of_Prowess,
+                    RecipeInfo.Crafted_Dreadful_Gladiators_Cloak_of_Prowess,
                     new XmlSerializableDictionary<int, int>(){
-                        {(int)ItemId.Windwool_Cloth , 1}
+                        {(int)ItemInfo.Windwool_Cloth , 1}
                     },
                     6872,
                     300)
@@ -209,13 +209,13 @@ namespace info
         {
             ItemData[] items = new ItemData[]
             {
-                new ItemData(ItemId.Shaldorei_Silk, "Shal'dorei Silk | Шал'дорайский шелк", "https://www.tradeskillmaster.com/items/shal-dorei-silk-124437?sort=buyout"),
-                new ItemData(ItemId.Stonehide_Leather, "Stonehide Leather | Твердокаменная кожа", "https://www.tradeskillmaster.com/items/stonehide-leather-124113?sort=buyout"),
-                new ItemData(ItemId.Stormscale, "Stormscale | Штормовая чешуя", "https://www.tradeskillmaster.com/items/stormscale-124115?sort=buyout"),
-                new ItemData(ItemId.Tidespray_Linen, "Tidespray Linen | Морской лен", "https://www.tradeskillmaster.com/items/tidespray-linen-152576?sort=buyout"),
-                new ItemData(ItemId.Shimmerscale, "Shimmerscale | Поблескивающая чешуя", "https://www.tradeskillmaster.com/items/shimmerscale-153050?sort=buyout"),
-                new ItemData(ItemId.BloodStainedBone, "Blood-Stained Bone | Окровавленная кость", "https://www.tradeskillmaster.com/items/blood-stained-bone-154164?sort=buyout"),
-                new ItemData(ItemId.CoarseLeather, "Coarse Leather | Шершавая кожа", "https://www.tradeskillmaster.com/items/coarse-leather-152541?sort=buyout")
+                new ItemData(ItemInfo.Shaldorei_Silk, "Shal'dorei Silk | Шал'дорайский шелк", "https://www.tradeskillmaster.com/items/shal-dorei-silk-124437?sort=buyout"),
+                new ItemData(ItemInfo.Stonehide_Leather, "Stonehide Leather | Твердокаменная кожа", "https://www.tradeskillmaster.com/items/stonehide-leather-124113?sort=buyout"),
+                new ItemData(ItemInfo.Stormscale, "Stormscale | Штормовая чешуя", "https://www.tradeskillmaster.com/items/stormscale-124115?sort=buyout"),
+                new ItemData(ItemInfo.Tidespray_Linen, "Tidespray Linen | Морской лен", "https://www.tradeskillmaster.com/items/tidespray-linen-152576?sort=buyout"),
+                new ItemData(ItemInfo.Shimmerscale, "Shimmerscale | Поблескивающая чешуя", "https://www.tradeskillmaster.com/items/shimmerscale-153050?sort=buyout"),
+                new ItemData(ItemInfo.BloodStainedBone, "Blood-Stained Bone | Окровавленная кость", "https://www.tradeskillmaster.com/items/blood-stained-bone-154164?sort=buyout"),
+                new ItemData(ItemInfo.CoarseLeather, "Coarse Leather | Шершавая кожа", "https://www.tradeskillmaster.com/items/coarse-leather-152541?sort=buyout")
             };
             using (FileStream fs = new FileStream("items.xml", FileMode.Create))
             {
@@ -228,104 +228,104 @@ namespace info
         {
             servers = new Server[] {
                 new Server(
-                    ServerId.Twisting_Nether,
+                    ServerInfo.Twisting_Nether,
                     "90fa4178b714cf2b6db247b90969bd497c299c5bd1406170107c262a01cc8657a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A511%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.Blackmoore,
+                    ServerInfo.Blackmoore,
                     "833adf3275b85e5ce95b750245f3013212fe3bff64cc4bd93df24598a982a7d5a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A333%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.Antonidas,
+                    ServerInfo.Antonidas,
                     "4189f471c98b39465bf62b9def9057c8aa4e28cce9ddc285580e5d5448caa3f7a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A289%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.Ravencrest,
+                    ServerInfo.Ravencrest,
                     "69d53acf7ee790d7dbe3637413ab9b83a1ec12eef78e5e62257afb8d11c688eaa%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A496%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.svezewatel,
+                    ServerInfo.svezewatel,
                     "47f9045c0840cbff05b27392572249648406aede97b1cf58a2f262dc08cd31d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A502%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.gorduni,
+                    ServerInfo.gorduni,
                     "1f3552dbc09c9097de622c7ffb69fda01b8f41789c712aee433334a85dcd5470a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A463%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.Azjol_Nerub,
+                    ServerInfo.Azjol_Nerub,
                     "9edded7a6c3280d4d88b8d7131a5edbbed9110c9ea177d7a51a1b1d3b50429d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A323%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.Kazzak,
+                    ServerInfo.Kazzak,
                     "5cea7fd01755cdcdbf49d3a0616c12e7766e729cb7bf439abfe10d7cc54e36d1a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A470%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.Silvermoon,
+                    ServerInfo.Silvermoon,
                     "ad0d4e64b8e6ccf1b277208434dbee62f1fa7390efc68ab47eb3439b1e216d47a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A501%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     }),
                 new Server(
-                    ServerId.malganis,
+                    ServerInfo.malganis,
                     "8108e41136d7d492af435be3e2ba019ca5cd4fe25b17955be6d128f1d4d7f14da%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A437%3B%7D",
                     new XmlSerializableDictionary<int, long>{
-                        {(int)RecipeId.Battlebound_Spaulders, 0},
-                        {(int)RecipeId.Coarse_Leather_Cestus, 0},
-                        {(int)RecipeId.Shimmerscale_Striker, 0},
-                        {(int)RecipeId.Silkweave_Slippers, 417},
-                        {(int)RecipeId.Tidespray_Linen_Pants, 3530},
-                        {(int)RecipeId.Warhide_Shoulderguard, 0}
+                        {(int)RecipeInfo.Battlebound_Spaulders, 0},
+                        {(int)RecipeInfo.Coarse_Leather_Cestus, 0},
+                        {(int)RecipeInfo.Shimmerscale_Striker, 0},
+                        {(int)RecipeInfo.Silkweave_Slippers, 417},
+                        {(int)RecipeInfo.Tidespray_Linen_Pants, 3530},
+                        {(int)RecipeInfo.Warhide_Shoulderguard, 0}
                     })
             };
             using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
@@ -438,14 +438,19 @@ namespace info
 
                     long globalProfit = 0;
                     DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-                    List<Recipe> targetProfitRecipes = new List<Recipe>();
+                    //List<Recipe> targetProfitRecipes = new List<Recipe>();
+                    Dictionary<int, List<Recipe>> targetProfitRecipes = new Dictionary<int, List<Recipe>>();
                     bool isCollectMoney = false;
                     for (int i = recipes.Count - 1; i >= 0; i--)
                     {
+                        if (!targetProfitRecipes.ContainsKey(recipes[i].recipeData.ID))
+                        {
+                            targetProfitRecipes.Add(recipes[i].recipeData.ID,new List<Recipe>());
+                        }
                         if (!isCollectMoney)
                         {
                             globalProfit += recipes[i].profit;
-                            targetProfitRecipes.Add(recipes[i]);
+                            targetProfitRecipes[recipes[i].recipeData.ID].Add(recipes[i]);
                             timeNeed = timeNeed.AddMilliseconds(recipes[i].recipeData.TIME_NEED);
                             if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT)
                             {
@@ -459,7 +464,7 @@ namespace info
                             if (tempIncome >= settings.TARGET_INCOME_IN_HOUR)
                             {
                                 globalProfit += recipes[i].profit;
-                                targetProfitRecipes.Add(recipes[i]);
+                                targetProfitRecipes[recipes[i].recipeData.ID].Add(recipes[i]);
                                 timeNeed = tempTimeNeed;
                             }
                             else
@@ -470,46 +475,60 @@ namespace info
                     }
 
                     double incomeInHour = getIncomeInHour(globalProfit, timeNeed);
-                    const string ITEM_STRING = "\t{0}\n\t\tКол-во: {1}\tЦена: {2:# ##}";
+                    const string ITEM_STRING = "\t\t{0}\n\t\t\tКол-во: {1}\tЦена: {2:# ##}";
                     const string STRING = "Профит ";
                     string globalProfitString = Math.Floor(getProfitInGold(globalProfit)) + " " + Math.Floor(incomeInHour) + " " +
                         getTimeInSeconds(timeNeed) / 60 + " мин";
 
-                    Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
-                    HashSet<int> itemsId = new HashSet<int>();
-                    foreach (var recipe in targetProfitRecipes)
-                    {
-                        foreach (var idItem in recipe.items.Keys)
-                        {
-                            itemsId.Add(idItem);
-                        }
-                    }
-                    foreach (var itemId in itemsId)
-                    {
-                        items.Add(itemId, new List<Item>());
-                    }
-                    foreach (var recipe in targetProfitRecipes)
-                    {
-                        foreach (var idItem in recipe.items.Keys)
-                        {
-                            foreach (var item in recipe.items[idItem])
-                            {
-                                items[idItem].Add(item);
-                            }
-                        }
-                    }
+                    //Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
+                    //HashSet<int> itemsId = new HashSet<int>();
+                    //foreach (var recipe in targetProfitRecipes)
+                    //{
+                    //    foreach (var idItem in recipe.items.Keys)
+                    //    {
+                    //        itemsId.Add(idItem);
+                    //    }
+                    //}
+                    //foreach (var itemId in itemsId)
+                    //{
+                    //    items.Add(itemId, new List<Item>());
+                    //}
+                    //foreach (var recipe in targetProfitRecipes)
+                    //{
+                    //    foreach (var idItem in recipe.items.Keys)
+                    //    {
+                    //        foreach (var item in recipe.items[idItem])
+                    //        {
+                    //            items[idItem].Add(item);
+                    //        }
+                    //    }
+                    //}
                     //if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT)
+                    Console.WriteLine();
                     if (true)
                     {
-                        foreach (var idItem in items.Keys)
+                        foreach (var targetProfitRecipesList in targetProfitRecipes.Values)
                         {
-                            long cost = 0;
-                            foreach (var item in items[idItem])
+                            string recipeString = String.Format("\t{0}", targetProfitRecipesList[0].recipeData.name);
+                            Console.WriteLine(recipeString);
+                            File.AppendAllText("log.txt", recipeString + "\n");
+                            foreach (var itemId in targetProfitRecipesList[0].recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
                             {
-                                cost += item.cost;
+                                int countItems = 0;
+                                long cost = 0;
+                                foreach (var recipe in targetProfitRecipesList)
+                                {
+                                    foreach (var item in recipe.items[itemId])
+                                    {
+                                        countItems++;
+                                        cost += item.cost;
+                                    }
+                                }
+                                string printStr = String.Format(ITEM_STRING, ITEMS_DATA[itemId].itemName, countItems, convertToSilver(cost));
+                                Console.WriteLine(printStr);
+                                File.AppendAllText("log.txt", printStr + "\n");
                             }
-                            string printStr = String.Format(ITEM_STRING, ITEMS_DATA[idItem].itemName, items[idItem].Count, convertToSilver(cost));
-                            Console.WriteLine(printStr);
+                            Console.WriteLine();
                         }
                         if (getProfitInGold(globalProfit) >= settings.TARGET_PROFIT && incomeInHour >= settings.TARGET_INCOME_IN_HOUR)
                         {
@@ -527,18 +546,19 @@ namespace info
                         {
                             Console.WriteLine(STRING + globalProfitString);
                         }
+                        File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");
                     }
-                    foreach (var idItem in items.Keys)
-                    {
-                        long cost = 0;
-                        foreach (var item in items[idItem])
-                        {
-                            cost += item.cost;
-                        }
-                        string printStr = String.Format(ITEM_STRING, ITEMS_DATA[idItem].itemName, items[idItem].Count, convertToSilver(cost));
-                        File.AppendAllText("log.txt", printStr + "\n");
-                    }
-                    File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");
+                    //foreach (var idItem in items.Keys)
+                    //{
+                    //    long cost = 0;
+                    //    foreach (var item in items[idItem])
+                    //    {
+                    //        cost += item.cost;
+                    //    }
+                    //    string printStr = String.Format(ITEM_STRING, ITEMS_DATA[idItem].itemName, items[idItem].Count, convertToSilver(cost));
+                    //    File.AppendAllText("log.txt", printStr + "\n");
+                    //}
+                    //File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");
 
                     using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
                     {

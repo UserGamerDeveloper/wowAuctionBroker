@@ -54,10 +54,10 @@
   <ItemGroup>
     <Compile Include="Item.cs" />
     <Compile Include="Recipe.cs" />
-    <Compile Include="ItemId.cs" />
+    <Compile Include="ItemInfo.cs" />
     <Compile Include="RecipeData.cs" />
-    <Compile Include="RecipeId.cs" />
-    <Compile Include="ServerId.cs" />
+    <Compile Include="RecipeInfo.cs" />
+    <Compile Include="ServerInfo.cs" />
     <Compile Include="AuctionPageHTMLParser.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ItemData.cs" />

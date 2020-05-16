@@ -32,7 +32,7 @@ namespace info
 
         public Server() { }
 
-        public Server(ServerId serverId, string cookie, XmlSerializableDictionary<int, long> idRecipeAndSpending)
+        public Server(ServerInfo serverId, string cookie, XmlSerializableDictionary<int, long> idRecipeAndSpending)
         {
             this.id = (int)serverId;
             this.cookie = cookie;

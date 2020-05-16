@@ -18,9 +18,9 @@ namespace info
 
         public ItemData() { }
 
-        public ItemData(ItemId id, string itemName, string uri)
+        public ItemData(ItemInfo itemInfo, string itemName, string uri)
         {
-            this.id = (int)id;
+            this.id = (int)itemInfo;
             this.itemName = itemName;
             this.uri = uri;
         }

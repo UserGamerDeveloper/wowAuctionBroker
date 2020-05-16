@@ -1,6 +1,6 @@
 ﻿namespace info
 {
-    public enum RecipeId
+    public enum RecipeInfo
     {
         Shimmerscale_Striker = 154160,
         Silkweave_Slippers = 126988,
