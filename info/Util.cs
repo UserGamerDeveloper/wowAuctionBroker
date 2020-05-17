@@ -10,10 +10,10 @@ namespace info
     {
         public static double getIncomeGoldInHour(long profit, DateTime timeNeed)
         {
-            return getProfitInGold(profit) / getTimeInSeconds(timeNeed) * 3600f;
+            return convertCopperToGold(profit / getTimeInSeconds(timeNeed) * 3600f);
         }
 
-        public static double getProfitInGold(long profit_all)
+        public static double convertCopperToGold(double profit_all)
         {
             return profit_all / 10000f;
         }
@@ -23,9 +23,9 @@ namespace info
             return tempTimeNeed.Millisecond / 1000f + tempTimeNeed.Second * 1f + tempTimeNeed.Minute * 60f + tempTimeNeed.Hour * 3600f;
         }
 
-        public static long convertToSilver(long cost)
+        public static long convertCopperToSilver(long value)
         {
-            return (long)Math.Floor(cost / 100f);
+            return (long)Math.Floor(value / 100f);
         }
 
         public static double getTimeInMinuts(DateTime timeNeed)

@@ -62,24 +62,28 @@ namespace info
             }
         }
 
-        public void getTimeUpdate()
+        public long getTimeUpdate()
         {
-            string b;
-
             Uri DB = new Uri(String.Format(uri_DB, idTSMServer) + id);
-
             string DB_page = getDBPage(DB);
-
-            b = DB_page.Remove(0, 38);
-            timeUpdate = Convert.ToInt64(b.Remove(10, b.Length - 10));
+            string b = DB_page.Remove(0, 38);
             Thread.Sleep(1000);
+            return timeUpdate = Convert.ToInt64(b.Remove(10, b.Length - 10));
         }
 
-        public bool isUpdate()
+        public bool hasUpdate(bool isFirst)
         {
             long oldTime = timeUpdate;
-            getTimeUpdate();
-            return timeUpdate > oldTime;
+            if (isFirst)
+            {
+                timeUpdate = firstTimeUpdate;
+                return oldTime != firstTimeUpdate;
+            }
+            else
+            {
+                timeUpdate = getTimeUpdate();
+                return timeUpdate != oldTime;
+            }
         }
 
         public void printAndLog()
@@ -135,7 +139,14 @@ namespace info
         public int CompareTo(object obj)
         {
             Server server = obj as Server;
-            return firstTimeUpdate.CompareTo(server.firstTimeUpdate);
+            if (Program.DEBUG)
+            {
+                return server.timeUpdate.CompareTo(timeUpdate);
+            }
+            else
+            {
+                return firstTimeUpdate.CompareTo(server.firstTimeUpdate);
+            }
         }
     }
 }
