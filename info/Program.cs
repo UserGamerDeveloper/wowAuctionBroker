@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using System.Media;
 using System.Xml.Serialization;
 using System.Linq;
+using Newtonsoft.Json;
+using static info.ItemPageParser;
 
 namespace info
 {
@@ -21,6 +23,12 @@ namespace info
 
         static void Main(string[] args)
         {
+            //Dictionary<int, List<string>> answers = new Dictionary<int, List<string>>(); 
+            //foreach (Race item in Enum.GetValues(typeof(Race)))
+            //{
+            //    answers.Add((int)item, new List<string>());
+            //}
+            //File.WriteAllText("captcha_hashes.txt", JsonConvert.SerializeObject(answers));
             try
             {
                 //if (args.Length>0)
@@ -163,7 +171,7 @@ namespace info
 
         private static void WriteAndLogDelimetr()
         {
-            const string DELIMETR = "-------------------------------------------------------------------------";
+            const string DELIMETR = "------------------------------------------------------------------------------";
             Console.WriteLine(DELIMETR);
             File.AppendAllText("log.txt", DELIMETR + "\n");
         }
@@ -445,10 +453,10 @@ namespace info
                         itemsDataTree.Add(ITEMS_DATA[idItem]);
                     }
                 }
-                Dictionary<int, AuctionPageHTMLParser> parsersForTree = new Dictionary<int, AuctionPageHTMLParser>();
+                Dictionary<int, ItemPageParser> parsersForTree = new Dictionary<int, ItemPageParser>();
                 foreach (var itemData in itemsDataTree)
                 {
-                    AuctionPageHTMLParser parser = new AuctionPageHTMLParser(server.id, itemData.id);
+                    ItemPageParser parser = new ItemPageParser(server.id, itemData.id);
                     parsersForTree.Add(itemData.id, parser);
                 }
                 while (true)

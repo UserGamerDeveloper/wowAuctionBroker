@@ -62,30 +62,35 @@ namespace info
         //    return responce;
         //}
 
-        public static bool DeleteFile(string path)
+        public static void DeleteFile(string path)
         {
             try
             {
                 File.Delete(path);
-                return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return false;
+                File.AppendAllText("Exception.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n\n");
             }
         }
 
-        private static string ReadFile(string path)
+        public static string ReadFile(string path)
         {
-            try
+            bool readed = false;
+            while (!readed)
             {
-                return File.ReadAllText(path);
+                try
+                {
+                    string data = File.ReadAllText(path);
+                    readed = true;
+                    return data;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(1000);
+                }
             }
-            catch (Exception)
-            {
-                Thread.Sleep(1000);
-                return ReadFile(path);
-            }
+            return null;
         }
     }
 }

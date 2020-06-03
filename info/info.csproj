@@ -58,7 +58,7 @@
     <Compile Include="RecipeData.cs" />
     <Compile Include="RecipeInfo.cs" />
     <Compile Include="HouseId.cs" />
-    <Compile Include="AuctionPageHTMLParser.cs" />
+    <Compile Include="ItemPageParser.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ItemData.cs" />
     <Compile Include="Program.cs" />
