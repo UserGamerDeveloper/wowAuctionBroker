@@ -23,11 +23,11 @@ namespace info
         {
             try
             {
-                if (args.Length>0)
-                {
-                    DEBUG = true;
-                    Console.WriteLine("DEBUG");
-                }
+                //if (args.Length>0)
+                //{
+                //    DEBUG = true;
+                //    Console.WriteLine("DEBUG");
+                //}
                 start();
             }
             catch (Exception e)
@@ -36,7 +36,7 @@ namespace info
                 Console.WriteLine("Перезагрузка\n");
                 SoundPlayer alert = new SoundPlayer("music.wav");
                 alert.Play();
-                start();
+                Console.ReadLine();
             }
         }
 
@@ -59,11 +59,6 @@ namespace info
 
             foreach (var server in servers)
             {
-                //if (!DEBUG)
-                //{
-                //    server.SetFirstTimeUpdate();
-                //}
-
                 server.SetRecipes(recipeDataById);
 
                 List<RecipeData> serverRecipesList = new List<RecipeData>(server.recipes);
@@ -111,52 +106,66 @@ namespace info
                     server.recipeDataTrees.Add(recipeDataTree);
                 }
             }
-            //Array.Sort(servers);
-            //if (!DEBUG)
-            //{
-            //    for (int idServer = servers.Length - 1; idServer >= 0; idServer--)
-            //    {
-            //        Server server = servers[idServer];
-            //        if (server.hasUpdate(true))
-            //        {
-            //            parseServer(server);
-            //        }
-            //    }
-            //}
-            foreach (var server in servers)
+            Array.Sort(servers);
+            for (int idServer = servers.Length - 1; idServer >= 0; idServer--)
             {
-                if (server.hasUpdate(false))
+                Server server = servers[idServer];
+                if (server.hasUpdate())
                 {
                     parseServer(server);
                 }
-                Thread.Sleep(1000);
-            }
-            while (true)
-            {
-                List<Server> needUpdateServers = new List<Server>();
-                needUpdateServers.AddRange(servers);
-                while (needUpdateServers.Count>0)
+                else
                 {
-                    List<Server> updateServers = new List<Server>();
-                    for (int i = 0; i < needUpdateServers.Count; i++)
-                    {
-                        Server server = needUpdateServers[i];
-                        if (server.hasUpdate(false))
-                        {
-                            parseServer(server);
-                            updateServers.Add(server);
-                        }
-                        else
-                        {
-                            Thread.Sleep(60000);
-                        }
-                    }
-                    foreach (var server in updateServers)
-                    {
-                        needUpdateServers.Remove(server);
-                    }
+                    break;
                 }
             }
+            WriteAndLogDelimetr();
+            Array.Sort(servers);
+            while (true)
+            {
+                if (Server
+                    .UnixTimeStampToDateTime(servers[0].timeUpdate)
+                    .AddHours(1d)
+                    .AddMinutes(Server.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA)
+                    .CompareTo(DateTime.Now) == -1)
+                {
+                    List<Server> needUpdateServers = new List<Server>();
+                    needUpdateServers.AddRange(servers);
+                    while (needUpdateServers.Count > 0)
+                    {
+                        List<Server> updateServers = new List<Server>();
+                        foreach (var server in needUpdateServers)
+                        {
+                            if (server.hasUpdate())
+                            {
+                                parseServer(server);
+                                updateServers.Add(server);
+                            }
+                            else
+                            {
+                                Thread.Sleep(1000);
+                            }
+                        }
+                        foreach (var server in updateServers)
+                        {
+                            needUpdateServers.Remove(server);
+                        }
+                    }
+                    WriteAndLogDelimetr();
+                    Array.Sort(servers);
+                }
+                else
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+        }
+
+        private static void WriteAndLogDelimetr()
+        {
+            const string DELIMETR = "-------------------------------------------------------------------------";
+            Console.WriteLine(DELIMETR);
+            File.AppendAllText("log.txt", DELIMETR + "\n");
         }
 
         private static Dictionary<int, RecipeData> DeserializeRecipes()
@@ -283,13 +292,13 @@ namespace info
         {
             ItemData[] items = new ItemData[]
             {
-                new ItemData(ItemInfo.Shaldorei_Silk, "Shal'dorei Silk | Шал'дорайский шелк", "https://www.tradeskillmaster.com/items/shal-dorei-silk-124437?sort=buyout"),
-                new ItemData(ItemInfo.Stonehide_Leather, "Stonehide Leather | Твердокаменная кожа", "https://www.tradeskillmaster.com/items/stonehide-leather-124113?sort=buyout"),
-                new ItemData(ItemInfo.Stormscale, "Stormscale | Штормовая чешуя", "https://www.tradeskillmaster.com/items/stormscale-124115?sort=buyout"),
-                new ItemData(ItemInfo.Tidespray_Linen, "Tidespray Linen | Морской лен", "https://www.tradeskillmaster.com/items/tidespray-linen-152576?sort=buyout"),
-                new ItemData(ItemInfo.Shimmerscale, "Shimmerscale | Поблескивающая чешуя", "https://www.tradeskillmaster.com/items/shimmerscale-153050?sort=buyout"),
-                new ItemData(ItemInfo.BloodStainedBone, "Blood-Stained Bone | Окровавленная кость", "https://www.tradeskillmaster.com/items/blood-stained-bone-154164?sort=buyout"),
-                new ItemData(ItemInfo.CoarseLeather, "Coarse Leather | Шершавая кожа", "https://www.tradeskillmaster.com/items/coarse-leather-152541?sort=buyout")
+                new ItemData(ItemInfo.Shaldorei_Silk, "Shal'dorei Silk | Шал'дорайский шелк"),
+                new ItemData(ItemInfo.Stonehide_Leather, "Stonehide Leather | Твердокаменная кожа"),
+                new ItemData(ItemInfo.Stormscale, "Stormscale | Штормовая чешуя"),
+                new ItemData(ItemInfo.Tidespray_Linen, "Tidespray Linen | Морской лен"),
+                new ItemData(ItemInfo.Shimmerscale, "Shimmerscale | Поблескивающая чешуя"),
+                new ItemData(ItemInfo.BloodStainedBone, "Blood-Stained Bone | Окровавленная кость"),
+                new ItemData(ItemInfo.CoarseLeather, "Coarse Leather | Шершавая кожа")
             };
             using (FileStream fs = new FileStream("items.xml", FileMode.Create))
             {
@@ -302,44 +311,34 @@ namespace info
         {
             servers = new Server[] {
                 new Server(
-                    ServerInfo.Twisting_Nether,
-                    "90fa4178b714cf2b6db247b90969bd497c299c5bd1406170107c262a01cc8657a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A511%3B%7D",
+                    HouseId.Twisting_Nether,
                     getDefaultSpendingHorde()),
                 new Server(
-                    ServerInfo.Blackmoore,
-                    "833adf3275b85e5ce95b750245f3013212fe3bff64cc4bd93df24598a982a7d5a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A333%3B%7D",
+                    HouseId.Blackmoore,
                     getDefaultSpendingHorde()),
                 new Server(
-                    ServerInfo.Antonidas,
-                    "4189f471c98b39465bf62b9def9057c8aa4e28cce9ddc285580e5d5448caa3f7a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A289%3B%7D",
+                    HouseId.Antonidas,
                     getDefaultSpendingAlliance()),
                 new Server(
-                    ServerInfo.Ravencrest,
-                    "69d53acf7ee790d7dbe3637413ab9b83a1ec12eef78e5e62257afb8d11c688eaa%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A496%3B%7D",
+                    HouseId.Ravencrest,
                     getHonoredSpendingAlliance()),
                 new Server(
-                    ServerInfo.svezewatel,
-                    "47f9045c0840cbff05b27392572249648406aede97b1cf58a2f262dc08cd31d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A502%3B%7D",
+                    HouseId.svezewatel,
                     getHonoredSpendingHorde()),
                 new Server(
-                    ServerInfo.gorduni,
-                    "1f3552dbc09c9097de622c7ffb69fda01b8f41789c712aee433334a85dcd5470a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A463%3B%7D",
+                    HouseId.gorduni,
                     getHonoredSpendingAlliance()),
                 new Server(
-                    ServerInfo.Azjol_Nerub,
-                    "9edded7a6c3280d4d88b8d7131a5edbbed9110c9ea177d7a51a1b1d3b50429d8a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A323%3B%7D",
+                    HouseId.Azjol_Nerub,
                     getDefaultSpendingAlliance()),
                 new Server(
-                    ServerInfo.Kazzak,
-                    "5cea7fd01755cdcdbf49d3a0616c12e7766e729cb7bf439abfe10d7cc54e36d1a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A470%3B%7D",
+                    HouseId.Kazzak,
                     getDefaultSpendingHorde()),
                 new Server(
-                    ServerInfo.Silvermoon,
-                    "ad0d4e64b8e6ccf1b277208434dbee62f1fa7390efc68ab47eb3439b1e216d47a%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A501%3B%7D",
+                    HouseId.Silvermoon,
                     getDefaultSpendingAlliance()),
                 new Server(
-                    ServerInfo.Tyrande,
-                    "3838bedcfa976cef4c859bff8f4039f05402b367335f521a671492bf95c646afa%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A364%3B%7D",
+                    HouseId.Tyrande,
                     new XmlSerializableDictionary<int, long>{
                         {(int)RecipeInfo.Battlebound_Spaulders, 0},
                         {(int)RecipeInfo.Coarse_Leather_Cestus_H, 0},
@@ -348,8 +347,7 @@ namespace info
                         {(int)RecipeInfo.Tidespray_Linen_Pants_H, 60000}
                     }),
                 new Server(
-                    ServerInfo.malganis,
-                    "8108e41136d7d492af435be3e2ba019ca5cd4fe25b17955be6d128f1d4d7f14da%3A2%3A%7Bi%3A0%3Bs%3A7%3A%22realmId%22%3Bi%3A1%3Bi%3A437%3B%7D",
+                    HouseId.malganis,
                     getDefaultSpendingAlliance())
             };
             using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
@@ -450,7 +448,7 @@ namespace info
                 Dictionary<int, AuctionPageHTMLParser> parsersForTree = new Dictionary<int, AuctionPageHTMLParser>();
                 foreach (var itemData in itemsDataTree)
                 {
-                    AuctionPageHTMLParser parser = new AuctionPageHTMLParser(itemData.getUri(), server.cookie);
+                    AuctionPageHTMLParser parser = new AuctionPageHTMLParser(server.id, itemData.id);
                     parsersForTree.Add(itemData.id, parser);
                 }
                 while (true)

@@ -14,20 +14,13 @@ namespace info
     {
         public int id;
         public string itemName;
-        public string uri;
 
         public ItemData() { }
 
-        public ItemData(ItemInfo itemInfo, string itemName, string uri)
+        public ItemData(ItemInfo itemInfo, string itemName)
         {
             this.id = (int)itemInfo;
             this.itemName = itemName;
-            this.uri = uri;
-        }
-
-        public Uri getUri()
-        {
-            return new Uri(uri);
         }
     }
 }

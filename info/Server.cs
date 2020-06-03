@@ -1,5 +1,8 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,46 +13,109 @@ using System.Xml.Serialization;
 
 namespace info
 {
+    public class House
+    {
+        [JsonProperty("timestamps")]
+        public Timestamps Timestamps { get; set; }
+        [JsonProperty("mostAvailable")]
+        public List<MostAvailable> MostAvailable { get; set; }
+        [JsonProperty("deals")]
+        public List<Deal> Deals { get; set; }
+    }
+    public class Timestamps
+    {
+        [JsonProperty("scheduled")]
+        public int Scheduled { get; set; }
+        [JsonProperty("delayednext")]
+        public object Delayednext { get; set; }
+        [JsonProperty("lastupdate")]
+        public int Lastupdate { get; set; }
+        [JsonProperty("mindelta")]
+        public int Mindelta { get; set; }
+        [JsonProperty("avgdelta")]
+        public int Avgdelta { get; set; }
+        [JsonProperty("maxdelta")]
+        public int Maxdelta { get; set; }
+        [JsonProperty("lastcheck")]
+        public int Lastcheck { get; set; }
+        [JsonProperty("lastsuccess")]
+        public int Lastsuccess { get; set; }
+    }
+    public class MostAvailable
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+        [JsonProperty("requiredside")]
+        public string Requiredside { get; set; }
+        [JsonProperty("name_enus")]
+        public string NameEnus { get; set; }
+        [JsonProperty("name_dede")]
+        public string NameDede { get; set; }
+        [JsonProperty("name_eses")]
+        public string NameEses { get; set; }
+        [JsonProperty("name_frfr")]
+        public string NameFrfr { get; set; }
+        [JsonProperty("name_itit")]
+        public string NameItit { get; set; }
+        [JsonProperty("name_ptbr")]
+        public string NamePtbr { get; set; }
+        [JsonProperty("name_ruru")]
+        public string NameRuru { get; set; }
+        [JsonProperty("name_zhtw")]
+        public string NameZhtw { get; set; }
+        [JsonProperty("name_kokr")]
+        public string NameKokr { get; set; }
+    }
+    public class Deal
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+        [JsonProperty("requiredside")]
+        public string Requiredside { get; set; }
+        [JsonProperty("name_enus")]
+        public string NameEnus { get; set; }
+        [JsonProperty("name_dede")]
+        public string NameDede { get; set; }
+        [JsonProperty("name_eses")]
+        public string NameEses { get; set; }
+        [JsonProperty("name_frfr")]
+        public string NameFrfr { get; set; }
+        [JsonProperty("name_itit")]
+        public string NameItit { get; set; }
+        [JsonProperty("name_ptbr")]
+        public string NamePtbr { get; set; }
+        [JsonProperty("name_ruru")]
+        public string NameRuru { get; set; }
+        [JsonProperty("name_zhtw")]
+        public string NameZhtw { get; set; }
+        [JsonProperty("name_kokr")]
+        public string NameKokr { get; set; }
+    }
+
     //[JsonObject(MemberSerialization.OptIn)]
     [Serializable]
     public class Server : IComparable
     {
-        const string uri_DB = "http://app-server{0}.tradeskillmaster.com/v2/auctiondb/realm/";
-        
-        int idTSMServer = 4;
-        int timeOutDBPage = 2000;
+        const string URI_STRING = "https://theunderminejournal.com/api/house.php?house={0}";
+        public const double AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA = 6d;
+        const int timeOutDBPage = 5000;
+
         public int id;
         public string name;
-        public string cookie;
         public long timeUpdate;
         public XmlSerializableDictionary<int, long> idRecipeAndSpending;
         [XmlIgnore]
         public List<RecipeData> recipes;
         [XmlIgnore]
-        public long firstTimeUpdate;
-        [XmlIgnore]
         public List<HashSet<RecipeData>> recipeDataTrees = new List<HashSet<RecipeData>>();
 
         public Server() { }
 
-        public Server(ServerInfo serverId, string cookie, XmlSerializableDictionary<int, long> idRecipeAndSpending)
+        public Server(HouseId serverId, XmlSerializableDictionary<int, long> idRecipeAndSpending)
         {
             this.id = (int)serverId;
-            this.cookie = cookie;
             this.idRecipeAndSpending = idRecipeAndSpending;
             this.name = serverId.ToString();
-        }
-
-        public void SetFirstTimeUpdate()
-        {
-            string b;
-
-            Uri DB = new Uri(String.Format(uri_DB, idTSMServer) + id);
-
-            string DB_page = getDBPage(DB);
-
-            b = DB_page.Remove(0, 38);
-            firstTimeUpdate = Convert.ToInt64(b.Remove(10, b.Length - 10));
         }
 
         internal void SetRecipes(Dictionary<int, RecipeData> recipeData)
@@ -61,48 +127,11 @@ namespace info
             }
         }
 
-        public long getTimeUpdate()
-        {
-            Uri DB = new Uri(String.Format(uri_DB, idTSMServer) + id);
-            string DB_page = getDBPage(DB);
-            string b = DB_page.Remove(0, 38);
-            return timeUpdate = Convert.ToInt64(b.Remove(10, b.Length - 10));
-        }
-
-        public bool hasUpdate(bool isFirst)
-        {
-            long oldTime = timeUpdate;
-            if (isFirst)
-            {
-                timeUpdate = firstTimeUpdate;
-                return oldTime != firstTimeUpdate;
-            }
-            else
-            {
-                timeUpdate = getTimeUpdate();
-                return timeUpdate != oldTime;
-            }
-        }
-
-        public void printAndLog()
-        {
-            string str = String.Format("{2}\n{0} {1}", name, UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
-            Console.WriteLine(str);
-            File.AppendAllText("log.txt", str + "\n");
-        }
-
-        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
-        {
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-            return dtDateTime;
-        }
-
-        private string getDBPage(Uri uri)
+        private string getHouse()
         {
             try
             {
-                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(String.Format(URI_STRING, id));
                 httpWebRequest.AllowAutoRedirect = false;//Запрещаем автоматический редирект
                 httpWebRequest.Method = "GET"; //Можно не указывать, по умолчанию используется GET.
                 httpWebRequest.Timeout = timeOutDBPage;
@@ -112,7 +141,7 @@ namespace info
                     {
                         using (var reader = new StreamReader(stream, Encoding.UTF8))
                         {
-                            timeOutDBPage = 2000;
+                            //timeOutDBPage = 2000;
                             return reader.ReadToEnd();
                         }
                     }
@@ -120,31 +149,71 @@ namespace info
             }
             catch (Exception e)
             {
-                File.WriteAllText("Exception_time_page.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                timeOutDBPage += 1000;
-                if (timeOutDBPage >= 10000)
-                {
-                    idTSMServer++;
-                    if (idTSMServer == 8)
-                    {
-                        idTSMServer = 4;
-                    }
-                }
-                return getDBPage(uri);
+                File.WriteAllText("Exception_house.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                //timeOutDBPage += 1000;
+                //if (timeOutDBPage >= 10000)
+                //{
+                //    idTSMServer++;
+                //    if (idTSMServer == 8)
+                //    {
+                //        idTSMServer = 4;
+                //    }
+                //}
+                return getHouse();
             }
+        }
+
+        public long getTimeUpdate()
+        {
+            House house = JsonConvert.DeserializeObject<House>(getHouse());
+
+            DateTime time = UnixTimeStampToDateTime(house.Timestamps.Lastupdate);
+
+            if (time.AddMinutes(AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA).CompareTo(DateTime.Now) != -1)
+            {
+                return timeUpdate;
+            }
+            else
+            {
+                return new DateTimeOffset(time).ToUnixTimeSeconds();
+            }
+        }
+
+        public bool hasUpdate()
+        {
+            long oldTime = timeUpdate;
+            setTimeUpdate();
+            return timeUpdate != oldTime;
+        }
+
+        public void setTimeUpdate()
+        {
+            timeUpdate = getTimeUpdate();
+        }
+
+        public void printAndLog()
+        {
+            string str = String.Format("{2}\n{0} {1}", name, UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
+            Console.WriteLine(str);
+            File.AppendAllText("log.txt", str + "\n");
+        }
+
+        public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
+        {
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
         }
 
         public int CompareTo(object obj)
         {
             Server server = obj as Server;
-            if (Program.DEBUG)
-            {
-                return timeUpdate.CompareTo(server.timeUpdate);
-            }
-            else
-            {
-                return firstTimeUpdate.CompareTo(server.firstTimeUpdate);
-            }
+            return server.timeUpdate.CompareTo(timeUpdate);
+        }
+
+        internal string getUri()
+        {
+            return URI_STRING + name;
         }
     }
 }
