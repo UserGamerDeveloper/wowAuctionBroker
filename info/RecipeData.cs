@@ -27,14 +27,13 @@ namespace info
         public RecipeData(RecipeData recipeData, long SPENDING)
         {
             ID = recipeData.ID;
+            name = recipeData.name;
             ID_ITEM_AND_NEED_AMOUNT = recipeData.ID_ITEM_AND_NEED_AMOUNT;
             SELL_PRICE = recipeData.SELL_PRICE;
             TIME_NEED = recipeData.TIME_NEED;
-            name = recipeData.name;
             this.SPENDING = SPENDING;
         }
 
         RecipeData() { }
-
     }
 }

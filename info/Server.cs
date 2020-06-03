@@ -50,7 +50,6 @@ namespace info
 
             b = DB_page.Remove(0, 38);
             firstTimeUpdate = Convert.ToInt64(b.Remove(10, b.Length - 10));
-            Thread.Sleep(1000);
         }
 
         internal void SetRecipes(Dictionary<int, RecipeData> recipeData)
@@ -67,7 +66,6 @@ namespace info
             Uri DB = new Uri(String.Format(uri_DB, idTSMServer) + id);
             string DB_page = getDBPage(DB);
             string b = DB_page.Remove(0, 38);
-            Thread.Sleep(1000);
             return timeUpdate = Convert.ToInt64(b.Remove(10, b.Length - 10));
         }
 
@@ -88,7 +86,7 @@ namespace info
 
         public void printAndLog()
         {
-            string str = String.Format("{0} {1}", name, UnixTimeStampToDateTime(timeUpdate));
+            string str = String.Format("{2}\n{0} {1}", name, UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
             Console.WriteLine(str);
             File.AppendAllText("log.txt", str + "\n");
         }
@@ -141,7 +139,7 @@ namespace info
             Server server = obj as Server;
             if (Program.DEBUG)
             {
-                return server.timeUpdate.CompareTo(timeUpdate);
+                return timeUpdate.CompareTo(server.timeUpdate);
             }
             else
             {

@@ -17,6 +17,7 @@ namespace info
         gorduni = 463,
         Kazzak = 470,
         Azjol_Nerub = 323,
-        Silvermoon = 501
+        Silvermoon = 501,
+        Tyrande = 363
     }
 }
