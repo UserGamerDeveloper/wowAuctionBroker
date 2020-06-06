@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +12,14 @@ namespace info
 {
     static class Util
     {
+        class Maintenance
+        {
+            [JsonProperty("maintenance")]
+            public int TimeEnd { get; set; }
+        }
+
+        const int timeOutDBPage = 5000;
+
         public static double getIncomeGoldInHour(long profit, DateTime timeNeed)
         {
             return convertCopperToGold(profit / getTimeInSeconds(timeNeed) * 3600f);
@@ -91,6 +101,92 @@ namespace info
                 }
             }
             return null;
+        }
+
+        public static void WriteAndLog(string CAPTCHA)
+        {
+            Console.Write(CAPTCHA);
+            File.AppendAllText("log.txt", CAPTCHA + "\n");
+        }
+
+        public static void WriteLineAndLog(string CAPTCHA)
+        {
+            Console.WriteLine(CAPTCHA);
+            File.AppendAllText("log.txt", CAPTCHA + "\n");
+        }
+        public static void WriteLineAndLogWhithTime(string CAPTCHA)
+        {
+            Console.WriteLine(DateTime.Now + "\n" + CAPTCHA);
+            File.AppendAllText("log.txt", DateTime.Now + "\n"+CAPTCHA + "\n");
+        }
+
+        public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
+        {
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
+        }
+
+        static public string GetResponse(string url, string pathLogFile)
+        {
+            string response = null;
+            while (true)
+            {
+                try
+                {
+                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                    httpWebRequest.AllowAutoRedirect = false;//Запрещаем автоматический редирект
+                    httpWebRequest.Method = "GET"; //Можно не указывать, по умолчанию используется GET.
+                    httpWebRequest.Timeout = timeOutDBPage;
+                    using (var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+                    {
+                        using (var stream = httpWebResponse.GetResponseStream())
+                        {
+                            using (var reader = new StreamReader(stream, Encoding.UTF8))
+                            {
+                                //timeOutDBPage = 2000;
+                                response = reader.ReadToEnd();
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    using (var stream = ex.Response.GetResponseStream())
+                    using (var reader = new StreamReader(stream))
+                    {
+                        try
+                        {
+                            Maintenance maintenance = JsonConvert.DeserializeObject<Maintenance>(reader.ReadToEnd());
+                            DateTime dateTime = UnixTimeStampToDateTime(maintenance.TimeEnd);
+                            Util.WriteLineAndLogWhithTime(String.Format("Тех. работы до {0} \n", dateTime));
+                            if (dateTime.CompareTo(DateTime.Now) != -1)
+                            {
+                                while (dateTime.CompareTo(DateTime.Now) != -1)
+                                {
+                                    Thread.Sleep(1000);
+                                }
+                            }
+                            else
+                            {
+                                Thread.Sleep(60000);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                            throw e;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                    throw e;
+                }
+            }
+            return response;
         }
     }
 }

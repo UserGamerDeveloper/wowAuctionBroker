@@ -214,7 +214,8 @@ namespace info
             Blood_Elves = 10
         }
 
-        const string URL = "https://theunderminejournal.com/api/item.php?house={0}&item={1}";
+        const string URL_ITEM_PAGE_FORMAT = "https://theunderminejournal.com/api/item.php?house={0}&item={1}";
+        const string URL_CAPTCHA_ANSWER_FORMAT = "https://theunderminejournal.com/api/captcha.php?answer={0}";
         const int timeOutDBPage = 5000;
 
         ItemPage itemPage;
@@ -225,7 +226,7 @@ namespace info
         {
             while (true)
             {
-                string responseStr = getItemPage(String.Format(URL, house, idItem)).Replace("[[", "[").Replace("]]", "]");
+                string responseStr = getItemPage(String.Format(URL_ITEM_PAGE_FORMAT, house, idItem)).Replace("[[", "[").Replace("]]", "]");
                 itemPage = JsonConvert.DeserializeObject<ItemPage>(responseStr);
                 bool isCaptcha = itemPage.auctions == null;
                 if (!isCaptcha)
@@ -248,18 +249,22 @@ namespace info
                 }
                 else
                 {
-                    const string CAPTCHA = "\t\t\t\t Капча";
-                    Console.WriteLine(CAPTCHA);
-                    File.AppendAllText("log.txt", CAPTCHA + "\n");
+                    const string CAPTCHA = "\t\t\t Капча ";
+                    const string SUCCESS = "пройдена";
+                    const string DENIED = "не пройдена";
+                    const string AUTO = " автоматически";
 
-                    Dictionary<Race, HashSet<string>> answers = 
+                    Dictionary<Race, HashSet<string>> imagesHashesByRace =
                         JsonConvert.DeserializeObject<Dictionary<Race, HashSet<string>>>(Util.ReadFile("captcha_hashes.txt"));
                     SoundPlayer simpleSound = new SoundPlayer("music.wav");
                     bool captchaSuccess = false;
                     Response response = null;
                     List<string> images = null;
+                    bool firstCaptcha = true;
                     while (!captchaSuccess)
                     {
+                        Util.WriteAndLog(CAPTCHA);
+                        string answer = "";
                         images = new List<string>();
                         response = JsonConvert.DeserializeObject<Response>(responseStr);
 
@@ -272,9 +277,63 @@ namespace info
                                 string image = String.Format("Captcha/{0}.jpg", i);
                                 images.Add(image);
                                 client.DownloadFile(String.Format(url, id), image);
+                                if (firstCaptcha)
+                                {
+                                    string hash = ComputeMD5Checksum(image);
+                                    if (imagesHashesByRace[response.Captcha.Lookfor].Contains(hash))
+                                    {
+                                        answer += i;
+                                    }
+                                }
                                 i++;
                             }
                         }
+                        if (!firstCaptcha)
+                        {
+                            System.Diagnostics.Process.Start("ImageGallery.exe", response.Captcha.Lookfor.ToString());
+                            simpleSound.PlayLooping();
+                            answer = Util.ReadFile("captcha_answer.txt");
+                            simpleSound.Stop();
+                        }
+                        string urlCaptchaAnswer = String.Format(URL_CAPTCHA_ANSWER_FORMAT, answer.Replace(" ",""));
+                        responseStr = Util.GetResponse(urlCaptchaAnswer, "Exception_captcha.txt");
+                        captchaSuccess = responseStr.Equals("[]");
+                        if (!captchaSuccess)
+                        {
+                            if (!firstCaptcha)
+                            {
+                                Util.WriteLineAndLog(DENIED);
+                            }
+                            else
+                            {
+                                Util.WriteAndLog(DENIED);
+                                Util.WriteLineAndLog(AUTO);
+                            }
+                        }
+                        else
+                        {
+                            if (!firstCaptcha)
+                            {
+                                Util.WriteLineAndLog(SUCCESS);
+                                string[] idsImage = answer.Split(' ');
+                                foreach (var id in idsImage)
+                                {
+                                    imagesHashesByRace[response.Captcha.Lookfor].Add(ComputeMD5Checksum(String.Format("Captcha/{0}.jpg", id)));
+                                }
+                                File.WriteAllText("captcha_hashes.txt", JsonConvert.SerializeObject(imagesHashesByRace));
+                            }
+                            else
+                            {
+                                Util.WriteAndLog(SUCCESS);
+                                Util.WriteLineAndLog(AUTO);
+                            }
+                        }
+                        foreach (var image in images)
+                        {
+                            Util.DeleteFile(image);
+                        }
+                        firstCaptcha = false;
+                        Util.DeleteFile("captcha_answer.txt");
 
                         //Enum.TryParse<Race>(response.Captcha.Lookfor.ToString(), out race);
                         //switch (race)
@@ -287,32 +346,6 @@ namespace info
                         //    default:
                         //        break;
                         //}
-
-                        System.Diagnostics.Process.Start("ImageGallery.exe", response.Captcha.Lookfor.ToString());
-
-                        simpleSound.PlayLooping();
-                        responseStr = Util.ReadFile("captcha.txt");
-                        simpleSound.Stop();
-                        captchaSuccess = responseStr.Equals("[]");
-                        if (!captchaSuccess)
-                        {
-                            foreach (var image in images)
-                            {
-                                Util.DeleteFile(image);
-                            }
-                        }
-                        Util.DeleteFile("captcha.txt");
-                    }
-                    string answer = Util.ReadFile("captcha_answer.txt");
-                    string[] idsImage = answer.Split(' ');
-                    foreach (var id in idsImage)
-                    {
-                        answers[response.Captcha.Lookfor].Add(ComputeMD5Checksum(String.Format("Captcha/{0}.jpg", id)));
-                    }
-                    File.WriteAllText("captcha_hashes.txt", JsonConvert.SerializeObject(answers));
-                    foreach (var image in images)
-                    {
-                        Util.DeleteFile(image);
                     }
                 }
             }

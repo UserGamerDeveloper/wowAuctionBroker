@@ -96,9 +96,8 @@ namespace info
     [Serializable]
     public class Server : IComparable
     {
-        const string URI_STRING = "https://theunderminejournal.com/api/house.php?house={0}";
+        const string URI_FORMAT = "https://theunderminejournal.com/api/house.php?house={0}";
         public const double AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA = 6d;
-        const int timeOutDBPage = 5000;
 
         public int id;
         public string name;
@@ -127,47 +126,11 @@ namespace info
             }
         }
 
-        private string getHouse()
-        {
-            try
-            {
-                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(String.Format(URI_STRING, id));
-                httpWebRequest.AllowAutoRedirect = false;//Запрещаем автоматический редирект
-                httpWebRequest.Method = "GET"; //Можно не указывать, по умолчанию используется GET.
-                httpWebRequest.Timeout = timeOutDBPage;
-                using (var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
-                {
-                    using (var stream = httpWebResponse.GetResponseStream())
-                    {
-                        using (var reader = new StreamReader(stream, Encoding.UTF8))
-                        {
-                            //timeOutDBPage = 2000;
-                            return reader.ReadToEnd();
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                File.WriteAllText("Exception_house.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                //timeOutDBPage += 1000;
-                //if (timeOutDBPage >= 10000)
-                //{
-                //    idTSMServer++;
-                //    if (idTSMServer == 8)
-                //    {
-                //        idTSMServer = 4;
-                //    }
-                //}
-                return getHouse();
-            }
-        }
-
         public long getTimeUpdate()
         {
-            House house = JsonConvert.DeserializeObject<House>(getHouse());
+            House house = JsonConvert.DeserializeObject<House>(Util.GetResponse(String.Format(URI_FORMAT, id), "Exception_house.txt"));
 
-            DateTime time = UnixTimeStampToDateTime(house.Timestamps.Lastupdate);
+            DateTime time = Util.UnixTimeStampToDateTime(house.Timestamps.Lastupdate);
 
             if (time.AddMinutes(AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA).CompareTo(DateTime.Now) != -1)
             {
@@ -193,16 +156,9 @@ namespace info
 
         public void printAndLog()
         {
-            string str = String.Format("{2}\n{0} {1}", name, UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
+            string str = String.Format("{2}\n{0} {1}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
             Console.WriteLine(str);
             File.AppendAllText("log.txt", str + "\n");
-        }
-
-        public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
-        {
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-            return dtDateTime;
         }
 
         public int CompareTo(object obj)
@@ -213,7 +169,7 @@ namespace info
 
         internal string getUri()
         {
-            return URI_STRING + name;
+            return URI_FORMAT + name;
         }
     }
 }

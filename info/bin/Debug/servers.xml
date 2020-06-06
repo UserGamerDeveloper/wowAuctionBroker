@@ -3,7 +3,7 @@
   <Server>
     <id>234</id>
     <name>Silvermoon</name>
-    <timeUpdate>1591204163</timeUpdate>
+    <timeUpdate>1591434564</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -56,9 +56,9 @@
     </idRecipeAndSpending>
   </Server>
   <Server>
-    <id>215</id>
-    <name>Kazzak</name>
-    <timeUpdate>1591204163</timeUpdate>
+    <id>241</id>
+    <name>Twisting_Nether</name>
+    <timeUpdate>1591434562</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -89,7 +89,7 @@
           <int>126988</int>
         </key>
         <value>
-          <long>5000</long>
+          <long>4750</long>
         </value>
       </item>
       <item>
@@ -97,7 +97,7 @@
           <int>154689</int>
         </key>
         <value>
-          <long>60000</long>
+          <long>57000</long>
         </value>
       </item>
       <item>
@@ -111,9 +111,9 @@
     </idRecipeAndSpending>
   </Server>
   <Server>
-    <id>241</id>
-    <name>Twisting_Nether</name>
-    <timeUpdate>1591204159</timeUpdate>
+    <id>215</id>
+    <name>Kazzak</name>
+    <timeUpdate>1591434561</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -168,7 +168,7 @@
   <Server>
     <id>232</id>
     <name>Ravencrest</name>
-    <timeUpdate>1591204159</timeUpdate>
+    <timeUpdate>1591434558</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -223,7 +223,7 @@
   <Server>
     <id>210</id>
     <name>gorduni</name>
-    <timeUpdate>1591204157</timeUpdate>
+    <timeUpdate>1591434557</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -278,7 +278,7 @@
   <Server>
     <id>134</id>
     <name>Antonidas</name>
-    <timeUpdate>1591204155</timeUpdate>
+    <timeUpdate>1591434555</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -309,7 +309,7 @@
           <int>126988</int>
         </key>
         <value>
-          <long>5000</long>
+          <long>4750</long>
         </value>
       </item>
       <item>
@@ -317,7 +317,7 @@
           <int>161981</int>
         </key>
         <value>
-          <long>60000</long>
+          <long>57000</long>
         </value>
       </item>
       <item>
@@ -333,7 +333,7 @@
   <Server>
     <id>235</id>
     <name>svezewatel</name>
-    <timeUpdate>1591204152</timeUpdate>
+    <timeUpdate>1591434553</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -388,7 +388,7 @@
   <Server>
     <id>153</id>
     <name>Blackmoore</name>
-    <timeUpdate>1591204153</timeUpdate>
+    <timeUpdate>1591434552</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -419,7 +419,7 @@
           <int>126988</int>
         </key>
         <value>
-          <long>5000</long>
+          <long>4750</long>
         </value>
       </item>
       <item>
@@ -427,7 +427,7 @@
           <int>154689</int>
         </key>
         <value>
-          <long>60000</long>
+          <long>57000</long>
         </value>
       </item>
       <item>
@@ -443,7 +443,7 @@
   <Server>
     <id>147</id>
     <name>Azjol_Nerub</name>
-    <timeUpdate>1591204149</timeUpdate>
+    <timeUpdate>1591434549</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -474,7 +474,7 @@
           <int>126988</int>
         </key>
         <value>
-          <long>5000</long>
+          <long>4750</long>
         </value>
       </item>
       <item>
@@ -482,7 +482,7 @@
           <int>161981</int>
         </key>
         <value>
-          <long>60000</long>
+          <long>57000</long>
         </value>
       </item>
       <item>
@@ -498,7 +498,7 @@
   <Server>
     <id>167</id>
     <name>Tyrande</name>
-    <timeUpdate>1591204145</timeUpdate>
+    <timeUpdate>1591434545</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>
@@ -545,7 +545,7 @@
   <Server>
     <id>195</id>
     <name>malganis</name>
-    <timeUpdate>1591204144</timeUpdate>
+    <timeUpdate>1591434544</timeUpdate>
     <idRecipeAndSpending>
       <item>
         <key>

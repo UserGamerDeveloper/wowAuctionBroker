@@ -131,7 +131,7 @@ namespace info
             Array.Sort(servers);
             while (true)
             {
-                if (Server
+                if (Util
                     .UnixTimeStampToDateTime(servers[0].timeUpdate)
                     .AddHours(1d)
                     .AddMinutes(Server.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA)
@@ -171,7 +171,7 @@ namespace info
 
         private static void WriteAndLogDelimetr()
         {
-            const string DELIMETR = "------------------------------------------------------------------------------";
+            const string DELIMETR = "--------------------------------------------------------------------------------";
             Console.WriteLine(DELIMETR);
             File.AppendAllText("log.txt", DELIMETR + "\n");
         }
@@ -320,13 +320,13 @@ namespace info
             servers = new Server[] {
                 new Server(
                     HouseId.Twisting_Nether,
-                    getDefaultSpendingHorde()),
+                    getFrendlySpendingHorde()),
                 new Server(
                     HouseId.Blackmoore,
-                    getDefaultSpendingHorde()),
+                    getFrendlySpendingHorde()),
                 new Server(
                     HouseId.Antonidas,
-                    getDefaultSpendingAlliance()),
+                    getFrendlySpendingAlliance()),
                 new Server(
                     HouseId.Ravencrest,
                     getHonoredSpendingAlliance()),
@@ -338,10 +338,10 @@ namespace info
                     getHonoredSpendingAlliance()),
                 new Server(
                     HouseId.Azjol_Nerub,
-                    getDefaultSpendingAlliance()),
+                    getFrendlySpendingAlliance()),
                 new Server(
                     HouseId.Kazzak,
-                    getDefaultSpendingHorde()),
+                    getFrendlySpendingHorde()),
                 new Server(
                     HouseId.Silvermoon,
                     getDefaultSpendingAlliance()),
