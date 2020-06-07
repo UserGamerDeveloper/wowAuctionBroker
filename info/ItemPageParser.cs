@@ -253,25 +253,21 @@ namespace info
                     if (itemPage.auctions.data.Count > 0)
                     {
                         itemPage.auctions.deleteInvalidDatas();
-                        idBid = itemPage.auctions.data.Count - 1;
                         foreach (var item in itemPage.auctions.data)
                         {
                             item.setCostPerItem();
                         }
                         itemPage.auctions.data.Sort();
-                        break;
                     }
-                    else
-                    {
-                        throw new NotImplementedException("нет бидов");
-                    }
+                    idBid = itemPage.auctions.data.Count - 1;
+                    break;
                 }
                 else
                 {
                     const string CAPTCHA = "\t\t\t Капча ";
                     const string SUCCESS = "пройдена";
                     const string DENIED = "не пройдена";
-                    const string AUTO = " автоматически";
+                    //const string AUTO = " автоматически";
                     const string DIRECTORY = "Captcha";
 
                     Dictionary<Race, HashSet<string>> imagesHashesByRace =
@@ -357,7 +353,6 @@ namespace info
                         //firstCaptcha = false;
                         //Util.DeleteFile("captcha_answer.txt");
 
-                        //Enum.TryParse<Race>(response.Captcha.Lookfor.ToString(), out race);
                         //switch (race)
                         //{
                         //    case Races.Blood_Elves:
