@@ -146,6 +146,7 @@ namespace info
                             {
                                 //timeOutDBPage = 2000;
                                 response = reader.ReadToEnd();
+                                Thread.Sleep(1000);
                                 break;
                             }
                         }
