@@ -92,37 +92,70 @@ namespace info
         public string NameKokr { get; set; }
     }
 
+    public class RealmData
+    {
+        public long moneyMax { get; set; }
+        public long money { get; set; }
+        public Reputation reputation { get; set; }
+    }
+
+    public class TokenAndRealmsDatas
+    {
+        public Dictionary<int, RealmData> realmsDatasByIdHouse { get; set; }
+        public long tokenPrice { get; set; }
+    }
+
     //[JsonObject(MemberSerialization.OptIn)]
     [Serializable]
-    public class Server : IComparable
+    public class Server
     {
+        class ComparerByTime : IComparer<Server>
+        {
+            public int Compare(Server s1, Server s2)
+            {
+                return s1.timeUpdate.CompareTo(s2.timeUpdate);
+            }
+        }
+        class ComparerByMoney : IComparer<Server>
+        {
+            public int Compare(Server s1, Server s2)
+            {
+                return s2.money.CompareTo(s1.money);
+            }
+        }
+
         const string URI_FORMAT = "https://theunderminejournal.com/api/house.php?house={0}";
-        public const double AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA = 6d;
 
         public int id;
         public string name;
         public long timeUpdate;
-        public XmlSerializableDictionary<int, long> idRecipeAndSpending;
+        public List<int> idRecipes;
         [XmlIgnore]
         public List<RecipeData> recipes;
         [XmlIgnore]
         public List<HashSet<RecipeData>> recipeDataTrees = new List<HashSet<RecipeData>>();
+        [XmlIgnore]
+        public long money;
+        [XmlIgnore]
+        public long moneyMax;
+        [XmlIgnore]
+        public Reputation reputation;
 
         public Server() { }
 
-        public Server(HouseId serverId, XmlSerializableDictionary<int, long> idRecipeAndSpending)
+        public Server(HouseId serverId, List<int> idRecipes)
         {
             this.id = (int)serverId;
-            this.idRecipeAndSpending = idRecipeAndSpending;
+            this.idRecipes = idRecipes;
             this.name = serverId.ToString();
         }
 
         internal void SetRecipes(Dictionary<int, RecipeData> recipeData)
         {
             recipes = new List<RecipeData>();
-            foreach (var idRecipe in idRecipeAndSpending.Keys)
+            foreach (var idRecipe in idRecipes)
             {
-                recipes.Add(new RecipeData(recipeData[idRecipe], idRecipeAndSpending[idRecipe]));
+                recipes.Add(recipeData[idRecipe]);
             }
         }
 
@@ -132,7 +165,7 @@ namespace info
 
             DateTime time = Util.UnixTimeStampToDateTime(house.Timestamps.Lastupdate);
 
-            if (time.AddMinutes(AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA).CompareTo(DateTime.Now) != -1)
+            if (time.AddMinutes(Util.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA).CompareTo(DateTime.Now) != -1)
             {
                 return timeUpdate;
             }
@@ -161,15 +194,52 @@ namespace info
             File.AppendAllText("log.txt", str + "\n");
         }
 
-        public int CompareTo(object obj)
+        internal static void SortByTime(Server[] servers)
         {
-            Server server = obj as Server;
-            return server.timeUpdate.CompareTo(timeUpdate);
+            Array.Sort(servers, new ComparerByTime());
+        }
+
+        internal static void SortByMoney(Server[] servers)
+        {
+            Array.Sort(servers, new ComparerByMoney());
         }
 
         internal string getUri()
         {
             return URI_FORMAT + name;
+        }
+
+        internal void SetData()
+        {
+            string s = File.ReadAllText(@"C:\Games\World of Warcraft\_retail_\WTF\Account\449681846#1\SavedVariables\getGoldAndRep.lua");
+            s = s.Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("DB = ", "").Replace("[", "").Replace("]", "").Replace("=", ":");
+            TokenAndRealmsDatas tokenAndRealmsDatas = JsonConvert.DeserializeObject<TokenAndRealmsDatas>(s);
+            RealmData realmData = tokenAndRealmsDatas.realmsDatasByIdHouse[id];
+            money = realmData.money;
+            reputation = realmData.reputation;
+            moneyMax = realmData.moneyMax;
+        }
+
+        internal void Print()
+        {
+            long deltaMoney = moneyMax - money;
+            string s = GetStringMitTab(name);
+            Console.WriteLine(
+                "{0}{1}{2:#,###}",
+                s,
+                GetStringMitTab(String.Format("{0:#,###}", Util.convertAndFloorCopperToGold(money))),
+                Util.convertAndFloorCopperToGold(deltaMoney));
+        }
+
+        private string GetStringMitTab(string str)
+        {
+            int count = str.Length;
+            for (int i = 0; i < 20 - count; i++)
+            {
+                str += " ";
+            }
+
+            return str;
         }
     }
 }

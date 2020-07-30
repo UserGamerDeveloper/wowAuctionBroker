@@ -281,6 +281,7 @@ namespace info
                     {
                         Util.WriteAndLog(CAPTCHA);
                         string answer = "";
+                        string answerFormat = "";
                         images = new List<string>();
                         response = JsonConvert.DeserializeObject<Response>(responseStr);
                         Race race = response.Captcha.Lookfor;
@@ -297,6 +298,7 @@ namespace info
                                 if (imagesHashesByRace[race].Contains(hash))
                                 {
                                     answer += i;
+                                    answerFormat += i + " ";
                                 }
                                 //if (firstCaptcha)
                                 //{
@@ -317,7 +319,7 @@ namespace info
                         if (!captchaSuccess)
                         {
                             Util.WriteLineAndLog(DENIED);
-                            Directory.Move(DIRECTORY, DateTime.Now.ToString().Replace(":", " ")+" "+ race.ToString());
+                            Directory.Move(DIRECTORY, String.Format("{0} {1}{2}", race.ToString(), answerFormat, DateTime.Now.ToString().Replace(":", " ")));
                             //if (!firstCaptcha)
                             //{
                             //}

@@ -10,7 +10,6 @@ namespace info
     public class Settings
     {
         public int TARGET_PROFIT;
-        public int count_IN_STACK;
         public int TARGET_INCOME_IN_HOUR;
 
         public Settings() { }

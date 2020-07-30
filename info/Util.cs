@@ -19,6 +19,7 @@ namespace info
         }
 
         const int timeOutDBPage = 5000;
+        public const double AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA = 6d;
 
         public static double getIncomeGoldInHour(long profit, DateTime timeNeed)
         {
@@ -28,6 +29,11 @@ namespace info
         public static double convertCopperToGold(double profit_all)
         {
             return profit_all / 10000f;
+        }
+
+        public static double convertAndFloorCopperToGold(double profit_all)
+        {
+            return Math.Floor(profit_all / 10000f);
         }
 
         public static double getTimeInSeconds(DateTime tempTimeNeed)
@@ -106,7 +112,7 @@ namespace info
         public static void WriteAndLog(string CAPTCHA)
         {
             Console.Write(CAPTCHA);
-            File.AppendAllText("log.txt", CAPTCHA + "\n");
+            File.AppendAllText("log.txt", CAPTCHA);
         }
 
         public static void WriteLineAndLog(string CAPTCHA)
@@ -154,6 +160,50 @@ namespace info
                 }
                 catch (WebException ex)
                 {
+                    try
+                    {
+                        using (var stream = ex.Response.GetResponseStream())
+                        using (var reader = new StreamReader(stream))
+                        {
+                            Maintenance maintenance = JsonConvert.DeserializeObject<Maintenance>(reader.ReadToEnd());
+                            DateTime dateTime = UnixTimeStampToDateTime(maintenance.TimeEnd);
+                            Util.WriteLineAndLogWhithTime(String.Format("\n\t\t Тех. работы до {0} \n", dateTime));
+                            throw new Exception(String.Format("Тех. работы до {0}", dateTime));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                        throw new Exception(url, e);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                    throw e;
+                }
+            }
+            return response;
+        }
+
+        static public void WaitEndMaintenance()
+        {
+            while (true)
+            {
+                try
+                {
+                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("https://theunderminejournal.com/api/item.php?house=147&item=152576");
+                    httpWebRequest.AllowAutoRedirect = false;//Запрещаем автоматический редирект
+                    httpWebRequest.Method = "GET"; //Можно не указывать, по умолчанию используется GET.
+                    httpWebRequest.Timeout = timeOutDBPage;
+                    using (var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+                    {
+                        Thread.Sleep(1000);
+                        break;
+                    }
+                }
+                catch (WebException ex)
+                {
                     using (var stream = ex.Response.GetResponseStream())
                     using (var reader = new StreamReader(stream))
                     {
@@ -161,7 +211,7 @@ namespace info
                         {
                             Maintenance maintenance = JsonConvert.DeserializeObject<Maintenance>(reader.ReadToEnd());
                             DateTime dateTime = UnixTimeStampToDateTime(maintenance.TimeEnd);
-                            Util.WriteLineAndLogWhithTime(String.Format("Тех. работы до {0} \n", dateTime));
+                            Util.WriteLineAndLogWhithTime(String.Format("\n\t\t Тех. работы до {0} \n", dateTime));
                             if (dateTime.CompareTo(DateTime.Now) != -1)
                             {
                                 while (dateTime.CompareTo(DateTime.Now) != -1)
@@ -187,7 +237,6 @@ namespace info
                     throw e;
                 }
             }
-            return response;
         }
     }
 }

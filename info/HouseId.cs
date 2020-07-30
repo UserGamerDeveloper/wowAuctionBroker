@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace info
+﻿namespace info
 {
     public enum HouseId
     {
@@ -18,6 +12,8 @@ namespace info
         Kazzak = 215,
         Azjol_Nerub = 147,
         Silvermoon = 234,
-        Tyrande = 167
+        Tyrande = 167,
+        Hyjal = 214,
+        Howling_Fjord = 213
     }
 }

@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Reputation.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Recipe.cs" />
     <Compile Include="ItemInfo.cs" />
