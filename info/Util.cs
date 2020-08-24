@@ -152,7 +152,7 @@ namespace info
                             {
                                 //timeOutDBPage = 2000;
                                 response = reader.ReadToEnd();
-                                Thread.Sleep(1000);
+                                //Thread.Sleep(1000);
                                 break;
                             }
                         }
@@ -171,17 +171,21 @@ namespace info
                             throw new Exception(String.Format("Тех. работы до {0}", dateTime));
                         }
                     }
-                    catch (Exception e)
+                    catch (NullReferenceException)
                     {
-                        //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                        throw new Exception(url, e);
+                        //Thread.Sleep(1000);
                     }
+                    //catch (Exception e)
+                    //{
+                    //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                    //    throw new Exception(url, e);
+                    //}
                 }
-                catch (Exception e)
-                {
-                    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                    throw e;
-                }
+                //catch (Exception e)
+                //{
+                //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                //    throw e;
+                //}
             }
             return response;
         }
@@ -204,10 +208,10 @@ namespace info
                 }
                 catch (WebException ex)
                 {
-                    using (var stream = ex.Response.GetResponseStream())
-                    using (var reader = new StreamReader(stream))
+                    try
                     {
-                        try
+                        using (var stream = ex.Response.GetResponseStream())
+                        using (var reader = new StreamReader(stream))
                         {
                             Maintenance maintenance = JsonConvert.DeserializeObject<Maintenance>(reader.ReadToEnd());
                             DateTime dateTime = UnixTimeStampToDateTime(maintenance.TimeEnd);
@@ -224,18 +228,23 @@ namespace info
                                 Thread.Sleep(60000);
                             }
                         }
-                        catch (Exception e)
-                        {
-                            //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                            throw e;
-                        }
                     }
+                    catch (NullReferenceException)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    //catch (Exception e)
+                    //{
+                    //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                    //    throw e;
+                    //}
+
                 }
-                catch (Exception e)
-                {
-                    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                    throw e;
-                }
+                //catch (Exception e)
+                //{
+                //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
+                //    throw e;
+                //}
             }
         }
     }

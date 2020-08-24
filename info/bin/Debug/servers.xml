@@ -1,22 +1,9 @@
 <?xml version="1.0"?>
 <ArrayOfServer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Server>
-    <id>147</id>
-    <name>Azjol_Nerub</name>
-    <timeUpdate>1596107233</timeUpdate>
-    <idRecipes>
-      <int>128897</int>
-      <int>161970</int>
-      <int>161969</int>
-      <int>126988</int>
-      <int>161981</int>
-      <int>128881</int>
-    </idRecipes>
-  </Server>
-  <Server>
     <id>235</id>
     <name>svezewatel</name>
-    <timeUpdate>1596107238</timeUpdate>
+    <timeUpdate>1598278049</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>154161</int>
@@ -25,24 +12,12 @@
       <int>154689</int>
       <int>128881</int>
     </idRecipes>
-  </Server>
-  <Server>
-    <id>241</id>
-    <name>Twisting_Nether</name>
-    <timeUpdate>1596107245</timeUpdate>
-    <idRecipes>
-      <int>128897</int>
-      <int>154161</int>
-      <int>154160</int>
-      <int>126988</int>
-      <int>154689</int>
-      <int>128881</int>
-    </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
     <id>232</id>
     <name>Ravencrest</name>
-    <timeUpdate>1596107244</timeUpdate>
+    <timeUpdate>1598278056</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>161970</int>
@@ -51,24 +26,12 @@
       <int>161981</int>
       <int>128881</int>
     </idRecipes>
-  </Server>
-  <Server>
-    <id>195</id>
-    <name>malganis</name>
-    <timeUpdate>1596107229</timeUpdate>
-    <idRecipes>
-      <int>128897</int>
-      <int>161970</int>
-      <int>161969</int>
-      <int>126988</int>
-      <int>161981</int>
-      <int>128881</int>
-    </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
     <id>153</id>
     <name>Blackmoore</name>
-    <timeUpdate>1596107237</timeUpdate>
+    <timeUpdate>1598278050</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>154161</int>
@@ -77,24 +40,26 @@
       <int>154689</int>
       <int>128881</int>
     </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
-    <id>215</id>
-    <name>Kazzak</name>
-    <timeUpdate>1596107249</timeUpdate>
+    <id>195</id>
+    <name>malganis</name>
+    <timeUpdate>1598278040</timeUpdate>
     <idRecipes>
       <int>128897</int>
-      <int>154161</int>
-      <int>154160</int>
+      <int>161970</int>
+      <int>161969</int>
       <int>126988</int>
-      <int>154689</int>
+      <int>161981</int>
       <int>128881</int>
     </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
     <id>214</id>
     <name>Hyjal</name>
-    <timeUpdate>1596107242</timeUpdate>
+    <timeUpdate>1598278053</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>154161</int>
@@ -103,11 +68,26 @@
       <int>154689</int>
       <int>128881</int>
     </idRecipes>
+    <farmMode>false</farmMode>
+  </Server>
+  <Server>
+    <id>215</id>
+    <name>Kazzak</name>
+    <timeUpdate>1598278058</timeUpdate>
+    <idRecipes>
+      <int>128897</int>
+      <int>154161</int>
+      <int>154160</int>
+      <int>126988</int>
+      <int>154689</int>
+      <int>128881</int>
+    </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
     <id>234</id>
     <name>Silvermoon</name>
-    <timeUpdate>1596107249</timeUpdate>
+    <timeUpdate>1598278065</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>161970</int>
@@ -116,24 +96,12 @@
       <int>161981</int>
       <int>128881</int>
     </idRecipes>
-  </Server>
-  <Server>
-    <id>210</id>
-    <name>gorduni</name>
-    <timeUpdate>1596107244</timeUpdate>
-    <idRecipes>
-      <int>128897</int>
-      <int>161970</int>
-      <int>161969</int>
-      <int>126988</int>
-      <int>161981</int>
-      <int>128881</int>
-    </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
     <id>167</id>
     <name>Tyrande</name>
-    <timeUpdate>1596107229</timeUpdate>
+    <timeUpdate>1598278040</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>154161</int>
@@ -141,11 +109,40 @@
       <int>126988</int>
       <int>154689</int>
     </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
-    <id>213</id>
-    <name>Howling_Fjord</name>
-    <timeUpdate>1596107239</timeUpdate>
+    <id>147</id>
+    <name>Azjol_Nerub</name>
+    <timeUpdate>1598278044</timeUpdate>
+    <idRecipes>
+      <int>128897</int>
+      <int>161970</int>
+      <int>161969</int>
+      <int>126988</int>
+      <int>161981</int>
+      <int>128881</int>
+    </idRecipes>
+    <farmMode>false</farmMode>
+  </Server>
+  <Server>
+    <id>210</id>
+    <name>gorduni</name>
+    <timeUpdate>1598278056</timeUpdate>
+    <idRecipes>
+      <int>128897</int>
+      <int>161970</int>
+      <int>161969</int>
+      <int>126988</int>
+      <int>161981</int>
+      <int>128881</int>
+    </idRecipes>
+    <farmMode>false</farmMode>
+  </Server>
+  <Server>
+    <id>241</id>
+    <name>Twisting_Nether</name>
+    <timeUpdate>1598278059</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>154161</int>
@@ -154,11 +151,12 @@
       <int>154689</int>
       <int>128881</int>
     </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
   <Server>
     <id>134</id>
     <name>Antonidas</name>
-    <timeUpdate>1596107241</timeUpdate>
+    <timeUpdate>1598278052</timeUpdate>
     <idRecipes>
       <int>128897</int>
       <int>154161</int>
@@ -167,5 +165,20 @@
       <int>154689</int>
       <int>128881</int>
     </idRecipes>
+    <farmMode>false</farmMode>
+  </Server>
+  <Server>
+    <id>213</id>
+    <name>Howling_Fjord</name>
+    <timeUpdate>1598278050</timeUpdate>
+    <idRecipes>
+      <int>128897</int>
+      <int>154161</int>
+      <int>154160</int>
+      <int>126988</int>
+      <int>154689</int>
+      <int>128881</int>
+    </idRecipes>
+    <farmMode>false</farmMode>
   </Server>
 </ArrayOfServer>

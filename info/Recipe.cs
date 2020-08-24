@@ -17,32 +17,7 @@ namespace info
         public Recipe(RecipeData recipeData, Server server)
         {
             this.recipeData = recipeData;
-            float discount = 0f;
-            switch (server.reputation)
-            {
-                case Reputation.Neutral:
-                    {
-                        break;
-                    }
-                case Reputation.Frenly:
-                    {
-                        discount = 0.05f;
-                        break;
-                    }
-                case Reputation.Honored:
-                    {
-                        discount = 0.1f;
-                        break;
-                    }
-                case Reputation.Resived:
-                    {
-                        discount = 0.15f;
-                        break;
-                    }
-                default:
-                    throw new Exception("неизвестная репутация");
-            }
-            spending = Convert.ToInt64(recipeData.SPENDING * (1f - discount));
+            spending = Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
         }
 
         public void SetProfit(long costCraft)

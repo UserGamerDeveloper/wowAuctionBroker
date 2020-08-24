@@ -130,6 +130,7 @@ namespace info
         public string name;
         public long timeUpdate;
         public List<int> idRecipes;
+        public bool farmMode;
         [XmlIgnore]
         public List<RecipeData> recipes;
         [XmlIgnore]
@@ -148,15 +149,38 @@ namespace info
             this.id = (int)serverId;
             this.idRecipes = idRecipes;
             this.name = serverId.ToString();
+            farmMode = false;
         }
 
-        internal void SetRecipes(Dictionary<int, RecipeData> recipeData)
+        public float GetSpendingRate()
         {
-            recipes = new List<RecipeData>();
-            foreach (var idRecipe in idRecipes)
+            float discount = 0f;
+            switch (reputation)
             {
-                recipes.Add(recipeData[idRecipe]);
+                case Reputation.Neutral:
+                    {
+                        break;
+                    }
+                case Reputation.Frenly:
+                    {
+                        discount = 0.05f;
+                        break;
+                    }
+                case Reputation.Honored:
+                    {
+                        discount = 0.1f;
+                        break;
+                    }
+                case Reputation.Resived:
+                    {
+                        discount = 0.15f;
+                        break;
+                    }
+                default:
+                    throw new Exception("неизвестная репутация");
             }
+
+            return 1f - discount;
         }
 
         public long getTimeUpdate()
@@ -187,11 +211,9 @@ namespace info
             timeUpdate = getTimeUpdate();
         }
 
-        public void printAndLog()
+        public string GetNameAndTimeUpdate()
         {
-            string str = String.Format("{2}\n{0} {1}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
-            Console.WriteLine(str);
-            File.AppendAllText("log.txt", str + "\n");
+            return String.Format("{2}\n{0} {1}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
         }
 
         internal static void SortByTime(Server[] servers)
@@ -209,23 +231,24 @@ namespace info
             return URI_FORMAT + name;
         }
 
-        internal void SetData()
+        internal void SetData(RealmData realmData, Dictionary<int, RecipeData> recipeData)
         {
-            string s = File.ReadAllText(@"C:\Games\World of Warcraft\_retail_\WTF\Account\449681846#1\SavedVariables\getGoldAndRep.lua");
-            s = s.Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("DB = ", "").Replace("[", "").Replace("]", "").Replace("=", ":");
-            TokenAndRealmsDatas tokenAndRealmsDatas = JsonConvert.DeserializeObject<TokenAndRealmsDatas>(s);
-            RealmData realmData = tokenAndRealmsDatas.realmsDatasByIdHouse[id];
+            recipes = new List<RecipeData>();
+            foreach (var idRecipe in idRecipes)
+            {
+                recipes.Add(recipeData[idRecipe]);
+            }
+
             money = realmData.money;
             reputation = realmData.reputation;
             moneyMax = realmData.moneyMax;
         }
 
-        internal void Print()
+        internal string GetInfo()
         {
             long deltaMoney = moneyMax - money;
             string s = GetStringMitTab(name);
-            Console.WriteLine(
-                "{0}{1}{2:#,###}",
+            return String.Format("{0}{1}{2:#,###}",
                 s,
                 GetStringMitTab(String.Format("{0:#,###}", Util.convertAndFloorCopperToGold(money))),
                 Util.convertAndFloorCopperToGold(deltaMoney));

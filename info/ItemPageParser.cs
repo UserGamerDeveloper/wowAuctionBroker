@@ -235,136 +235,93 @@ namespace info
         const string URL_CAPTCHA_IMAGES_FORMAT = "https://theunderminejournal.com/captcha/{0}.jpg";
         const int timeOutDBPage = 5000;
 
+        static object locker = new object();
         ItemPage itemPage;
         List<Item> items = new List<Item>();
         int idBid;
 
         public ItemPageParser(int house, int idItem)
         {
-            while (true)
+            lock (locker)
             {
-                string responseStr = Util.GetResponse(
-                    String.Format(URL_ITEM_PAGE_FORMAT, house, idItem),
-                    "Exception_house.txt").Replace("[[", "[").Replace("]]", "]");
-                itemPage = JsonConvert.DeserializeObject<ItemPage>(responseStr);
-                bool isCaptcha = itemPage.auctions == null;
-                if (!isCaptcha)
+                while (true)
                 {
-                    if (itemPage.auctions.data.Count > 0)
+                    string responseStr = Util.GetResponse(
+                        String.Format(URL_ITEM_PAGE_FORMAT, house, idItem),
+                        "Exception_house.txt").Replace("[[", "[").Replace("]]", "]");
+                    itemPage = JsonConvert.DeserializeObject<ItemPage>(responseStr);
+                    bool isCaptcha = itemPage.auctions == null;
+                    if (!isCaptcha)
                     {
-                        itemPage.auctions.deleteInvalidDatas();
-                        foreach (var item in itemPage.auctions.data)
+                        if (itemPage.auctions.data.Count > 0)
                         {
-                            item.setCostPerItem();
+                            itemPage.auctions.deleteInvalidDatas();
+                            foreach (var item in itemPage.auctions.data)
+                            {
+                                item.setCostPerItem();
+                            }
+                            itemPage.auctions.data.Sort();
                         }
-                        itemPage.auctions.data.Sort();
+                        idBid = itemPage.auctions.data.Count - 1;
+                        break;
                     }
-                    idBid = itemPage.auctions.data.Count - 1;
-                    break;
-                }
-                else
-                {
-                    const string CAPTCHA = "\t\t\t Капча ";
-                    const string SUCCESS = "пройдена";
-                    const string DENIED = "не пройдена";
-                    //const string AUTO = " автоматически";
-                    const string DIRECTORY = "Captcha";
-
-                    Dictionary<Race, HashSet<string>> imagesHashesByRace =
-                        JsonConvert.DeserializeObject<Dictionary<Race, HashSet<string>>>(Util.ReadFile("captcha_hashes.txt"));
-                    SoundPlayer simpleSound = new SoundPlayer("music.wav");
-                    bool captchaSuccess = false;
-                    Response response = null;
-                    List<string> images = null;
-                    //bool firstCaptcha = true;
-                    while (!captchaSuccess)
+                    else
                     {
-                        Util.WriteAndLog(CAPTCHA);
-                        string answer = "";
-                        string answerFormat = "";
-                        images = new List<string>();
-                        response = JsonConvert.DeserializeObject<Response>(responseStr);
-                        Race race = response.Captcha.Lookfor;
-                        Directory.CreateDirectory(DIRECTORY);
-                        using (WebClient client = new WebClient())
-                        {
-                            int i = 1;
-                            foreach (var id in response.Captcha.Ids)
-                            {
-                                string image = String.Format("{0}/{1}.jpg", DIRECTORY, i);
-                                images.Add(image);
-                                client.DownloadFile(String.Format(URL_CAPTCHA_IMAGES_FORMAT, id), image);
-                                string hash = ComputeMD5Checksum(image);
-                                if (imagesHashesByRace[race].Contains(hash))
-                                {
-                                    answer += i;
-                                    answerFormat += i + " ";
-                                }
-                                //if (firstCaptcha)
-                                //{
-                                //}
-                                i++;
-                            }
-                        }
-                        //if (!firstCaptcha)
-                        //{
-                        //    System.Diagnostics.Process.Start("ImageGallery.exe", response.Captcha.Lookfor.ToString());
-                        //    simpleSound.PlayLooping();
-                        //    answer = Util.ReadFile("captcha_answer.txt");
-                        //    simpleSound.Stop();
-                        //}
-                        string urlCaptchaAnswer = String.Format(URL_CAPTCHA_ANSWER_FORMAT, answer/*.Replace(" ","")*/);
-                        responseStr = Util.GetResponse(urlCaptchaAnswer, "Exception_captcha.txt");
-                        captchaSuccess = responseStr.Equals("[]");
-                        if (!captchaSuccess)
-                        {
-                            Util.WriteLineAndLog(DENIED);
-                            Directory.Move(DIRECTORY, String.Format("{0} {1}{2}", race.ToString(), answerFormat, DateTime.Now.ToString().Replace(":", " ")));
-                            //if (!firstCaptcha)
-                            //{
-                            //}
-                            //else
-                            //{
-                            //    Util.WriteAndLog(DENIED);
-                            //    Util.WriteLineAndLog(AUTO);
-                            //}
-                        }
-                        else
-                        {
-                            Util.WriteLineAndLog(SUCCESS);
-                            foreach (var image in images)
-                            {
-                                Util.DeleteFile(image);
-                            }
-                            Directory.Delete(DIRECTORY);
-                            //if (!firstCaptcha)
-                            //{
-                            //    string[] idsImage = answer.Split(' ');
-                            //    foreach (var id in idsImage)
-                            //    {
-                            //        imagesHashesByRace[response.Captcha.Lookfor].Add(ComputeMD5Checksum(String.Format("Captcha/{0}.jpg", id)));
-                            //    }
-                            //    File.WriteAllText("captcha_hashes.txt", JsonConvert.SerializeObject(imagesHashesByRace));
-                            //}
-                            //else
-                            //{
-                            //    Util.WriteAndLog(SUCCESS);
-                            //    Util.WriteLineAndLog(AUTO);
-                            //}
-                        }
-                        //firstCaptcha = false;
-                        //Util.DeleteFile("captcha_answer.txt");
+                        const string CAPTCHA = "\t\t\t Капча ";
+                        const string SUCCESS = "пройдена";
+                        const string DENIED = "не пройдена";
+                        const string DIRECTORY = "Captcha";
 
-                        //switch (race)
-                        //{
-                        //    case Races.Blood_Elves:
-                        //        {
-                        //            Console.WriteLine(race.ToString());
-                        //            break;
-                        //        }
-                        //    default:
-                        //        break;
-                        //}
+                        Dictionary<Race, HashSet<string>> imagesHashesByRace =
+                            JsonConvert.DeserializeObject<Dictionary<Race, HashSet<string>>>(Util.ReadFile("captcha_hashes.txt"));
+                        SoundPlayer simpleSound = new SoundPlayer("music.wav");
+                        bool captchaSuccess = false;
+                        Response response = null;
+                        List<string> images = null;
+                        while (!captchaSuccess)
+                        {
+                            Util.WriteAndLog(CAPTCHA);
+                            string answer = "";
+                            string answerFormat = "";
+                            images = new List<string>();
+                            response = JsonConvert.DeserializeObject<Response>(responseStr);
+                            Race race = response.Captcha.Lookfor;
+                            Directory.CreateDirectory(DIRECTORY);
+                            using (WebClient client = new WebClient())
+                            {
+                                int i = 1;
+                                foreach (var id in response.Captcha.Ids)
+                                {
+                                    string image = String.Format("{0}/{1}.jpg", DIRECTORY, i);
+                                    images.Add(image);
+                                    client.DownloadFile(String.Format(URL_CAPTCHA_IMAGES_FORMAT, id), image);
+                                    string hash = ComputeMD5Checksum(image);
+                                    if (imagesHashesByRace[race].Contains(hash))
+                                    {
+                                        answer += i;
+                                        answerFormat += i + " ";
+                                    }
+                                    i++;
+                                }
+                            }
+                            string urlCaptchaAnswer = String.Format(URL_CAPTCHA_ANSWER_FORMAT, answer);
+                            responseStr = Util.GetResponse(urlCaptchaAnswer, "Exception_captcha.txt");
+                            captchaSuccess = responseStr.Equals("[]");
+                            if (!captchaSuccess)
+                            {
+                                Util.WriteLineAndLog(DENIED);
+                                Directory.Move(DIRECTORY, String.Format("{0} {1}{2}", race.ToString(), answerFormat, DateTime.Now.ToString().Replace(":", " ")));
+                            }
+                            else
+                            {
+                                Util.WriteLineAndLog(SUCCESS);
+                                foreach (var image in images)
+                                {
+                                    Util.DeleteFile(image);
+                                }
+                                Directory.Delete(DIRECTORY);
+                            }
+                        }
                     }
                 }
             }

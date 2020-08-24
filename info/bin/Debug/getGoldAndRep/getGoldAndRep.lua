@@ -6,8 +6,7 @@ local action = {
 		["UPDATE_FACTION"] = function() setReputation() end,
 		["PLAYER_MONEY"] = function() setMoney() end,
 		["TOKEN_MARKET_PRICE_UPDATED"] = function() setTokenPrice() end,
-		["TOKEN_REDEEM_RESULT"] = function() print("TOKEN_REDEEM_RESULT") end,
-		["TOKEN_SELL_RESULT"] = function() print("TOKEN_SELL_RESULT") end,
+		["TOKEN_REDEEM_RESULT"] = function() on_TOKEN_REDEEM() end,
 		["TOKEN_BUY_RESULT"] = function() print("TOKEN_BUY_RESULT") end,
 	}
 frame:RegisterEvent("PLAYER_LOGIN")
@@ -57,8 +56,12 @@ end
 		frame:RegisterEvent("UPDATE_FACTION")
 		frame:RegisterEvent("TOKEN_MARKET_PRICE_UPDATED")
 		frame:RegisterEvent("TOKEN_REDEEM_RESULT")
-		frame:RegisterEvent("TOKEN_SELL_RESULT")
 		frame:RegisterEvent("TOKEN_BUY_RESULT")
+end
+
+function on_TOKEN_REDEEM()
+	DB.realmsDatasByIdHouse[realmId].money = GetMoney();
+	DB.realmsDatasByIdHouse[realmId].moneyMax = GetMoney();
 end
 
 function setMoney()

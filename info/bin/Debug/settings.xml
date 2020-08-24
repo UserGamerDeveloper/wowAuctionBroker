@@ -2,4 +2,5 @@
 <Settings>
   <TARGET_PROFIT>1000</TARGET_PROFIT>
   <TARGET_INCOME_IN_HOUR>10000</TARGET_INCOME_IN_HOUR>
+  <WOW_PATH>C:\Games\World of Warcraft</WOW_PATH>
 </Settings>
