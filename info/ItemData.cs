@@ -8,7 +8,6 @@ using System.Xml.Serialization;
 
 namespace info
 {
-    //[JsonObject(MemberSerialization.OptIn)]
     [Serializable]
     public class ItemData
     {

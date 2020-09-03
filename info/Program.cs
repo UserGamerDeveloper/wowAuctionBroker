@@ -19,7 +19,7 @@ namespace info
         static Server[] servers;
         static Settings settings;
         static Dictionary<int, ItemData> ITEMS_DATA;
-        static object consoleLocker = new object();
+        static readonly object consoleLocker = new object();
         public static bool DEBUG = false;
         const string DELIMETR = "--------------------------------------------------------------------------------";
 
@@ -32,26 +32,31 @@ namespace info
                 //    DEBUG = true;
                 //    Console.WriteLine("DEBUG");
                 //}
-                start();
+                Start();
             }
             catch (Exception e)
             {
-                Exception ex = e;
-                string log = DateTime.Now.ToString() + "\n";
-                while (ex!=null)
-                {
-                    log += String.Format("{0} {1} \n", ex.TargetSite.Name, ex.Message);
-                    ex = ex.InnerException;
-                }
-                File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
-                Console.WriteLine("Надо перезагрузить\n");
-                SoundPlayer alert = new SoundPlayer("music.wav");
-                alert.PlayLooping();
-                Console.ReadLine();
+                ExceptionLogAndAlert(e);
             }
         }
 
-        private static void start()
+        private static void ExceptionLogAndAlert(Exception e)
+        {
+            Exception ex = e;
+            string log = DateTime.Now.ToString() + "\n";
+            while (ex != null)
+            {
+                log += String.Format("{0} {1} \n", ex.TargetSite.Name, ex.Message);
+                ex = ex.InnerException;
+            }
+            File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
+            Console.WriteLine("Надо перезагрузить\n");
+            SoundPlayer alert = new SoundPlayer("music.wav");
+            alert.PlayLooping();
+            Console.ReadLine();
+        }
+
+        private static void Start()
         {
             DeserializeServers();
             //SerializeServers();
@@ -69,62 +74,17 @@ namespace info
             Dictionary<int, RecipeData> recipeDataById = DeserializeRecipes();
 
             string getGoldAndRepStr = File.ReadAllText(settings.WOW_PATH + @"\_retail_\WTF\Account\449681846#1\SavedVariables\getGoldAndRep.lua");
-            getGoldAndRepStr = getGoldAndRepStr.Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("DB = ", "").Replace("[", "").Replace("]", "").Replace("=", ":");
-            TokenAndRealmsDatas tokenAndRealmsDatas = JsonConvert.DeserializeObject<TokenAndRealmsDatas>(getGoldAndRepStr);
+            TokenAndRealmsDatas tokenAndRealmsDatas = JsonConvert.DeserializeObject<TokenAndRealmsDatas>(ConvertLuaDataToJSON(getGoldAndRepStr));
 
             foreach (var server in servers)
             {
                 server.SetData(tokenAndRealmsDatas.realmsDatasByIdHouse[server.id], recipeDataById);
-                List<RecipeData> serverRecipesList = new List<RecipeData>(server.recipes);
-                while (serverRecipesList.Count > 0)
-                {
-                    HashSet<RecipeData> recipeDataTree = new HashSet<RecipeData>();
-                    foreach (var idItem in serverRecipesList[0].ID_ITEM_AND_NEED_AMOUNT.Keys)
-                    {
-                        foreach (RecipeData recipe in serverRecipesList)
-                        {
-                            if (recipe.ID_ITEM_AND_NEED_AMOUNT.ContainsKey(idItem))
-                            {
-                                recipeDataTree.Add(recipe);
-                            }
-                        }
-                    }
-                    List<RecipeData> recipeDataList = new List<RecipeData>(recipeDataTree);
-                    recipeDataList.Remove(server.recipes[0]);
-                    while (recipeDataList.Count > 0)
-                    {
-                        RecipeData recipeData = recipeDataList[0];
-                        recipeDataList.Remove(recipeData);
-
-                        foreach (var idItem in recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
-                        {
-                            List<RecipeData> recipeDataListNotInTree = new List<RecipeData>(server.recipes);
-                            foreach (var item in recipeDataTree)
-                            {
-                                recipeDataListNotInTree.Remove(item);
-                            }
-                            foreach (RecipeData recipe in recipeDataListNotInTree)
-                            {
-                                if (recipe.ID_ITEM_AND_NEED_AMOUNT.ContainsKey(idItem))
-                                {
-                                    recipeDataTree.Add(recipe);
-                                    recipeDataList.Add(recipe);
-                                }
-                            }
-                        }
-                    }
-                    foreach (var item in recipeDataTree)
-                    {
-                        serverRecipesList.Remove(item);
-                    }
-                    server.recipeDataTrees.Add(recipeDataTree);
-                }
             }
             Server.SortByMoney(servers);
             string serversInfo = "";
             foreach (var server in servers)
             {
-                serversInfo += server.GetInfo()+ "\n";
+                serversInfo += server.GetInfo() + "\n";
             }
             Util.WriteLineAndLog(serversInfo);
             Util.WriteLineAndLog(DELIMETR);
@@ -133,8 +93,14 @@ namespace info
 
             foreach (var server in servers)
             {
-                new Thread(new ParameterizedThreadStart(parseServer)).Start(server);
+                new Thread(new ParameterizedThreadStart(ParseServer)).Start(server);
             }
+        }
+
+        private static string ConvertLuaDataToJSON(string getGoldAndRepStr)
+        {
+            getGoldAndRepStr = getGoldAndRepStr.Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("DB = ", "").Replace("[", "").Replace("]", "").Replace("=", ":");
+            return getGoldAndRepStr;
         }
 
         private static Dictionary<int, RecipeData> DeserializeRecipes()
@@ -366,160 +332,167 @@ namespace info
             };
         }
 
-        private static void parseServer(object obj)
+        private static void ParseServer(object obj)
         {
-            Server server = obj as Server;
-            while (true)
+            try
             {
-                DateTime dateTime = Util.UnixTimeStampToDateTime(server.timeUpdate);
-                DateTime timeNextUpdate = dateTime.AddHours(1d).AddMinutes(Util.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA);
-                if (timeNextUpdate.CompareTo(DateTime.Now) == -1)
+                Server server = obj as Server;
+                while (true)
                 {
-                    if (server.hasUpdate())
+                    DateTime dateTime = Util.UnixTimeStampToDateTime(server.timeUpdate);
+                    DateTime timeNextUpdate = dateTime.AddHours(1d).AddMinutes(Util.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA);
+                    if (timeNextUpdate.CompareTo(DateTime.Now) == -1)
                     {
-                        int targetIncomeInHour;
-                        int targetProfit;
-                        if (server.farmMode)
+                        if (server.HasUpdate())
                         {
-                            targetIncomeInHour = 0;
-                            targetProfit = 0;
-                        }
-                        else
-                        {
-                            targetIncomeInHour = settings.TARGET_INCOME_IN_HOUR;
-                            targetProfit = settings.TARGET_PROFIT;
-                        }
-                        List<Recipe> recipes = GetRecipes(server, targetIncomeInHour);
-
-                        recipes.Sort();
-
-                        long globalProfit = 0;
-                        DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-                        Dictionary<int, List<Recipe>> recipesById = new Dictionary<int, List<Recipe>>();
-                        Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
-                        Dictionary<int, long> summaryProfitRecipesByRecipeId = new Dictionary<int, long>();
-                        foreach (var recipe in recipes)
-                        {
-                            if (!recipesById.ContainsKey(recipe.recipeData.ID))
+                            int targetIncomeInHour;
+                            int targetProfit;
+                            if (server.farmMode)
                             {
-                                recipesById.Add(recipe.recipeData.ID, new List<Recipe>());
-                            }
-                            if (!summaryIncomeRecipesByRecipeId.ContainsKey(recipe.recipeData.ID))
-                            {
-                                summaryIncomeRecipesByRecipeId.Add(recipe.recipeData.ID, 0f);
-                            }
-                            if (!summaryProfitRecipesByRecipeId.ContainsKey(recipe.recipeData.ID))
-                            {
-                                summaryProfitRecipesByRecipeId.Add(recipe.recipeData.ID, 0);
-                            }
-                            globalProfit += recipe.profit;
-                            summaryProfitRecipesByRecipeId[recipe.recipeData.ID] += recipe.profit;
-                            recipesById[recipe.recipeData.ID].Add(recipe);
-                            summaryIncomeRecipesByRecipeId[recipe.recipeData.ID] += recipe.incomeGoldInHour;
-                            timeNeed = timeNeed.AddMilliseconds(recipe.recipeData.TIME_NEED);
-                        }
-
-                        Dictionary<int, double> averageIncomeRecipesByRecipeId = new Dictionary<int, double>();
-                        foreach (var summaryIncomeRecipeByRecipeIdKey in summaryIncomeRecipesByRecipeId.Keys)
-                        {
-                            averageIncomeRecipesByRecipeId.Add(
-                                summaryIncomeRecipeByRecipeIdKey,
-                                summaryIncomeRecipesByRecipeId[summaryIncomeRecipeByRecipeIdKey] / recipesById[summaryIncomeRecipeByRecipeIdKey].Count);
-                        }
-                        double incomeInHour = Util.getIncomeGoldInHour(globalProfit, timeNeed);
-                        const string STRING = "Профит ";
-                        string globalProfitString = Math.Floor(Util.convertCopperToGold(globalProfit)) + " " + Math.Floor(incomeInHour) + " " +
-                            Math.Floor(Util.getTimeInMinuts(timeNeed)) + " мин " + recipes.Count;
-                        string printStr = server.GetNameAndTimeUpdate();
-
-                        foreach (var averageIncomeRecipeByRecipeIdPair in averageIncomeRecipesByRecipeId.OrderByDescending(pair => pair.Value))
-                        {
-                            int recipeId = averageIncomeRecipeByRecipeIdPair.Key;
-                            printStr += String.Format(
-                                "\n\t{0} {3} \t\t\tПрофит: {1} {2}\n",
-                                recipesById[recipeId][0].recipeData.name,
-                                Math.Floor(Util.convertCopperToGold(summaryProfitRecipesByRecipeId[recipeId])),
-                                Math.Floor(averageIncomeRecipeByRecipeIdPair.Value),
-                                recipesById[recipeId].Count);
-                            foreach (var itemId in recipesById[recipeId][0].recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
-                            {
-                                Dictionary<long, List<Item>> bidsItemInRecipeByCost = new Dictionary<long, List<Item>>();
-                                foreach (var recipe in recipesById[recipeId])
-                                {
-                                    foreach (var item in recipe.items[itemId])
-                                    {
-                                        if (!bidsItemInRecipeByCost.ContainsKey(item.cost))
-                                        {
-                                            bidsItemInRecipeByCost.Add(item.cost, new List<Item>());
-                                        }
-                                        bidsItemInRecipeByCost[item.cost].Add(item);
-                                    }
-                                }
-                                long maxPrice = 0;
-                                foreach (var bidsItemInRecipeByCostPair in bidsItemInRecipeByCost.OrderByDescending(pair => pair.Key))
-                                {
-                                    maxPrice = bidsItemInRecipeByCostPair.Key;
-                                    if (bidsItemInRecipeByCostPair.Value.Count >= recipesById[recipeId][0].recipeData.ID_ITEM_AND_NEED_AMOUNT[itemId])
-                                    {
-                                        break;
-                                    }
-                                }
-                                printStr += String.Format(
-                                    "\t\t{0}\n\t\t\tМакс цена: \t{1:# ##}\n",
-                                    ITEMS_DATA[itemId].itemName,
-                                    Util.convertCopperToSilver(maxPrice));
-                            }
-                        }
-                        lock (consoleLocker)
-                        {
-                            Util.WriteLineAndLog(printStr);
-                            if (Util.convertCopperToGold(globalProfit) > targetProfit)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.Write(STRING);
-                                Console.ResetColor();
-                                Console.WriteLine(globalProfitString);
-
-                                SoundPlayer simpleSound = new SoundPlayer("music.wav");
-                                simpleSound.PlayLooping();
-                                Console.ReadLine();
-                                simpleSound.Stop();
+                                targetIncomeInHour = 0;
+                                targetProfit = 0;
                             }
                             else
                             {
-                                if (globalProfit > 0)
+                                targetIncomeInHour = settings.TARGET_INCOME_IN_HOUR;
+                                targetProfit = settings.TARGET_PROFIT;
+                            }
+                            List<Recipe> recipes = GetRecipes(server, targetIncomeInHour);
+
+                            recipes.Sort();
+
+                            long globalProfit = 0;
+                            DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                            Dictionary<int, List<Recipe>> recipesById = new Dictionary<int, List<Recipe>>();
+                            Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
+                            Dictionary<int, long> summaryProfitRecipesByRecipeId = new Dictionary<int, long>();
+                            foreach (var recipe in recipes)
+                            {
+                                if (!recipesById.ContainsKey(recipe.recipeData.ID))
                                 {
-                                    Console.WriteLine(STRING + globalProfitString);
-                                    SoundPlayer alert = new SoundPlayer("alert.wav");
-                                    alert.Play();
+                                    recipesById.Add(recipe.recipeData.ID, new List<Recipe>());
+                                }
+                                if (!summaryIncomeRecipesByRecipeId.ContainsKey(recipe.recipeData.ID))
+                                {
+                                    summaryIncomeRecipesByRecipeId.Add(recipe.recipeData.ID, 0f);
+                                }
+                                if (!summaryProfitRecipesByRecipeId.ContainsKey(recipe.recipeData.ID))
+                                {
+                                    summaryProfitRecipesByRecipeId.Add(recipe.recipeData.ID, 0);
+                                }
+                                globalProfit += recipe.profit;
+                                summaryProfitRecipesByRecipeId[recipe.recipeData.ID] += recipe.profit;
+                                recipesById[recipe.recipeData.ID].Add(recipe);
+                                summaryIncomeRecipesByRecipeId[recipe.recipeData.ID] += recipe.incomeGoldInHour;
+                                timeNeed = timeNeed.AddMilliseconds(recipe.recipeData.TIME_NEED);
+                            }
+
+                            Dictionary<int, double> averageIncomeRecipesByRecipeId = new Dictionary<int, double>();
+                            foreach (var summaryIncomeRecipeByRecipeIdKey in summaryIncomeRecipesByRecipeId.Keys)
+                            {
+                                averageIncomeRecipesByRecipeId.Add(
+                                    summaryIncomeRecipeByRecipeIdKey,
+                                    summaryIncomeRecipesByRecipeId[summaryIncomeRecipeByRecipeIdKey] / recipesById[summaryIncomeRecipeByRecipeIdKey].Count);
+                            }
+                            double incomeInHour = Util.getIncomeGoldInHour(globalProfit, timeNeed);
+                            const string STRING = "Профит ";
+                            string globalProfitString = Math.Floor(Util.convertCopperToGold(globalProfit)) + " " + Math.Floor(incomeInHour) + " " +
+                                Math.Floor(Util.getTimeInMinuts(timeNeed)) + " мин " + recipes.Count;
+                            string printStr = server.GetNameAndTimeUpdate();
+
+                            foreach (var averageIncomeRecipeByRecipeIdPair in averageIncomeRecipesByRecipeId.OrderByDescending(pair => pair.Value))
+                            {
+                                int recipeId = averageIncomeRecipeByRecipeIdPair.Key;
+                                printStr += String.Format(
+                                    "\n\t{0} {3} \t\t\tПрофит: {1} {2}\n",
+                                    recipesById[recipeId][0].recipeData.name,
+                                    Math.Floor(Util.convertCopperToGold(summaryProfitRecipesByRecipeId[recipeId])),
+                                    Math.Floor(averageIncomeRecipeByRecipeIdPair.Value),
+                                    recipesById[recipeId].Count);
+                                foreach (var itemId in recipesById[recipeId][0].recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                                {
+                                    Dictionary<long, List<Item>> bidsItemInRecipeByCost = new Dictionary<long, List<Item>>();
+                                    foreach (var recipe in recipesById[recipeId])
+                                    {
+                                        foreach (var item in recipe.items[itemId])
+                                        {
+                                            if (!bidsItemInRecipeByCost.ContainsKey(item.cost))
+                                            {
+                                                bidsItemInRecipeByCost.Add(item.cost, new List<Item>());
+                                            }
+                                            bidsItemInRecipeByCost[item.cost].Add(item);
+                                        }
+                                    }
+                                    long maxPrice = 0;
+                                    foreach (var bidsItemInRecipeByCostPair in bidsItemInRecipeByCost.OrderByDescending(pair => pair.Key))
+                                    {
+                                        maxPrice = bidsItemInRecipeByCostPair.Key;
+                                        if (bidsItemInRecipeByCostPair.Value.Count >= recipesById[recipeId][0].recipeData.ID_ITEM_AND_NEED_AMOUNT[itemId])
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    printStr += String.Format(
+                                        "\t\t{0}\n\t\t\tМакс цена: \t{1:# ##}\n",
+                                        ITEMS_DATA[itemId].itemName,
+                                        Util.convertCopperToSilver(maxPrice));
                                 }
                             }
-                            File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");
-
-                            using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
+                            lock (consoleLocker)
                             {
-                                XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server[]));
-                                serverXmlSerializer.Serialize(fs, servers);
+                                Util.WriteLineAndLog(printStr);
+                                if (Util.convertCopperToGold(globalProfit) > targetProfit)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.Write(STRING);
+                                    Console.ResetColor();
+                                    Console.WriteLine(globalProfitString);
+
+                                    SoundPlayer simpleSound = new SoundPlayer("music.wav");
+                                    simpleSound.PlayLooping();
+                                    Console.ReadLine();
+                                    simpleSound.Stop();
+                                }
+                                else
+                                {
+                                    if (globalProfit > 0)
+                                    {
+                                        Console.WriteLine(STRING + globalProfitString);
+                                        SoundPlayer alert = new SoundPlayer("alert.wav");
+                                        alert.Play();
+                                    }
+                                }
+                                File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");
+
+                                using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
+                                {
+                                    XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server[]));
+                                    serverXmlSerializer.Serialize(fs, servers);
+                                }
+                                Console.WriteLine();
                             }
-                            Console.WriteLine();
+                        }
+                        else
+                        {
+                            Thread.Sleep(60000);
                         }
                     }
                     else
                     {
-                        Thread.Sleep(60000);
+                        Thread.Sleep(1000);
                     }
                 }
-                else
-                {
-                    Thread.Sleep(1000);
-                }
+            }
+            catch (Exception e)
+            {
+                ExceptionLogAndAlert(e);
             }
         }
 
         private static List<Recipe> GetRecipes(Server server, int targetIncomeInHour)
         {
             List<Recipe> recipes = new List<Recipe>();
-            foreach (var recipeDataTree in server.recipeDataTrees)
+            foreach (var recipeDataTree in server.RecipeDataTrees)
             {
                 HashSet<ItemData> itemsDataTree = new HashSet<ItemData>();
                 foreach (var recipeData in recipeDataTree)

@@ -105,7 +105,6 @@ namespace info
         public long tokenPrice { get; set; }
     }
 
-    //[JsonObject(MemberSerialization.OptIn)]
     [Serializable]
     public class Server
     {
@@ -132,15 +131,13 @@ namespace info
         public List<int> idRecipes;
         public bool farmMode;
         [XmlIgnore]
-        public List<RecipeData> recipes;
+        public List<HashSet<RecipeData>> RecipeDataTrees { get; } = new List<HashSet<RecipeData>>();
         [XmlIgnore]
-        public List<HashSet<RecipeData>> recipeDataTrees = new List<HashSet<RecipeData>>();
+        private long money;
         [XmlIgnore]
-        public long money;
+        private long moneyMax;
         [XmlIgnore]
-        public long moneyMax;
-        [XmlIgnore]
-        public Reputation reputation;
+        private Reputation reputation;
 
         public Server() { }
 
@@ -183,37 +180,28 @@ namespace info
             return 1f - discount;
         }
 
-        public long getTimeUpdate()
+        private void RefreshTimeUpdate()
         {
             House house = JsonConvert.DeserializeObject<House>(Util.GetResponse(String.Format(URI_FORMAT, id), "Exception_house.txt"));
 
             DateTime time = Util.UnixTimeStampToDateTime(house.Timestamps.Lastupdate);
 
-            if (time.AddMinutes(Util.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA).CompareTo(DateTime.Now) != -1)
+            if (time.AddMinutes(Util.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA).CompareTo(DateTime.Now) == -1)
             {
-                return timeUpdate;
-            }
-            else
-            {
-                return new DateTimeOffset(time).ToUnixTimeSeconds();
+                timeUpdate = house.Timestamps.Lastupdate;
             }
         }
 
-        public bool hasUpdate()
+        public bool HasUpdate()
         {
             long oldTime = timeUpdate;
-            setTimeUpdate();
+            RefreshTimeUpdate();
             return timeUpdate != oldTime;
-        }
-
-        public void setTimeUpdate()
-        {
-            timeUpdate = getTimeUpdate();
         }
 
         public string GetNameAndTimeUpdate()
         {
-            return String.Format("{2}\n{0} {1}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now);
+            return String.Format("{2}\n{0} {1} {3}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now, farmMode.ToString());
         }
 
         internal static void SortByTime(Server[] servers)
@@ -226,22 +214,62 @@ namespace info
             Array.Sort(servers, new ComparerByMoney());
         }
 
-        internal string getUri()
+        internal void SetData(RealmData realmData, Dictionary<int, RecipeData> recipeDataByIdRecipe)
         {
-            return URI_FORMAT + name;
-        }
-
-        internal void SetData(RealmData realmData, Dictionary<int, RecipeData> recipeData)
-        {
-            recipes = new List<RecipeData>();
+            List<RecipeData> recipes = new List<RecipeData>();
             foreach (var idRecipe in idRecipes)
             {
-                recipes.Add(recipeData[idRecipe]);
+                recipes.Add(recipeDataByIdRecipe[idRecipe]);
             }
 
             money = realmData.money;
             reputation = realmData.reputation;
             moneyMax = realmData.moneyMax;
+
+            List<RecipeData> serverRecipesList = new List<RecipeData>(recipes);
+            while (serverRecipesList.Count > 0)
+            {
+                HashSet<RecipeData> recipeDataTree = new HashSet<RecipeData>();
+                foreach (var idItem in serverRecipesList[0].ID_ITEM_AND_NEED_AMOUNT.Keys)
+                {
+                    foreach (RecipeData recipe in serverRecipesList)
+                    {
+                        if (recipe.ID_ITEM_AND_NEED_AMOUNT.ContainsKey(idItem))
+                        {
+                            recipeDataTree.Add(recipe);
+                        }
+                    }
+                }
+                List<RecipeData> recipeDataList = new List<RecipeData>(recipeDataTree);
+                recipeDataList.Remove(recipes[0]);
+                while (recipeDataList.Count > 0)
+                {
+                    RecipeData recipeData = recipeDataList[0];
+                    recipeDataList.Remove(recipeData);
+
+                    foreach (var idItem in recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                    {
+                        List<RecipeData> recipeDataListNotInTree = new List<RecipeData>(recipes);
+                        foreach (var item in recipeDataTree)
+                        {
+                            recipeDataListNotInTree.Remove(item);
+                        }
+                        foreach (RecipeData recipe in recipeDataListNotInTree)
+                        {
+                            if (recipe.ID_ITEM_AND_NEED_AMOUNT.ContainsKey(idItem))
+                            {
+                                recipeDataTree.Add(recipe);
+                                recipeDataList.Add(recipe);
+                            }
+                        }
+                    }
+                }
+                foreach (var item in recipeDataTree)
+                {
+                    serverRecipesList.Remove(item);
+                }
+                RecipeDataTrees.Add(recipeDataTree);
+            }
         }
 
         internal string GetInfo()
