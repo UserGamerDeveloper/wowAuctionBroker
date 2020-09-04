@@ -145,29 +145,29 @@ namespace info
                     [JsonProperty("bonuses")]
                     public object Bonuses { get; set; }
                     [JsonIgnore]
-                    public long costPerItem { get; set; }
+                    public long CostPerItem { get; set; }
 
                     public int CompareTo(object obj)
                     {
                         Data data = obj as Data;
-                        return data.costPerItem.CompareTo(costPerItem);
+                        return data.CostPerItem.CompareTo(CostPerItem);
                     }
 
-                    public void setCostPerItem()
+                    public void SetCostPerItem()
                     {
-                        costPerItem = Buy / Quantity;
+                        CostPerItem = Buy / Quantity;
                     }
                 }
 
                 [JsonProperty("data")]
-                public List<Data> data { get; set; }
+                public List<Data> ItemsData { get; set; }
                 [JsonProperty("hydrate")]
                 public List<object> Hydrate { get; set; }
 
-                public void deleteInvalidDatas()
+                public void DeleteInvalidData()
                 {
                     List<Data> invalidDatas = new List<Data>();
-                    foreach (var item in data)
+                    foreach (var item in ItemsData)
                     {
                         if (item.Quantity == 0)
                         {
@@ -176,7 +176,7 @@ namespace info
                     }
                     foreach (var item in invalidDatas)
                     {
-                        data.Remove(item);
+                        ItemsData.Remove(item);
                     }
                 }
             }
@@ -248,16 +248,16 @@ namespace info
                     bool isCaptcha = itemPage.auctions == null;
                     if (!isCaptcha)
                     {
-                        if (itemPage.auctions.data.Count > 0)
+                        if (itemPage.auctions.ItemsData.Count > 0)
                         {
-                            itemPage.auctions.deleteInvalidDatas();
-                            foreach (var item in itemPage.auctions.data)
+                            itemPage.auctions.DeleteInvalidData();
+                            foreach (var item in itemPage.auctions.ItemsData)
                             {
-                                item.setCostPerItem();
+                                item.SetCostPerItem();
                             }
-                            itemPage.auctions.data.Sort();
+                            itemPage.auctions.ItemsData.Sort();
                         }
-                        idBid = itemPage.auctions.data.Count - 1;
+                        idBid = itemPage.auctions.ItemsData.Count - 1;
                         break;
                     }
                     else
@@ -328,7 +328,7 @@ namespace info
 
         public long GetCostPerItem()
         {
-            return itemPage.auctions.data[idBid].Buy / itemPage.auctions.data[idBid].Quantity;
+            return itemPage.auctions.ItemsData[idBid].Buy / itemPage.auctions.ItemsData[idBid].Quantity;
         }
 
         internal bool HasRequiredAmount(int amount)
@@ -343,7 +343,7 @@ namespace info
                 {
                     if (idBid >= 0)
                     {
-                        for (int j = 0; j < itemPage.auctions.data[idBid].Quantity; j++)
+                        for (int j = 0; j < itemPage.auctions.ItemsData[idBid].Quantity; j++)
                         {
                             items.Add(new Item(GetCostPerItem()));
                         }

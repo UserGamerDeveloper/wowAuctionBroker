@@ -1,5 +1,4 @@
-﻿using HtmlAgilityPack;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,101 +12,101 @@ using System.Xml.Serialization;
 
 namespace info
 {
-    public class House
-    {
-        [JsonProperty("timestamps")]
-        public Timestamps Timestamps { get; set; }
-        [JsonProperty("mostAvailable")]
-        public List<MostAvailable> MostAvailable { get; set; }
-        [JsonProperty("deals")]
-        public List<Deal> Deals { get; set; }
-    }
-    public class Timestamps
-    {
-        [JsonProperty("scheduled")]
-        public int Scheduled { get; set; }
-        [JsonProperty("delayednext")]
-        public object Delayednext { get; set; }
-        [JsonProperty("lastupdate")]
-        public int Lastupdate { get; set; }
-        [JsonProperty("mindelta")]
-        public int Mindelta { get; set; }
-        [JsonProperty("avgdelta")]
-        public int Avgdelta { get; set; }
-        [JsonProperty("maxdelta")]
-        public int Maxdelta { get; set; }
-        [JsonProperty("lastcheck")]
-        public int Lastcheck { get; set; }
-        [JsonProperty("lastsuccess")]
-        public int Lastsuccess { get; set; }
-    }
-    public class MostAvailable
-    {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-        [JsonProperty("requiredside")]
-        public string Requiredside { get; set; }
-        [JsonProperty("name_enus")]
-        public string NameEnus { get; set; }
-        [JsonProperty("name_dede")]
-        public string NameDede { get; set; }
-        [JsonProperty("name_eses")]
-        public string NameEses { get; set; }
-        [JsonProperty("name_frfr")]
-        public string NameFrfr { get; set; }
-        [JsonProperty("name_itit")]
-        public string NameItit { get; set; }
-        [JsonProperty("name_ptbr")]
-        public string NamePtbr { get; set; }
-        [JsonProperty("name_ruru")]
-        public string NameRuru { get; set; }
-        [JsonProperty("name_zhtw")]
-        public string NameZhtw { get; set; }
-        [JsonProperty("name_kokr")]
-        public string NameKokr { get; set; }
-    }
-    public class Deal
-    {
-        [JsonProperty("id")]
-        public int Id { get; set; }
-        [JsonProperty("requiredside")]
-        public string Requiredside { get; set; }
-        [JsonProperty("name_enus")]
-        public string NameEnus { get; set; }
-        [JsonProperty("name_dede")]
-        public string NameDede { get; set; }
-        [JsonProperty("name_eses")]
-        public string NameEses { get; set; }
-        [JsonProperty("name_frfr")]
-        public string NameFrfr { get; set; }
-        [JsonProperty("name_itit")]
-        public string NameItit { get; set; }
-        [JsonProperty("name_ptbr")]
-        public string NamePtbr { get; set; }
-        [JsonProperty("name_ruru")]
-        public string NameRuru { get; set; }
-        [JsonProperty("name_zhtw")]
-        public string NameZhtw { get; set; }
-        [JsonProperty("name_kokr")]
-        public string NameKokr { get; set; }
-    }
-
     public class RealmData
     {
-        public long moneyMax { get; set; }
-        public long money { get; set; }
-        public Reputation reputation { get; set; }
+        public long MoneyMax { get; set; }
+        public long Money { get; set; }
+        public Reputation Reputation { get; set; }
     }
 
     public class TokenAndRealmsDatas
     {
-        public Dictionary<int, RealmData> realmsDatasByIdHouse { get; set; }
-        public long tokenPrice { get; set; }
+        public Dictionary<int, RealmData> RealmsDatasByIdHouse { get; set; }
+        public long TokenPrice { get; set; }
     }
 
     [Serializable]
     public class Server
     {
+        private class House
+        {
+            [JsonProperty("timestamps")]
+            public Timestamps Timestamps { get; set; }
+            [JsonProperty("mostAvailable")]
+            public List<MostAvailable> MostAvailable { get; set; }
+            [JsonProperty("deals")]
+            public List<Deal> Deals { get; set; }
+        }
+        private class Timestamps
+        {
+            [JsonProperty("scheduled")]
+            public int Scheduled { get; set; }
+            [JsonProperty("delayednext")]
+            public object Delayednext { get; set; }
+            [JsonProperty("lastupdate")]
+            public int Lastupdate { get; set; }
+            [JsonProperty("mindelta")]
+            public int Mindelta { get; set; }
+            [JsonProperty("avgdelta")]
+            public int Avgdelta { get; set; }
+            [JsonProperty("maxdelta")]
+            public int Maxdelta { get; set; }
+            [JsonProperty("lastcheck")]
+            public int Lastcheck { get; set; }
+            [JsonProperty("lastsuccess")]
+            public int Lastsuccess { get; set; }
+        }
+        private class MostAvailable
+        {
+            [JsonProperty("id")]
+            public int Id { get; set; }
+            [JsonProperty("requiredside")]
+            public string Requiredside { get; set; }
+            [JsonProperty("name_enus")]
+            public string NameEnus { get; set; }
+            [JsonProperty("name_dede")]
+            public string NameDede { get; set; }
+            [JsonProperty("name_eses")]
+            public string NameEses { get; set; }
+            [JsonProperty("name_frfr")]
+            public string NameFrfr { get; set; }
+            [JsonProperty("name_itit")]
+            public string NameItit { get; set; }
+            [JsonProperty("name_ptbr")]
+            public string NamePtbr { get; set; }
+            [JsonProperty("name_ruru")]
+            public string NameRuru { get; set; }
+            [JsonProperty("name_zhtw")]
+            public string NameZhtw { get; set; }
+            [JsonProperty("name_kokr")]
+            public string NameKokr { get; set; }
+        }
+        private class Deal
+        {
+            [JsonProperty("id")]
+            public int Id { get; set; }
+            [JsonProperty("requiredside")]
+            public string Requiredside { get; set; }
+            [JsonProperty("name_enus")]
+            public string NameEnus { get; set; }
+            [JsonProperty("name_dede")]
+            public string NameDede { get; set; }
+            [JsonProperty("name_eses")]
+            public string NameEses { get; set; }
+            [JsonProperty("name_frfr")]
+            public string NameFrfr { get; set; }
+            [JsonProperty("name_itit")]
+            public string NameItit { get; set; }
+            [JsonProperty("name_ptbr")]
+            public string NamePtbr { get; set; }
+            [JsonProperty("name_ruru")]
+            public string NameRuru { get; set; }
+            [JsonProperty("name_zhtw")]
+            public string NameZhtw { get; set; }
+            [JsonProperty("name_kokr")]
+            public string NameKokr { get; set; }
+        }
+
         class ComparerByTime : IComparer<Server>
         {
             public int Compare(Server s1, Server s2)
@@ -222,9 +221,9 @@ namespace info
                 recipes.Add(recipeDataByIdRecipe[idRecipe]);
             }
 
-            money = realmData.money;
-            reputation = realmData.reputation;
-            moneyMax = realmData.moneyMax;
+            money = realmData.Money;
+            reputation = realmData.Reputation;
+            moneyMax = realmData.MoneyMax;
 
             List<RecipeData> serverRecipesList = new List<RecipeData>(recipes);
             while (serverRecipesList.Count > 0)

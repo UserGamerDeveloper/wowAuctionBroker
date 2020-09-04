@@ -13,6 +13,8 @@ namespace info
         public double TIME_NEED;
         public string name;
         public long SPENDING;
+        [XmlIgnore]
+        public HashSet<ItemData> ItemsData = new HashSet<ItemData>();
 
         public RecipeData(RecipeInfo recipeInfo, XmlSerializableDictionary<int, int> dictionary, int SELL_PRICE, double TIME_NEED, long SPENDING)
         {
@@ -25,5 +27,13 @@ namespace info
         }
 
         RecipeData() { }
+
+        internal void SetData(Dictionary<int, ItemData> itemsDataById)
+        {
+            foreach (var itemId in ID_ITEM_AND_NEED_AMOUNT.Keys)
+            {
+                ItemsData.Add(itemsDataById[itemId]);
+            }
+        }
     }
 }

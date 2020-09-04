@@ -18,7 +18,6 @@ namespace info
     {
         static Server[] servers;
         static Settings settings;
-        static Dictionary<int, ItemData> ITEMS_DATA;
         static readonly object consoleLocker = new object();
         public static bool DEBUG = false;
         const string DELIMETR = "--------------------------------------------------------------------------------";
@@ -67,7 +66,6 @@ namespace info
                 settings = (Settings)xmlSerializer.Deserialize(fs);
             }
 
-            DeserializeItemsData();
             //SerializeItemsData();
 
             //SerializeRecipes();
@@ -78,7 +76,7 @@ namespace info
 
             foreach (var server in servers)
             {
-                server.SetData(tokenAndRealmsDatas.realmsDatasByIdHouse[server.id], recipeDataById);
+                server.SetData(tokenAndRealmsDatas.RealmsDatasByIdHouse[server.id], recipeDataById);
             }
             Server.SortByMoney(servers);
             string serversInfo = "";
@@ -114,6 +112,11 @@ namespace info
                 {
                     recipeDataById.Add(recipe.ID, recipe);
                 }
+            }
+            Dictionary<int, ItemData> itemsDataById = DeserializeItemsData();
+            foreach (var recipeData in recipeDataById.Values)
+            {
+                recipeData.SetData(itemsDataById);
             }
             return recipeDataById;
         }
@@ -219,18 +222,19 @@ namespace info
             }
         }
 
-        private static void DeserializeItemsData()
+        private static Dictionary<int, ItemData> DeserializeItemsData()
         {
-            ITEMS_DATA = new Dictionary<int, ItemData>();
+            Dictionary<int, ItemData> itemsDataById = new Dictionary<int, ItemData>();
             using (FileStream fs = new FileStream("items.xml", FileMode.Open))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(ItemData[]));
                 ItemData[] items = (ItemData[])xmlSerializer.Deserialize(fs);
                 foreach (ItemData item in items)
                 {
-                    ITEMS_DATA.Add(item.id, item);
+                    itemsDataById.Add(item.id, item);
                 }
             }
+            return itemsDataById;
         }
 
         private static void SerializeItemsData()
@@ -243,7 +247,8 @@ namespace info
                 new ItemData(ItemInfo.Tidespray_Linen, "Tidespray Linen | Морской лен"),
                 new ItemData(ItemInfo.Shimmerscale, "Shimmerscale | Поблескивающая чешуя"),
                 new ItemData(ItemInfo.BloodStainedBone, "Blood-Stained Bone | Окровавленная кость"),
-                new ItemData(ItemInfo.CoarseLeather, "Coarse Leather | Шершавая кожа")
+                new ItemData(ItemInfo.CoarseLeather, "Coarse Leather | Шершавая кожа"),
+                new ItemData(ItemInfo.Windwool_Cloth, "Windwool Cloth | Ветрошерстяная ткань")
             };
             using (FileStream fs = new FileStream("items.xml", FileMode.Create))
             {
@@ -409,12 +414,13 @@ namespace info
                                     Math.Floor(Util.convertCopperToGold(summaryProfitRecipesByRecipeId[recipeId])),
                                     Math.Floor(averageIncomeRecipeByRecipeIdPair.Value),
                                     recipesById[recipeId].Count);
-                                foreach (var itemId in recipesById[recipeId][0].recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                                RecipeData recipeData = recipesById[recipeId][0].recipeData;
+                                foreach (var itemData in recipeData.ItemsData)
                                 {
                                     Dictionary<long, List<Item>> bidsItemInRecipeByCost = new Dictionary<long, List<Item>>();
                                     foreach (var recipe in recipesById[recipeId])
                                     {
-                                        foreach (var item in recipe.items[itemId])
+                                        foreach (var item in recipe.items[itemData.id])
                                         {
                                             if (!bidsItemInRecipeByCost.ContainsKey(item.cost))
                                             {
@@ -427,14 +433,14 @@ namespace info
                                     foreach (var bidsItemInRecipeByCostPair in bidsItemInRecipeByCost.OrderByDescending(pair => pair.Key))
                                     {
                                         maxPrice = bidsItemInRecipeByCostPair.Key;
-                                        if (bidsItemInRecipeByCostPair.Value.Count >= recipesById[recipeId][0].recipeData.ID_ITEM_AND_NEED_AMOUNT[itemId])
+                                        if (bidsItemInRecipeByCostPair.Value.Count >= recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id])
                                         {
                                             break;
                                         }
                                     }
                                     printStr += String.Format(
                                         "\t\t{0}\n\t\t\tМакс цена: \t{1:# ##}\n",
-                                        ITEMS_DATA[itemId].itemName,
+                                        itemData.itemName,
                                         Util.convertCopperToSilver(maxPrice));
                                 }
                             }
@@ -497,9 +503,9 @@ namespace info
                 HashSet<ItemData> itemsDataTree = new HashSet<ItemData>();
                 foreach (var recipeData in recipeDataTree)
                 {
-                    foreach (var idItem in recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                    foreach (var itemData in recipeData.ItemsData)
                     {
-                        itemsDataTree.Add(ITEMS_DATA[idItem]);
+                        itemsDataTree.Add(itemData);
                     }
                 }
                 Dictionary<int, ItemPageParser> parsersForTree = new Dictionary<int, ItemPageParser>();
