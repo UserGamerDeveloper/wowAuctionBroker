@@ -20,10 +20,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>561697</SELL_PRICE>
-    <TIME_NEED>214.28572082519531</TIME_NEED>
+    <NeedMillisecondsToCraft>214.28572082519531</NeedMillisecondsToCraft>
     <name>Shimmerscale_Striker_H</name>
     <SPENDING>0</SPENDING>
+    <SellNormalPrice>561697</SellNormalPrice>
+    <SellRandomPrice>679654</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>161969</ID>
@@ -45,10 +46,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>574983</SELL_PRICE>
-    <TIME_NEED>214.28572082519531</TIME_NEED>
+    <NeedMillisecondsToCraft>214.28572082519531</NeedMillisecondsToCraft>
     <name>Shimmerscale_Striker_A</name>
     <SPENDING>0</SPENDING>
+    <SellNormalPrice>574983</SellNormalPrice>
+    <SellRandomPrice>574983</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>126988</ID>
@@ -62,10 +64,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>292241</SELL_PRICE>
-    <TIME_NEED>2000</TIME_NEED>
+    <NeedMillisecondsToCraft>2000</NeedMillisecondsToCraft>
     <name>Silkweave_Slippers</name>
     <SPENDING>5000</SPENDING>
+    <SellNormalPrice>292241</SellNormalPrice>
+    <SellRandomPrice>292241</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>154689</ID>
@@ -79,10 +82,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>399124</SELL_PRICE>
-    <TIME_NEED>214.28572082519531</TIME_NEED>
+    <NeedMillisecondsToCraft>214.28572082519531</NeedMillisecondsToCraft>
     <name>Tidespray_Linen_Pants_H</name>
     <SPENDING>60000</SPENDING>
+    <SellNormalPrice>399124</SellNormalPrice>
+    <SellRandomPrice>482941</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>161981</ID>
@@ -96,10 +100,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>390773</SELL_PRICE>
-    <TIME_NEED>214.28572082519531</TIME_NEED>
+    <NeedMillisecondsToCraft>214.28572082519531</NeedMillisecondsToCraft>
     <name>Tidespray_Linen_Pants_A</name>
     <SPENDING>60000</SPENDING>
+    <SellNormalPrice>390773</SellNormalPrice>
+    <SellRandomPrice>390773</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>154161</ID>
@@ -121,10 +126,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>563788</SELL_PRICE>
-    <TIME_NEED>214.28572082519531</TIME_NEED>
+    <NeedMillisecondsToCraft>214.28572082519531</NeedMillisecondsToCraft>
     <name>Coarse_Leather_Cestus_H</name>
     <SPENDING>0</SPENDING>
+    <SellNormalPrice>563788</SellNormalPrice>
+    <SellRandomPrice>563788</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>161970</ID>
@@ -146,10 +152,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>577018</SELL_PRICE>
-    <TIME_NEED>214.28572082519531</TIME_NEED>
+    <NeedMillisecondsToCraft>214.28572082519531</NeedMillisecondsToCraft>
     <name>Coarse_Leather_Cestus_A</name>
     <SPENDING>0</SPENDING>
+    <SellNormalPrice>577018</SellNormalPrice>
+    <SellRandomPrice>577018</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>128897</ID>
@@ -163,10 +170,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>279504</SELL_PRICE>
-    <TIME_NEED>2000</TIME_NEED>
+    <NeedMillisecondsToCraft>2000</NeedMillisecondsToCraft>
     <name>Battlebound_Spaulders</name>
     <SPENDING>0</SPENDING>
+    <SellNormalPrice>279504</SellNormalPrice>
+    <SellRandomPrice>377451</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>128881</ID>
@@ -180,10 +188,11 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>283778</SELL_PRICE>
-    <TIME_NEED>2000</TIME_NEED>
+    <NeedMillisecondsToCraft>2000</NeedMillisecondsToCraft>
     <name>Warhide_Shoulderguard</name>
     <SPENDING>0</SPENDING>
+    <SellNormalPrice>283778</SellNormalPrice>
+    <SellRandomPrice>283778</SellRandomPrice>
   </RecipeData>
   <RecipeData>
     <ID>93608</ID>
@@ -197,9 +206,10 @@
         </value>
       </item>
     </ID_ITEM_AND_NEED_AMOUNT>
-    <SELL_PRICE>137455</SELL_PRICE>
-    <TIME_NEED>6000</TIME_NEED>
+    <NeedMillisecondsToCraft>6000</NeedMillisecondsToCraft>
     <name>Crafted_Dreadful_Gladiators_Cloak_of_Prowess</name>
     <SPENDING>0</SPENDING>
+    <SellNormalPrice>137455</SellNormalPrice>
+    <SellRandomPrice>137455</SellRandomPrice>
   </RecipeData>
 </ArrayOfRecipeData>

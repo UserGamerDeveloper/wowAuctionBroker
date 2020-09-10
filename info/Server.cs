@@ -1,13 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace info
@@ -45,11 +38,11 @@ namespace info
             public object Delayednext { get; set; }
             [JsonProperty("lastupdate")]
             public int Lastupdate { get; set; }
-            [JsonProperty("mindelta")]
+            [JsonProperty("mindelta", NullValueHandling = NullValueHandling.Ignore)]
             public int Mindelta { get; set; }
-            [JsonProperty("avgdelta")]
+            [JsonProperty("avgdelta", NullValueHandling = NullValueHandling.Ignore)]
             public int Avgdelta { get; set; }
-            [JsonProperty("maxdelta")]
+            [JsonProperty("maxdelta", NullValueHandling = NullValueHandling.Ignore)]
             public int Maxdelta { get; set; }
             [JsonProperty("lastcheck")]
             public int Lastcheck { get; set; }
@@ -200,7 +193,7 @@ namespace info
 
         public string GetNameAndTimeUpdate()
         {
-            return String.Format("{2}\n{0} {1} {3}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now, farmMode.ToString());
+            return string.Format("{2}\n{0} {1} {3}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now, farmMode.ToString());
         }
 
         internal static void SortByTime(Server[] servers)
@@ -273,23 +266,11 @@ namespace info
 
         internal string GetInfo()
         {
-            long deltaMoney = moneyMax - money;
-            string s = GetStringMitTab(name);
-            return String.Format("{0}{1}{2:#,###}",
-                s,
-                GetStringMitTab(String.Format("{0:#,###}", Util.convertAndFloorCopperToGold(money))),
-                Util.convertAndFloorCopperToGold(deltaMoney));
-        }
-
-        private string GetStringMitTab(string str)
-        {
-            int count = str.Length;
-            for (int i = 0; i < 20 - count; i++)
-            {
-                str += " ";
-            }
-
-            return str;
+            long waitingMoney = moneyMax - money;
+            return String.Format("{0,-20}{1,20}{2,20}",
+                name,
+                Util.ConvertCopperToGold(money).ToString("N0"),
+                Util.ConvertCopperToGold(waitingMoney).ToString("N0"));
         }
     }
 }

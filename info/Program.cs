@@ -19,18 +19,13 @@ namespace info
         static Server[] servers;
         static Settings settings;
         static readonly object consoleLocker = new object();
-        public static bool DEBUG = false;
         const string DELIMETR = "--------------------------------------------------------------------------------";
+        private const double ChanceRandomProfit = 0.165562913907285d;
 
         static void Main(string[] args)
         {
             try
             {
-                //if (args.Length>0)
-                //{
-                //    DEBUG = true;
-                //    Console.WriteLine("DEBUG");
-                //}
                 Start();
             }
             catch (Exception e)
@@ -57,8 +52,8 @@ namespace info
 
         private static void Start()
         {
-            DeserializeServers();
             //SerializeServers();
+            DeserializeServers();
 
             using (FileStream fs = new FileStream("settings.xml", FileMode.Open))
             {
@@ -123,7 +118,7 @@ namespace info
 
         private static void SerializeRecipes()
         {
-            const double BFA_TIME_NEED = 15000f / 70f;
+            const double BFATimeNeed = 15000f / 70f;
             RecipeData[] recipeData = new RecipeData[]{
                 new RecipeData(
                     RecipeInfo.Shimmerscale_Striker_H,
@@ -131,16 +126,18 @@ namespace info
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     561697,
-                    BFA_TIME_NEED,
-                    0),
+                    BFATimeNeed,
+                    0,
+                    679654),
                 new RecipeData(
                     RecipeInfo.Shimmerscale_Striker_A,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     574983,
-                    BFA_TIME_NEED,
-                    0),
+                    BFATimeNeed,
+                    0,
+                    574983),
                 new RecipeData(
                     RecipeInfo.Silkweave_Slippers,
                     new XmlSerializableDictionary<int, int>(){
@@ -148,39 +145,44 @@ namespace info
                     },
                     292241,
                     2000,
-                    5000),
+                    5000,
+                    292241),
                 new RecipeData(
                     RecipeInfo.Tidespray_Linen_Pants_H,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
                     399124,
-                    BFA_TIME_NEED,
-                    60000),
+                    BFATimeNeed,
+                    60000,
+                    482941),
                 new RecipeData(
                     RecipeInfo.Tidespray_Linen_Pants_A,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
                     390773,
-                    BFA_TIME_NEED,
-                    60000),
+                    BFATimeNeed,
+                    60000,
+                    390773),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_H,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     563788,
-                    BFA_TIME_NEED,
-                    0),
+                    BFATimeNeed,
+                    0,
+                    563788),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_A,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     577018,
-                    BFA_TIME_NEED,
-                    0),
+                    BFATimeNeed,
+                    0,
+                    577018),
                 new RecipeData(
                     RecipeInfo.Battlebound_Spaulders,
                     new XmlSerializableDictionary<int, int>(){
@@ -188,7 +190,8 @@ namespace info
                     },
                     279504,
                     2000,
-                    0),
+                    0,
+                    377451),
                 new RecipeData(
                     RecipeInfo.Warhide_Shoulderguard,
                     new XmlSerializableDictionary<int, int>(){
@@ -196,7 +199,8 @@ namespace info
                     },
                     283778,
                     2000,
-                    0),
+                    0,
+                    283778),
                 new RecipeData(
                     RecipeInfo.Crafted_Dreadful_Gladiators_Cloak_of_Prowess,
                     new XmlSerializableDictionary<int, int>(){
@@ -204,7 +208,8 @@ namespace info
                     },
                     137455,
                     6000,
-                    0)
+                    0,
+                    137455)
             };
             using (FileStream fs = new FileStream("recipes.xml", FileMode.Create))
             {
@@ -367,7 +372,7 @@ namespace info
                             recipes.Sort();
 
                             long globalProfit = 0;
-                            DateTime timeNeed = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                            TimeSpan timeCraft = new TimeSpan();
                             Dictionary<int, List<Recipe>> recipesById = new Dictionary<int, List<Recipe>>();
                             Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
                             Dictionary<int, long> summaryProfitRecipesByRecipeId = new Dictionary<int, long>();
@@ -388,8 +393,8 @@ namespace info
                                 globalProfit += recipe.profit;
                                 summaryProfitRecipesByRecipeId[recipe.recipeData.ID] += recipe.profit;
                                 recipesById[recipe.recipeData.ID].Add(recipe);
-                                summaryIncomeRecipesByRecipeId[recipe.recipeData.ID] += recipe.incomeGoldInHour;
-                                timeNeed = timeNeed.AddMilliseconds(recipe.recipeData.TIME_NEED);
+                                summaryIncomeRecipesByRecipeId[recipe.recipeData.ID] += recipe.IncomeGoldInHour;
+                                timeCraft += TimeSpan.FromMilliseconds(recipe.recipeData.NeedMillisecondsToCraft);
                             }
 
                             Dictionary<int, double> averageIncomeRecipesByRecipeId = new Dictionary<int, double>();
@@ -399,22 +404,21 @@ namespace info
                                     summaryIncomeRecipeByRecipeIdKey,
                                     summaryIncomeRecipesByRecipeId[summaryIncomeRecipeByRecipeIdKey] / recipesById[summaryIncomeRecipeByRecipeIdKey].Count);
                             }
-                            double incomeInHour = Util.getIncomeGoldInHour(globalProfit, timeNeed);
-                            const string STRING = "Профит ";
-                            string globalProfitString = Math.Floor(Util.convertCopperToGold(globalProfit)) + " " + Math.Floor(incomeInHour) + " " +
-                                Math.Floor(Util.getTimeInMinuts(timeNeed)) + " мин " + recipes.Count;
-                            string printStr = server.GetNameAndTimeUpdate();
 
+                            string printStr = server.GetNameAndTimeUpdate();
+                            double globalRandomProfit = 0d;
                             foreach (var averageIncomeRecipeByRecipeIdPair in averageIncomeRecipesByRecipeId.OrderByDescending(pair => pair.Value))
                             {
                                 int recipeId = averageIncomeRecipeByRecipeIdPair.Key;
-                                printStr += String.Format(
-                                    "\n\t{0} {3} \t\t\tПрофит: {1} {2}\n",
-                                    recipesById[recipeId][0].recipeData.name,
-                                    Math.Floor(Util.convertCopperToGold(summaryProfitRecipesByRecipeId[recipeId])),
-                                    Math.Floor(averageIncomeRecipeByRecipeIdPair.Value),
-                                    recipesById[recipeId].Count);
                                 RecipeData recipeData = recipesById[recipeId][0].recipeData;
+                                double randomProfit = recipesById[recipeId].Count * recipeData.GetRandomProfit() * ChanceRandomProfit;
+                                globalRandomProfit += randomProfit;
+                                printStr += string.Format(
+                                    "\n\t {0,-45} Профит: {1:#.} + {3:#.} {2:#.}\n",
+                                    string.Format("{0} x {1}", recipeData.name, recipesById[recipeId].Count),
+                                    Util.ConvertCopperToGold(summaryProfitRecipesByRecipeId[recipeId]),
+                                    averageIncomeRecipeByRecipeIdPair.Value,
+                                    randomProfit);
                                 foreach (var itemData in recipeData.ItemsData)
                                 {
                                     Dictionary<long, List<Item>> bidsItemInRecipeByCost = new Dictionary<long, List<Item>>();
@@ -438,16 +442,23 @@ namespace info
                                             break;
                                         }
                                     }
-                                    printStr += String.Format(
-                                        "\t\t{0}\n\t\t\tМакс цена: \t{1:# ##}\n",
+                                    printStr += string.Format(
+                                        "\t\t{0}\n\t\t\tМакс цена: \t{1:# ## ##.}\n",
                                         itemData.itemName,
-                                        Util.convertCopperToSilver(maxPrice));
+                                        Util.ConvertCopperToSilver(maxPrice));
                                 }
                             }
+                            const string STRING = "Профит ";
+                            string globalProfitString = string.Format("{0:0.} + {4:0.} {1:0.} {2:0.} мин, рецептов {3}",
+                                Util.ConvertCopperToGold(globalProfit),
+                                Util.GetIncomeGoldInHour(globalProfit, timeCraft),
+                                timeCraft.TotalMinutes,
+                                recipes.Count,
+                                globalRandomProfit);
                             lock (consoleLocker)
                             {
                                 Util.WriteLineAndLog(printStr);
-                                if (Util.convertCopperToGold(globalProfit) > targetProfit)
+                                if (Util.ConvertCopperToGold(globalProfit) > targetProfit)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     Console.Write(STRING);
@@ -516,43 +527,32 @@ namespace info
                 }
                 while (true)
                 {
-                    List<Recipe> recipesTree = new List<Recipe>();
+                    List<Recipe> profitableRecipes = new List<Recipe>();
                     foreach (var recipeData in recipeDataTree)
                     {
                         bool enoughItemsForRecipe = true;
-                        foreach (var idItem in recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                        foreach (var itemData in recipeData.ItemsData)
                         {
-                            enoughItemsForRecipe = enoughItemsForRecipe && parsersForTree[idItem].HasRequiredAmount(recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem]);
+                            enoughItemsForRecipe = enoughItemsForRecipe &&
+                                parsersForTree[itemData.id].HasRequiredAmount(recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id]);
                         }
                         if (enoughItemsForRecipe)
                         {
-                            Recipe recipe = new Recipe(recipeData, server);
-                            long costCraft = 0;
-                            foreach (var idItem in recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                            Recipe recipe = new Recipe(recipeData, server, parsersForTree);
+                            if (recipe.IncomeGoldInHour >= targetIncomeInHour)
                             {
-                                recipe.items.Add(idItem, new List<Item>());
-                                for (int i = 0; i < recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem]; i++)
-                                {
-                                    Item item = parsersForTree[idItem].GetItem(i);
-                                    costCraft += item.cost;
-                                    recipe.items[idItem].Add(item);
-                                }
-                            }
-                            recipe.SetProfit(costCraft);
-                            recipe.SetIncome();
-                            if (recipe.incomeGoldInHour >= targetIncomeInHour)
-                            {
-                                recipesTree.Add(recipe);
+                                profitableRecipes.Add(recipe);
                             }
                         }
                     }
-                    if (recipesTree.Count > 0)
+                    if (profitableRecipes.Count > 0)
                     {
-                        recipesTree.Sort();
-                        recipes.Add(recipesTree[recipesTree.Count - 1]);
-                        foreach (var idItem in recipesTree[recipesTree.Count - 1].items.Keys)
+                        profitableRecipes.Sort();
+                        Recipe maxProfitableRecipe = profitableRecipes[0];
+                        recipes.Add(maxProfitableRecipe);
+                        foreach (var idItem in maxProfitableRecipe.items.Keys)
                         {
-                            foreach (var item in recipesTree[recipesTree.Count - 1].items[idItem])
+                            foreach (var item in maxProfitableRecipe.items[idItem])
                             {
                                 parsersForTree[idItem].Remove(item);
                             }

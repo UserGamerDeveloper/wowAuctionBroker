@@ -11,28 +11,32 @@ namespace info
         public RecipeData recipeData;
         public long profit;
         public Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
-        public double incomeGoldInHour;
+        public double IncomeGoldInHour { get; }
         public long spending;
 
-        public Recipe(RecipeData recipeData, Server server)
+        public Recipe(RecipeData recipeData, Server server, Dictionary<int, ItemPageParser> parsersForTree)
         {
             this.recipeData = recipeData;
             spending = Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
-        }
 
-        public void SetProfit(long costCraft)
-        {
-            profit = recipeData.SELL_PRICE - spending - costCraft;
+            long costCraft = 0;
+            foreach (var itemData in recipeData.ItemsData)
+            {
+                items.Add(itemData.id, new List<Item>());
+                for (int i = 0; i < recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id]; i++)
+                {
+                    Item item = parsersForTree[itemData.id].GetItem(i);
+                    costCraft += item.cost;
+                    items[itemData.id].Add(item);
+                }
+            }
+            profit = recipeData.SellNormalPrice - spending - costCraft;
+            IncomeGoldInHour = Util.GetIncomeGoldInHour(profit, TimeSpan.FromMilliseconds(recipeData.NeedMillisecondsToCraft));
         }
 
         public int CompareTo(Recipe comparableRecipe)
         {
-            return comparableRecipe.incomeGoldInHour.CompareTo(incomeGoldInHour);
-        }
-
-        internal void SetIncome()
-        {
-            incomeGoldInHour = Util.getIncomeGoldInHour(profit, new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddMilliseconds(recipeData.TIME_NEED));
+            return IncomeGoldInHour.CompareTo(comparableRecipe.IncomeGoldInHour);
         }
     }
 }

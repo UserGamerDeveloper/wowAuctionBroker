@@ -18,38 +18,42 @@ namespace info
             public int TimeEnd { get; set; }
         }
 
-        const int timeOutDBPage = 5000;
-        public const double AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA = 6d;
+        private const int TimeOut = 5000;
+        public const double AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA = 1d;
+        private const int AmountCopperInGold = 10000;
+        private const int AmountCopperInSilver = 100;
 
-        public static double getIncomeGoldInHour(long profit, DateTime timeNeed)
+        public static double GetIncomeGoldInHour(double profit, TimeSpan timeSpan)
         {
-            return convertCopperToGold(profit / getTimeInSeconds(timeNeed) * 3600f);
+            if (timeSpan.Ticks != 0)
+            {
+                return ConvertCopperToGold(profit / timeSpan.Ticks * TimeSpan.TicksPerHour);
+            }
+            else
+            {
+                return double.NaN;
+            }
         }
 
-        public static double convertCopperToGold(double profit_all)
+        public static double ConvertCopperToGold(double copper)
         {
-            return profit_all / 10000f;
+            return copper / AmountCopperInGold;
         }
 
-        public static double convertAndFloorCopperToGold(double profit_all)
+        //public static double getTimeInSeconds(DateTime tempTimeNeed)
+        //{
+        //    return tempTimeNeed.Millisecond / 1000f + tempTimeNeed.Second * 1f + tempTimeNeed.Minute * 60f + tempTimeNeed.Hour * 3600f;
+        //}
+
+        public static double ConvertCopperToSilver(double copper)
         {
-            return Math.Floor(profit_all / 10000f);
+            return copper / AmountCopperInSilver;
         }
 
-        public static double getTimeInSeconds(DateTime tempTimeNeed)
-        {
-            return tempTimeNeed.Millisecond / 1000f + tempTimeNeed.Second * 1f + tempTimeNeed.Minute * 60f + tempTimeNeed.Hour * 3600f;
-        }
-
-        public static long convertCopperToSilver(long value)
-        {
-            return (long)Math.Floor(value / 100f);
-        }
-
-        public static double getTimeInMinuts(DateTime timeNeed)
-        {
-            return getTimeInSeconds(timeNeed) / 60f;
-        }
+        //public static double getTimeInMinuts(DateTime timeNeed)
+        //{
+        //    return getTimeInSeconds(timeNeed) / 60f;
+        //}
 
         //public static void KillGoogleChrome()
         //{
@@ -78,52 +82,52 @@ namespace info
         //    return responce;
         //}
 
-        public static void DeleteFile(string path)
+        //public static void DeleteFile(string path)
+        //{
+        //    try
+        //    {
+        //        File.Delete(path);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        File.AppendAllText("Exception.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n\n");
+        //    }
+        //}
+
+        //public static string ReadFile(string path)
+        //{
+        //    bool readed = false;
+        //    while (!readed)
+        //    {
+        //        try
+        //        {
+        //            string data = File.ReadAllText(path);
+        //            readed = true;
+        //            return data;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            Thread.Sleep(1000);
+        //        }
+        //    }
+        //    return null;
+        //}
+
+        public static void WriteAndLog(string str)
         {
-            try
-            {
-                File.Delete(path);
-            }
-            catch (Exception e)
-            {
-                File.AppendAllText("Exception.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n\n");
-            }
+            Console.Write(str);
+            File.AppendAllText("log.txt", str);
         }
 
-        public static string ReadFile(string path)
+        public static void WriteLineAndLog(string str)
         {
-            bool readed = false;
-            while (!readed)
-            {
-                try
-                {
-                    string data = File.ReadAllText(path);
-                    readed = true;
-                    return data;
-                }
-                catch (Exception)
-                {
-                    Thread.Sleep(1000);
-                }
-            }
-            return null;
+            Console.WriteLine(str);
+            File.AppendAllText("log.txt", str + "\n");
         }
-
-        public static void WriteAndLog(string CAPTCHA)
+        public static void WriteLineAndLogWhithTime(string str)
         {
-            Console.Write(CAPTCHA);
-            File.AppendAllText("log.txt", CAPTCHA);
-        }
-
-        public static void WriteLineAndLog(string CAPTCHA)
-        {
-            Console.WriteLine(CAPTCHA);
-            File.AppendAllText("log.txt", CAPTCHA + "\n");
-        }
-        public static void WriteLineAndLogWhithTime(string CAPTCHA)
-        {
-            Console.WriteLine(DateTime.Now + "\n" + CAPTCHA);
-            File.AppendAllText("log.txt", DateTime.Now + "\n"+CAPTCHA + "\n");
+            Console.WriteLine(DateTime.Now + "\n" + str);
+            File.AppendAllText("log.txt", DateTime.Now + "\n"+str + "\n");
         }
 
         public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
@@ -141,9 +145,9 @@ namespace info
                 try
                 {
                     HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                    httpWebRequest.AllowAutoRedirect = false;//Запрещаем автоматический редирект
-                    httpWebRequest.Method = "GET"; //Можно не указывать, по умолчанию используется GET.
-                    httpWebRequest.Timeout = timeOutDBPage;
+                    httpWebRequest.AllowAutoRedirect = false;
+                    httpWebRequest.Method = "GET";
+                    httpWebRequest.Timeout = TimeOut;
                     using (var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
                     {
                         using (var stream = httpWebResponse.GetResponseStream())
@@ -199,7 +203,7 @@ namespace info
                     HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("https://theunderminejournal.com/api/item.php?house=147&item=152576");
                     httpWebRequest.AllowAutoRedirect = false;//Запрещаем автоматический редирект
                     httpWebRequest.Method = "GET"; //Можно не указывать, по умолчанию используется GET.
-                    httpWebRequest.Timeout = timeOutDBPage;
+                    httpWebRequest.Timeout = TimeOut;
                     using (var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
                     {
                         Thread.Sleep(1000);

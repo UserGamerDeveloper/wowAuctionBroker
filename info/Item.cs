@@ -4,14 +4,7 @@ namespace info
 {
     public class Item : IComparable
     {
-        int id;
         public long cost;
-
-        public Item(int id, long cost)
-        {
-            this.id = id;
-            this.cost = cost;
-        }
 
         public Item(long cost)
         {

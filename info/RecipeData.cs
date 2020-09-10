@@ -9,21 +9,24 @@ namespace info
     {
         public int ID;
         public XmlSerializableDictionary<int,int> ID_ITEM_AND_NEED_AMOUNT;
-        public long SELL_PRICE;
-        public double TIME_NEED;
+        public long SellNormalPrice { get; set; }
+        public long SellRandomPrice { get; set; }
+        public double NeedMillisecondsToCraft;
         public string name;
         public long SPENDING;
         [XmlIgnore]
         public HashSet<ItemData> ItemsData = new HashSet<ItemData>();
 
-        public RecipeData(RecipeInfo recipeInfo, XmlSerializableDictionary<int, int> dictionary, int SELL_PRICE, double TIME_NEED, long SPENDING)
+        public RecipeData(
+            RecipeInfo recipeInfo, XmlSerializableDictionary<int, int> dictionary, int SELL_PRICE, double TIME_NEED, long SPENDING, long sellRandomPrice)
         {
             ID = (int)recipeInfo;
             ID_ITEM_AND_NEED_AMOUNT = dictionary;
-            this.SELL_PRICE = SELL_PRICE;
-            this.TIME_NEED = TIME_NEED;
+            this.SellNormalPrice = SELL_PRICE;
+            this.NeedMillisecondsToCraft = TIME_NEED;
             this.SPENDING = SPENDING;
             name = recipeInfo.ToString();
+            SellRandomPrice = sellRandomPrice;
         }
 
         RecipeData() { }
@@ -34,6 +37,11 @@ namespace info
             {
                 ItemsData.Add(itemsDataById[itemId]);
             }
+        }
+
+        internal long GetRandomProfit()
+        {
+            return SellRandomPrice - SellNormalPrice;
         }
     }
 }

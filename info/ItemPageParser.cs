@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace info
 {
-    class ItemPageParser
+    public class ItemPageParser
     {
         public class ItemPage
         {
@@ -160,14 +160,14 @@ namespace info
                 }
 
                 [JsonProperty("data")]
-                public List<Data> ItemsData { get; set; }
+                public List<Data> Bids { get; set; }
                 [JsonProperty("hydrate")]
                 public List<object> Hydrate { get; set; }
 
                 public void DeleteInvalidData()
                 {
                     List<Data> invalidDatas = new List<Data>();
-                    foreach (var item in ItemsData)
+                    foreach (var item in Bids)
                     {
                         if (item.Quantity == 0)
                         {
@@ -176,7 +176,7 @@ namespace info
                     }
                     foreach (var item in invalidDatas)
                     {
-                        ItemsData.Remove(item);
+                        Bids.Remove(item);
                     }
                 }
             }
@@ -242,22 +242,23 @@ namespace info
                 while (true)
                 {
                     string responseStr = Util.GetResponse(
-                        String.Format(URL_ITEM_PAGE_FORMAT, house, idItem),
-                        "Exception_house.txt").Replace("[[", "[").Replace("]]", "]");
+                        string.Format(URL_ITEM_PAGE_FORMAT, house, idItem),
+                        "Exception_house.txt");
+                    responseStr = FixResponse(responseStr);
                     itemPage = JsonConvert.DeserializeObject<ItemPage>(responseStr);
                     bool isCaptcha = itemPage.auctions == null;
                     if (!isCaptcha)
                     {
-                        if (itemPage.auctions.ItemsData.Count > 0)
+                        if (itemPage.auctions.Bids.Count > 0)
                         {
                             itemPage.auctions.DeleteInvalidData();
-                            foreach (var item in itemPage.auctions.ItemsData)
+                            foreach (var item in itemPage.auctions.Bids)
                             {
                                 item.SetCostPerItem();
                             }
-                            itemPage.auctions.ItemsData.Sort();
+                            itemPage.auctions.Bids.Sort();
                         }
-                        idBid = itemPage.auctions.ItemsData.Count - 1;
+                        idBid = itemPage.auctions.Bids.Count - 1;
                         break;
                     }
                     else
@@ -282,7 +283,7 @@ namespace info
                                 int i = 1;
                                 foreach (var id in response.Captcha.Ids)
                                 {
-                                    byte[] imageData = client.DownloadData(String.Format(URL_CAPTCHA_IMAGE_FORMAT, id));
+                                    byte[] imageData = client.DownloadData(string.Format(URL_CAPTCHA_IMAGE_FORMAT, id));
                                     imagesById.Add(i, imageData);
                                     string hash = ComputeMD5Checksum(imageData);
                                     if (imagesHashesByRace[race].Contains(hash))
@@ -293,17 +294,17 @@ namespace info
                                     i++;
                                 }
                             }
-                            string urlCaptchaAnswer = String.Format(URL_CAPTCHA_ANSWER_FORMAT, answer);
+                            string urlCaptchaAnswer = string.Format(URL_CAPTCHA_ANSWER_FORMAT, answer);
                             responseStr = Util.GetResponse(urlCaptchaAnswer, "Exception_captcha.txt");
                             captchaSuccess = responseStr.Equals("[]");
                             if (!captchaSuccess)
                             {
                                 Util.WriteLineAndLog(DENIED);
                                 DirectoryInfo directoryInfo = Directory.CreateDirectory(
-                                    String.Format("{0} {1}{2}", race.ToString(), answerFormat, DateTime.Now.ToString().Replace(":", " ")));
+                                    string.Format("{0} {1}{2}", race.ToString(), answerFormat, DateTime.Now.ToString().Replace(":", " ")));
                                 foreach (var imageData in imagesById)
                                 {
-                                    File.WriteAllBytes(String.Format(@"{0}\{1}.jpg", directoryInfo.FullName, imageData.Key), imageData.Value);
+                                    File.WriteAllBytes(string.Format(@"{0}\{1}.jpg", directoryInfo.FullName, imageData.Key), imageData.Value);
                                 }
                             }
                             else
@@ -316,6 +317,12 @@ namespace info
             }
         }
 
+        private static string FixResponse(string responseStr)
+        {
+            responseStr = responseStr.Replace("[[", "[").Replace("]]", "]");
+            return responseStr;
+        }
+
         private string ComputeMD5Checksum(byte[] imageData)
         {
             using (MD5 md5 = new MD5CryptoServiceProvider())
@@ -324,11 +331,6 @@ namespace info
                 string result = BitConverter.ToString(checkSum);
                 return result;
             }
-        }
-
-        public long GetCostPerItem()
-        {
-            return itemPage.auctions.ItemsData[idBid].Buy / itemPage.auctions.ItemsData[idBid].Quantity;
         }
 
         internal bool HasRequiredAmount(int amount)
@@ -343,9 +345,9 @@ namespace info
                 {
                     if (idBid >= 0)
                     {
-                        for (int j = 0; j < itemPage.auctions.ItemsData[idBid].Quantity; j++)
+                        for (int j = 0; j < itemPage.auctions.Bids[idBid].Quantity; j++)
                         {
-                            items.Add(new Item(GetCostPerItem()));
+                            items.Add(new Item(itemPage.auctions.Bids[idBid].CostPerItem));
                         }
                         idBid--;
                     }
