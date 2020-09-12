@@ -171,8 +171,8 @@ namespace info
                         {
                             Maintenance maintenance = JsonConvert.DeserializeObject<Maintenance>(reader.ReadToEnd());
                             DateTime dateTime = UnixTimeStampToDateTime(maintenance.TimeEnd);
-                            Util.WriteLineAndLogWhithTime(String.Format("\n\t\t Тех. работы до {0} \n", dateTime));
-                            throw new Exception(String.Format("Тех. работы до {0}", dateTime));
+                            Util.WriteLineAndLogWhithTime(string.Format("\n\t\t Тех. работы до {0} \n", dateTime));
+                            throw new Exception(string.Format("Тех. работы до {0}", dateTime));
                         }
                     }
                     catch (NullReferenceException)

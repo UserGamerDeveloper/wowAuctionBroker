@@ -6,7 +6,7 @@
         Ravencrest = 232,
         Blackmoore = 153,
         Antonidas = 134,
-        malganis = 195,
+        malganis = 152,
         svezewatel = 235,
         gorduni = 210,
         Kazzak = 215,

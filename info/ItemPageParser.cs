@@ -272,7 +272,6 @@ namespace info
                         bool captchaSuccess = false;
                         while (!captchaSuccess)
                         {
-                            Util.WriteAndLog(CAPTCHA);
                             string answer = "";
                             string answerFormat = "";
                             Dictionary<int, byte[]> imagesById = new Dictionary<int, byte[]>();
@@ -299,7 +298,7 @@ namespace info
                             captchaSuccess = responseStr.Equals("[]");
                             if (!captchaSuccess)
                             {
-                                Util.WriteLineAndLog(DENIED);
+                                Util.WriteLineAndLog(CAPTCHA + DENIED);
                                 DirectoryInfo directoryInfo = Directory.CreateDirectory(
                                     string.Format("{0} {1}{2}", race.ToString(), answerFormat, DateTime.Now.ToString().Replace(":", " ")));
                                 foreach (var imageData in imagesById)
@@ -309,7 +308,7 @@ namespace info
                             }
                             else
                             {
-                                Util.WriteLineAndLog(SUCCESS);
+                                Util.WriteLineAndLog(CAPTCHA + SUCCESS);
                             }
                         }
                     }

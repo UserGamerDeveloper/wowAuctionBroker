@@ -12,7 +12,7 @@ namespace info
         public Reputation Reputation { get; set; }
     }
 
-    public class TokenAndRealmsDatas
+    public class ClientData
     {
         public Dictionary<int, RealmData> RealmsDatasByIdHouse { get; set; }
         public long TokenPrice { get; set; }
@@ -100,14 +100,14 @@ namespace info
             public string NameKokr { get; set; }
         }
 
-        class ComparerByTime : IComparer<Server>
+        private class ComparerByTime : IComparer<Server>
         {
             public int Compare(Server s1, Server s2)
             {
                 return s1.timeUpdate.CompareTo(s2.timeUpdate);
             }
         }
-        class ComparerByMoney : IComparer<Server>
+        private class ComparerDescendingByMoney : IComparer<Server>
         {
             public int Compare(Server s1, Server s2)
             {
@@ -174,7 +174,7 @@ namespace info
 
         private void RefreshTimeUpdate()
         {
-            House house = JsonConvert.DeserializeObject<House>(Util.GetResponse(String.Format(URI_FORMAT, id), "Exception_house.txt"));
+            House house = JsonConvert.DeserializeObject<House>(Util.GetResponse(string.Format(URI_FORMAT, id), "Exception_house.txt"));
 
             DateTime time = Util.UnixTimeStampToDateTime(house.Timestamps.Lastupdate);
 
@@ -193,17 +193,17 @@ namespace info
 
         public string GetNameAndTimeUpdate()
         {
-            return string.Format("{2}\n{0} {1} {3}", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now, farmMode.ToString());
+            return string.Format("{2}\n{0} {1} {3}\n", name, Util.UnixTimeStampToDateTime(timeUpdate), DateTime.Now, farmMode.ToString());
         }
 
-        internal static void SortByTime(Server[] servers)
+        internal static void SortByTime(List<Server> servers)
         {
-            Array.Sort(servers, new ComparerByTime());
+            servers.Sort(new ComparerByTime());
         }
 
-        internal static void SortByMoney(Server[] servers)
+        internal static void SortByDescendingMoney(List<Server> servers)
         {
-            Array.Sort(servers, new ComparerByMoney());
+            servers.Sort(new ComparerDescendingByMoney());
         }
 
         internal void SetData(RealmData realmData, Dictionary<int, RecipeData> recipeDataByIdRecipe)

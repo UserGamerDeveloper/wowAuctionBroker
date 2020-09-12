@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace info
 {
-    public class Recipe : IComparable<Recipe>
+    public class Recipe
     {
+        private class ComparerByDescendingIncomeGoldInHour : IComparer<Recipe>
+        {
+            public int Compare(Recipe obj1, Recipe obj2)
+            {
+                return obj2.IncomeGoldInHour.CompareTo(obj1.IncomeGoldInHour);
+            }
+        }
+
         public RecipeData recipeData;
         public long profit;
         public Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
@@ -34,9 +42,9 @@ namespace info
             IncomeGoldInHour = Util.GetIncomeGoldInHour(profit, TimeSpan.FromMilliseconds(recipeData.NeedMillisecondsToCraft));
         }
 
-        public int CompareTo(Recipe comparableRecipe)
+        internal static void SortByDescendingIncomeGoldInHour(List<Recipe> profitableRecipes)
         {
-            return IncomeGoldInHour.CompareTo(comparableRecipe.IncomeGoldInHour);
+            profitableRecipes.Sort(new ComparerByDescendingIncomeGoldInHour());
         }
     }
 }

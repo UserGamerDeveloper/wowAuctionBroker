@@ -16,10 +16,9 @@ namespace info
 {
     public class Program
     {
-        static Server[] servers;
+        //static Server[] servers;
         static Settings settings;
-        static readonly object consoleLocker = new object();
-        const string DELIMETR = "--------------------------------------------------------------------------------";
+        public static readonly object consoleLocker = new object();
         private const double ChanceRandomProfit = 0.165562913907285d;
 
         static void Main(string[] args)
@@ -53,33 +52,22 @@ namespace info
         private static void Start()
         {
             //SerializeServers();
-            DeserializeServers();
-
-            using (FileStream fs = new FileStream("settings.xml", FileMode.Open))
-            {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
-                settings = (Settings)xmlSerializer.Deserialize(fs);
-            }
-
-            //SerializeItemsData();
-
-            //SerializeRecipes();
-            Dictionary<int, RecipeData> recipeDataById = DeserializeRecipes();
-
-            string getGoldAndRepStr = File.ReadAllText(settings.WOW_PATH + @"\_retail_\WTF\Account\449681846#1\SavedVariables\getGoldAndRep.lua");
-            TokenAndRealmsDatas tokenAndRealmsDatas = JsonConvert.DeserializeObject<TokenAndRealmsDatas>(ConvertLuaDataToJSON(getGoldAndRepStr));
-
+            List<Server> servers = DeserializeServers();
+            DeserializeSettings();
+            ClientData clientData = DeserializeClientData();
+            Dictionary<int, RecipeData> recipeDataById = GetRecipeDataById();
             foreach (var server in servers)
             {
-                server.SetData(tokenAndRealmsDatas.RealmsDatasByIdHouse[server.id], recipeDataById);
+                server.SetData(clientData.RealmsDatasByIdHouse[server.id], recipeDataById);
             }
-            Server.SortByMoney(servers);
+            Server.SortByDescendingMoney(servers);
             string serversInfo = "";
             foreach (var server in servers)
             {
                 serversInfo += server.GetInfo() + "\n";
             }
             Util.WriteLineAndLog(serversInfo);
+            const string DELIMETR = "--------------------------------------------------------------------------------";
             Util.WriteLineAndLog(DELIMETR);
 
             Util.WaitEndMaintenance();
@@ -87,6 +75,22 @@ namespace info
             foreach (var server in servers)
             {
                 new Thread(new ParameterizedThreadStart(ParseServer)).Start(server);
+            }
+        }
+
+        private static ClientData DeserializeClientData()
+        {
+            string getGoldAndRepStr = File.ReadAllText(settings.WOW_PATH + @"\_retail_\WTF\Account\449681846#1\SavedVariables\getGoldAndRep.lua");
+            ClientData clientData = JsonConvert.DeserializeObject<ClientData>(ConvertLuaDataToJSON(getGoldAndRepStr));
+            return clientData;
+        }
+
+        private static void DeserializeSettings()
+        {
+            using (FileStream fs = new FileStream("settings.xml", FileMode.Open))
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
+                settings = (Settings)xmlSerializer.Deserialize(fs);
             }
         }
 
@@ -116,10 +120,10 @@ namespace info
             return recipeDataById;
         }
 
-        private static void SerializeRecipes()
+        private static Dictionary<int, RecipeData> GetRecipeDataById()
         {
-            const double BFATimeNeed = 15000f / 70f;
-            RecipeData[] recipeData = new RecipeData[]{
+            const double BFATimeNeed = 15000d / 70d;
+            List<RecipeData> recipesData = new List<RecipeData>{
                 new RecipeData(
                     RecipeInfo.Shimmerscale_Striker_H,
                     new XmlSerializableDictionary<int, int>(){
@@ -137,7 +141,7 @@ namespace info
                     574983,
                     BFATimeNeed,
                     0,
-                    574983),
+                    695731),
                 new RecipeData(
                     RecipeInfo.Silkweave_Slippers,
                     new XmlSerializableDictionary<int, int>(){
@@ -164,7 +168,7 @@ namespace info
                     390773,
                     BFATimeNeed,
                     60000,
-                    390773),
+                    472837),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_H,
                     new XmlSerializableDictionary<int, int>(){
@@ -173,7 +177,7 @@ namespace info
                     563788,
                     BFATimeNeed,
                     0,
-                    563788),
+                    682185),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_A,
                     new XmlSerializableDictionary<int, int>(){
@@ -182,7 +186,7 @@ namespace info
                     577018,
                     BFATimeNeed,
                     0,
-                    577018),
+                    698193),
                 new RecipeData(
                     RecipeInfo.Battlebound_Spaulders,
                     new XmlSerializableDictionary<int, int>(){
@@ -211,20 +215,39 @@ namespace info
                     0,
                     137455)
             };
-            using (FileStream fs = new FileStream("recipes.xml", FileMode.Create))
+            //using (FileStream fs = new FileStream("recipes.xml", FileMode.Create))
+            //{
+            //    XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(RecipeData[]));
+            //    serverXmlSerializer.Serialize(fs, recipeData);
+            //}
+            Dictionary<int, RecipeData> recipeDataById = new Dictionary<int, RecipeData>();
+            foreach (RecipeData recipe in recipesData)
             {
-                XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(RecipeData[]));
-                serverXmlSerializer.Serialize(fs, recipeData);
+                recipeDataById.Add(recipe.ID, recipe);
             }
+            Dictionary<int, ItemData> itemsDataById = SerializeItemsData();
+            foreach (var recipeData in recipeDataById.Values)
+            {
+                recipeData.SetData(itemsDataById);
+            }
+            return recipeDataById;
         }
 
-        private static void DeserializeServers()
+        private static List<Server> DeserializeServers()
         {
-            using (FileStream fs = new FileStream("servers.xml", FileMode.Open))
+            List<Server> servers = new List<Server>();
+            DirectoryInfo directoryInfo = new DirectoryInfo("realms");
+            FileInfo[] files = directoryInfo.GetFiles();
+            foreach (var file in files)
             {
-                XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server[]));
-                servers = (Server[])serverXmlSerializer.Deserialize(fs);
+                //servers.Add(JsonConvert.DeserializeObject<Server>(File.ReadAllText(file.FullName)));
+                using (FileStream fs = new FileStream(file.FullName, FileMode.Open))
+                {
+                    XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
+                    servers.Add((Server)serverXmlSerializer.Deserialize(fs));
+                }
             }
+            return servers;
         }
 
         private static Dictionary<int, ItemData> DeserializeItemsData()
@@ -242,9 +265,9 @@ namespace info
             return itemsDataById;
         }
 
-        private static void SerializeItemsData()
+        private static Dictionary<int, ItemData> SerializeItemsData()
         {
-            ItemData[] items = new ItemData[]
+            List<ItemData> items = new List<ItemData>
             {
                 new ItemData(ItemInfo.Shaldorei_Silk, "Shal'dorei Silk | Шал'дорайский шелк"),
                 new ItemData(ItemInfo.Stonehide_Leather, "Stonehide Leather | Твердокаменная кожа"),
@@ -255,16 +278,22 @@ namespace info
                 new ItemData(ItemInfo.CoarseLeather, "Coarse Leather | Шершавая кожа"),
                 new ItemData(ItemInfo.Windwool_Cloth, "Windwool Cloth | Ветрошерстяная ткань")
             };
-            using (FileStream fs = new FileStream("items.xml", FileMode.Create))
+            Dictionary<int, ItemData> itemsDataById = new Dictionary<int, ItemData>();
+            foreach (var item in items)
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(ItemData[]));
-                xmlSerializer.Serialize(fs, items);
+                itemsDataById.Add(item.id, item);
             }
+            return itemsDataById;
+            //using (FileStream fs = new FileStream("items.xml", FileMode.Create))
+            //{
+            //    XmlSerializer xmlSerializer = new XmlSerializer(typeof(ItemData[]));
+            //    xmlSerializer.Serialize(fs, items);
+            //}
         }
 
         private static void SerializeServers()
         {
-            servers = new Server[] {
+            List<Server> servers = new List<Server> {
                 new Server(
                     HouseId.Twisting_Nether,
                     getAllRecipesHorde()),
@@ -311,11 +340,20 @@ namespace info
                     HouseId.malganis,
                     getAllRecipesAlliance())
             };
-            using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
+            foreach (var server in servers)
             {
-                XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server[]));
-                serverXmlSerializer.Serialize(fs, servers);
+                //File.WriteAllText(string.Format(@"realms\{0}.json", server.name), JsonConvert.SerializeObject(server, Formatting.Indented));
+                using (FileStream fs = new FileStream(string.Format(@"realms\{0}.xml", server.name), FileMode.Create))
+                {
+                    XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
+                    serverXmlSerializer.Serialize(fs, server);
+                }
             }
+            //using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
+            //{
+            //    XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server[]));
+            //    serverXmlSerializer.Serialize(fs, servers);
+            //}
         }
 
         private static List<int> getAllRecipesHorde()
@@ -355,46 +393,27 @@ namespace info
                     {
                         if (server.HasUpdate())
                         {
-                            int targetIncomeInHour;
-                            int targetProfit;
-                            if (server.farmMode)
-                            {
-                                targetIncomeInHour = 0;
-                                targetProfit = 0;
-                            }
-                            else
-                            {
-                                targetIncomeInHour = settings.TARGET_INCOME_IN_HOUR;
-                                targetProfit = settings.TARGET_PROFIT;
-                            }
-                            List<Recipe> recipes = GetRecipes(server, targetIncomeInHour);
-
-                            recipes.Sort();
+                            Dictionary<int, List<Recipe>> recipesById = GetRecipes(server);
 
                             long globalProfit = 0;
+                            int recipesCount = 0;
                             TimeSpan timeCraft = new TimeSpan();
-                            Dictionary<int, List<Recipe>> recipesById = new Dictionary<int, List<Recipe>>();
                             Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
                             Dictionary<int, long> summaryProfitRecipesByRecipeId = new Dictionary<int, long>();
-                            foreach (var recipe in recipes)
+                            foreach (var recipeId in recipesById.Keys)
                             {
-                                if (!recipesById.ContainsKey(recipe.recipeData.ID))
+                                summaryIncomeRecipesByRecipeId.Add(recipeId, 0d);
+                                summaryProfitRecipesByRecipeId.Add(recipeId, 0L);
+                            }
+                            foreach (var recipeList in recipesById.Values)
+                            {
+                                foreach (var recipe in recipeList)
                                 {
-                                    recipesById.Add(recipe.recipeData.ID, new List<Recipe>());
+                                    globalProfit += recipe.profit;
+                                    summaryProfitRecipesByRecipeId[recipe.recipeData.ID] += recipe.profit;
+                                    summaryIncomeRecipesByRecipeId[recipe.recipeData.ID] += recipe.IncomeGoldInHour;
+                                    timeCraft += TimeSpan.FromMilliseconds(recipe.recipeData.NeedMillisecondsToCraft);
                                 }
-                                if (!summaryIncomeRecipesByRecipeId.ContainsKey(recipe.recipeData.ID))
-                                {
-                                    summaryIncomeRecipesByRecipeId.Add(recipe.recipeData.ID, 0f);
-                                }
-                                if (!summaryProfitRecipesByRecipeId.ContainsKey(recipe.recipeData.ID))
-                                {
-                                    summaryProfitRecipesByRecipeId.Add(recipe.recipeData.ID, 0);
-                                }
-                                globalProfit += recipe.profit;
-                                summaryProfitRecipesByRecipeId[recipe.recipeData.ID] += recipe.profit;
-                                recipesById[recipe.recipeData.ID].Add(recipe);
-                                summaryIncomeRecipesByRecipeId[recipe.recipeData.ID] += recipe.IncomeGoldInHour;
-                                timeCraft += TimeSpan.FromMilliseconds(recipe.recipeData.NeedMillisecondsToCraft);
                             }
 
                             Dictionary<int, double> averageIncomeRecipesByRecipeId = new Dictionary<int, double>();
@@ -413,12 +432,13 @@ namespace info
                                 RecipeData recipeData = recipesById[recipeId][0].recipeData;
                                 double randomProfit = recipesById[recipeId].Count * recipeData.GetRandomProfit() * ChanceRandomProfit;
                                 globalRandomProfit += randomProfit;
+                                recipesCount += recipesById[recipeId].Count;
                                 printStr += string.Format(
-                                    "\n\t {0,-45} Профит: {1:#.} + {3:#.} {2:#.}\n",
+                                    "\n\t {0,-40} Профит: {1:0.} + {3:0.} {2:0.}\n",
                                     string.Format("{0} x {1}", recipeData.name, recipesById[recipeId].Count),
                                     Util.ConvertCopperToGold(summaryProfitRecipesByRecipeId[recipeId]),
                                     averageIncomeRecipeByRecipeIdPair.Value,
-                                    randomProfit);
+                                    Util.ConvertCopperToGold(randomProfit));
                                 foreach (var itemData in recipeData.ItemsData)
                                 {
                                     Dictionary<long, List<Item>> bidsItemInRecipeByCost = new Dictionary<long, List<Item>>();
@@ -453,12 +473,12 @@ namespace info
                                 Util.ConvertCopperToGold(globalProfit),
                                 Util.GetIncomeGoldInHour(globalProfit, timeCraft),
                                 timeCraft.TotalMinutes,
-                                recipes.Count,
-                                globalRandomProfit);
+                                recipesCount,
+                                Util.ConvertCopperToGold(globalRandomProfit));
                             lock (consoleLocker)
                             {
                                 Util.WriteLineAndLog(printStr);
-                                if (Util.ConvertCopperToGold(globalProfit) > targetProfit)
+                                if (Util.ConvertCopperToGold(globalProfit + globalRandomProfit) > settings.TARGET_PROFIT)
                                 {
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     Console.Write(STRING);
@@ -480,13 +500,12 @@ namespace info
                                     }
                                 }
                                 File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");
-
-                                using (FileStream fs = new FileStream("servers.xml", FileMode.Create))
-                                {
-                                    XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server[]));
-                                    serverXmlSerializer.Serialize(fs, servers);
-                                }
                                 Console.WriteLine();
+                            }
+                            using (FileStream fs = new FileStream(string.Format(@"realms\{0}.xml", server.name), FileMode.Create))
+                            {
+                                XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
+                                serverXmlSerializer.Serialize(fs, server);
                             }
                         }
                         else
@@ -506,9 +525,18 @@ namespace info
             }
         }
 
-        private static List<Recipe> GetRecipes(Server server, int targetIncomeInHour)
+        private static Dictionary<int, List<Recipe>> GetRecipes(Server server)
         {
-            List<Recipe> recipes = new List<Recipe>();
+            int targetIncomeInHour;
+            if (server.farmMode)
+            {
+                targetIncomeInHour = 0;
+            }
+            else
+            {
+                targetIncomeInHour = settings.TARGET_INCOME_IN_HOUR;
+            }
+            Dictionary<int, List<Recipe>> recipesById = new Dictionary<int, List<Recipe>>();
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
                 HashSet<ItemData> itemsDataTree = new HashSet<ItemData>();
@@ -547,9 +575,13 @@ namespace info
                     }
                     if (profitableRecipes.Count > 0)
                     {
-                        profitableRecipes.Sort();
+                        Recipe.SortByDescendingIncomeGoldInHour(profitableRecipes);
                         Recipe maxProfitableRecipe = profitableRecipes[0];
-                        recipes.Add(maxProfitableRecipe);
+                        if (!recipesById.ContainsKey(maxProfitableRecipe.recipeData.ID))
+                        {
+                            recipesById.Add(maxProfitableRecipe.recipeData.ID, new List<Recipe>());
+                        }
+                        recipesById[maxProfitableRecipe.recipeData.ID].Add(maxProfitableRecipe);
                         foreach (var idItem in maxProfitableRecipe.items.Keys)
                         {
                             foreach (var item in maxProfitableRecipe.items[idItem])
@@ -564,7 +596,7 @@ namespace info
                     }
                 }
             }
-            return recipes;
+            return recipesById;
         }
     }
 }
