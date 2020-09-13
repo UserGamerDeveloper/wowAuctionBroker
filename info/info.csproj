@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuctionData.cs" />
     <Compile Include="Reputation.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Recipe.cs" />

@@ -111,7 +111,7 @@ namespace info
         {
             public int Compare(Server s1, Server s2)
             {
-                return s2.money.CompareTo(s1.money);
+                return s2.Money.CompareTo(s1.Money);
             }
         }
 
@@ -125,7 +125,7 @@ namespace info
         [XmlIgnore]
         public List<HashSet<RecipeData>> RecipeDataTrees { get; } = new List<HashSet<RecipeData>>();
         [XmlIgnore]
-        private long money;
+        public long Money { get; private set; }
         [XmlIgnore]
         private long moneyMax;
         [XmlIgnore]
@@ -214,7 +214,7 @@ namespace info
                 recipes.Add(recipeDataByIdRecipe[idRecipe]);
             }
 
-            money = realmData.Money;
+            Money = realmData.Money;
             reputation = realmData.Reputation;
             moneyMax = realmData.MoneyMax;
 
@@ -266,10 +266,10 @@ namespace info
 
         internal string GetInfo()
         {
-            long waitingMoney = moneyMax - money;
+            long waitingMoney = moneyMax - Money;
             return String.Format("{0,-20}{1,20}{2,20}",
                 name,
-                Util.ConvertCopperToGold(money).ToString("N0"),
+                Util.ConvertCopperToGold(Money).ToString("N0"),
                 Util.ConvertCopperToGold(waitingMoney).ToString("N0"));
         }
     }

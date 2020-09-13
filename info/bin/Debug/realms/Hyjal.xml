@@ -2,7 +2,7 @@
 <Server xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <id>214</id>
   <name>Hyjal</name>
-  <timeUpdate>1599901386</timeUpdate>
+  <timeUpdate>1599987786</timeUpdate>
   <idRecipes>
     <int>128897</int>
     <int>154161</int>

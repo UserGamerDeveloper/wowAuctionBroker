@@ -7,10 +7,13 @@ namespace info
     [Serializable]
     public class RecipeData
     {
+        public const double BFANeedMillisecondsToCraft = 15000d / 70d;
+
         public int ID;
         public XmlSerializableDictionary<int,int> ID_ITEM_AND_NEED_AMOUNT;
         public long SellNormalPrice { get; set; }
         public long SellRandomPrice { get; set; }
+        public bool DropToMail { get; }
         public double NeedMillisecondsToCraft;
         public string name;
         public long SPENDING;
@@ -18,7 +21,9 @@ namespace info
         public HashSet<ItemData> ItemsData = new HashSet<ItemData>();
 
         public RecipeData(
-            RecipeInfo recipeInfo, XmlSerializableDictionary<int, int> dictionary, int SELL_PRICE, double TIME_NEED, long SPENDING, long sellRandomPrice)
+            RecipeInfo recipeInfo,
+            XmlSerializableDictionary<int, int> dictionary,
+            int SELL_PRICE, double TIME_NEED, long SPENDING, long sellRandomPrice, bool dropToMail = false)
         {
             ID = (int)recipeInfo;
             ID_ITEM_AND_NEED_AMOUNT = dictionary;
@@ -27,6 +32,7 @@ namespace info
             this.SPENDING = SPENDING;
             name = recipeInfo.ToString();
             SellRandomPrice = sellRandomPrice;
+            DropToMail = dropToMail;
         }
 
         RecipeData() { }
