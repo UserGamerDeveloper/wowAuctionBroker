@@ -47,7 +47,7 @@ namespace info
     {
         private const double ChanceRandomProfit = 0.165562913907285d;
 
-        public Dictionary<int, RecipesPage> recipesById { get; }
+        public Dictionary<int, RecipesPage> recipesById { get; } = new Dictionary<int, RecipesPage>();
         public long globalProfit = 0L;
         public TimeSpan timeCraft = new TimeSpan();
         public double globalRandomProfit = 0d;
@@ -66,6 +66,7 @@ namespace info
             }
             long summaryCostCraft = 0L;
             Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
+            //recipesById = new Dictionary<int, RecipesPage>();
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
                 HashSet<ItemData> itemsDataTree = new HashSet<ItemData>();
@@ -106,9 +107,6 @@ namespace info
                     {
                         Recipe.SortByDescendingIncomeGoldInHour(profitableRecipes);
                         Recipe maxProfitableRecipe = profitableRecipes[0];
-                        summaryCostCraft += maxProfitableRecipe.costCraft;
-                        globalProfit += maxProfitableRecipe.profit;
-                        timeCraft += TimeSpan.FromMilliseconds(maxProfitableRecipe.needMillisecondsToCraft);
                         int recipeId = maxProfitableRecipe.recipeData.ID;
                         if (!recipesById.ContainsKey(recipeId))
                         {
@@ -116,9 +114,11 @@ namespace info
                             summaryIncomeRecipesByRecipeId.Add(recipeId, 0d);
                         }
                         RecipesPage recipesPage = recipesById[recipeId];
+                        summaryCostCraft += maxProfitableRecipe.costCraft;
+                        recipesPage.SummaryProfit += maxProfitableRecipe.profit;
+                        recipesPage.TimeCraft += TimeSpan.FromMilliseconds(maxProfitableRecipe.needMillisecondsToCraft);
                         recipesPage.Recipes.Add(maxProfitableRecipe);
                         summaryIncomeRecipesByRecipeId[recipeId] += maxProfitableRecipe.IncomeGoldInHour;
-                        recipesPage.SummaryProfit += maxProfitableRecipe.profit;
                         foreach (var idItem in maxProfitableRecipe.items.Keys)
                         {
                             foreach (var item in maxProfitableRecipe.items[idItem])
@@ -146,7 +146,7 @@ namespace info
             }
             Dictionary<int, RecipesPage> tempRecipesById = recipesById;
             recipesById = new Dictionary<int, RecipesPage>();
-            foreach (var keyValuePair in recipesById.OrderByDescending(pair => pair.Value.AverageIncome))
+            foreach (var keyValuePair in tempRecipesById.OrderByDescending(pair => pair.Value.AverageIncome))
             {
                 recipesById.Add(keyValuePair.Key, keyValuePair.Value);
             }

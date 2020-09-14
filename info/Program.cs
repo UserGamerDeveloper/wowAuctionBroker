@@ -28,24 +28,8 @@ namespace info
             }
             catch (Exception e)
             {
-                ExceptionLogAndAlert(e);
+                Util.ExceptionLogAndAlert(e);
             }
-        }
-
-        private static void ExceptionLogAndAlert(Exception e)
-        {
-            Exception ex = e;
-            string log = DateTime.Now.ToString() + "\n";
-            while (ex != null)
-            {
-                log += String.Format("{0} {1} \n", ex.TargetSite.Name, ex.Message);
-                ex = ex.InnerException;
-            }
-            File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
-            Console.WriteLine("Надо перезагрузить\n");
-            SoundPlayer alert = new SoundPlayer("music.wav");
-            alert.PlayLooping();
-            Console.ReadLine();
         }
 
         private static void Start()
@@ -73,7 +57,7 @@ namespace info
 
             foreach (var server in servers)
             {
-                new Thread(new ParameterizedThreadStart(ParseServer)).Start(server);
+                new Thread(new ThreadStart(server.Parse)).Start();
             }
         }
 
@@ -384,97 +368,6 @@ namespace info
                         (int)RecipeInfo.Tidespray_Linen_Pants_A,
                         (int)RecipeInfo.Warhide_Shoulderguard
             };
-        }
-
-        private static void ParseServer(object obj)
-        {
-            try
-            {
-                Server server = obj as Server;
-                while (true)
-                {
-                    DateTime dateTime = Util.UnixTimeStampToDateTime(server.timeUpdate);
-                    DateTime timeNextUpdate = dateTime.AddHours(1d).AddMinutes(Util.AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA);
-                    if (timeNextUpdate.CompareTo(DateTime.Now) == -1)
-                    {
-                        if (server.HasUpdate())
-                        {
-                            AuctionData auctionData = new AuctionData(server);
-                            string printStr = server.GetNameAndTimeUpdate();
-                            foreach (var keyValuePair in auctionData.recipesById)
-                            {
-                                RecipesPage recipesPage = keyValuePair.Value;
-                                List<Recipe> recipes = recipesPage.Recipes;
-                                RecipeData recipeData = recipesPage.recipeData;
-                                printStr += string.Format(
-                                    "\n\t {0,-40} Профит: {1:0.} + {3:0.} {2:0.}\n",
-                                    string.Format("{0} x {1}", recipeData.name, recipes.Count),
-                                    Util.ConvertCopperToGold(recipesPage.SummaryProfit),
-                                    recipesPage.AverageIncome,
-                                    Util.ConvertCopperToGold(recipesPage.randomProfit));
-                                foreach (var itemData in recipeData.ItemsData)
-                                {
-                                    printStr += string.Format(
-                                        "\t\t{0}\n\t\t\tМакс цена: \t{1:# ## ##.}\n",
-                                        itemData.itemName,
-                                        Util.ConvertCopperToSilver(recipesPage.GetMaxPrice(itemData)));
-                                }
-                            }
-                            const string STRING = "Профит ";
-                            string globalProfitString = string.Format("{0:0.} + {4:0.} {1:0.} {2:0.} мин, рецептов {3}",
-                                Util.ConvertCopperToGold(auctionData.globalProfit),
-                                Util.GetIncomeGoldInHour(auctionData.globalProfit, auctionData.timeCraft),
-                                auctionData.timeCraft.TotalMinutes,
-                                auctionData.recipesCount,
-                                Util.ConvertCopperToGold(auctionData.globalRandomProfit));
-                            lock (consoleLocker)
-                            {
-                                Util.WriteLineAndLog(printStr);
-                                if (Util.ConvertCopperToGold(auctionData.globalProfit + auctionData.globalRandomProfit) > settings.TARGET_PROFIT)
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Green;
-                                    Console.Write(STRING);
-                                    Console.ResetColor();
-                                    Console.WriteLine(globalProfitString);
-
-                                    SoundPlayer simpleSound = new SoundPlayer("music.wav");
-                                    simpleSound.PlayLooping();
-                                    Console.ReadLine();
-                                    simpleSound.Stop();
-                                }
-                                else
-                                {
-                                    if (auctionData.globalProfit > 0)
-                                    {
-                                        Console.WriteLine(STRING + globalProfitString);
-                                        SoundPlayer alert = new SoundPlayer("alert.wav");
-                                        alert.Play();
-                                    }
-                                }
-                                File.AppendAllText("log.txt", STRING + globalProfitString + "\n\n");
-                                Console.WriteLine();
-                            }
-                            using (FileStream fs = new FileStream(string.Format(@"realms\{0}.xml", server.name), FileMode.Create))
-                            {
-                                XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
-                                serverXmlSerializer.Serialize(fs, server);
-                            }
-                        }
-                        else
-                        {
-                            Thread.Sleep(60000);
-                        }
-                    }
-                    else
-                    {
-                        Thread.Sleep(1000);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                ExceptionLogAndAlert(e);
-            }
         }
     }
 }

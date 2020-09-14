@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -135,6 +136,22 @@ namespace info
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
+        }
+
+        public static void ExceptionLogAndAlert(Exception e)
+        {
+            Exception ex = e;
+            string log = DateTime.Now.ToString() + "\n";
+            while (ex != null)
+            {
+                log += string.Format("{0} {1} \n", ex.TargetSite.Name, ex.Message);
+                ex = ex.InnerException;
+            }
+            File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
+            Console.WriteLine("Надо перезагрузить\n");
+            SoundPlayer alert = new SoundPlayer("music.wav");
+            alert.PlayLooping();
+            Console.ReadLine();
         }
 
         static public string GetResponse(string url, string pathLogFile)
