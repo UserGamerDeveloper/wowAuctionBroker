@@ -12,6 +12,8 @@ namespace info
         public int TARGET_PROFIT;
         public int TARGET_INCOME_IN_HOUR;
         public string WOW_PATH;
+        public string ClientId;
+        public string ClientSecret;
 
         public Settings() { }
     }

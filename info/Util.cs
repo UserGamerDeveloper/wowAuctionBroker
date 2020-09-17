@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,16 +15,41 @@ namespace info
 {
     static class Util
     {
-        class Maintenance
+        private class Token
         {
-            [JsonProperty("maintenance")]
-            public int TimeEnd { get; set; }
+            [JsonProperty("access_token")]
+            public string AccessToken { get; set; }
+            public string token_type { get; set; }
+            public int expires_in { get; set; }
         }
 
-        private const int TimeOut = 5000;
-        public const double AMOUNT_MINUTS_FOR_GET_ACTUAL_DATA = 1d;
+        private static TimeSpan TimeOut = TimeSpan.FromSeconds(20d);
         private const int AmountCopperInGold = 10000;
         private const int AmountCopperInSilver = 100;
+        public const string URL_ITEM_PAGE_FORMAT = "https://eu.api.blizzard.com/data/wow/connected-realm/{0}/auctions?namespace=dynamic-eu&locale=en_US";
+        public static readonly object exeptionLocker = new object();
+        private static string accessToken;
+
+        public static void SetAccessToken(string clientId, string clientSecret)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://eu.battle.net/oauth/token"))
+                {
+                    var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{clientId}:{clientSecret}"));
+                    request.Headers.TryAddWithoutValidation("Authorization", $"Basic {base64authorization}");
+                    request.Content = new StringContent("grant_type=client_credentials");
+                    request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                    httpClient.Timeout = TimeOut;
+                    Task<HttpResponseMessage> task = httpClient.SendAsync(request);
+                    task.Wait();
+                    var a = task.Result.Content.ReadAsStringAsync();
+                    a.Wait();
+                    string b = a.Result;
+                    accessToken = JsonConvert.DeserializeObject<Token>(b).AccessToken;
+                }
+            }
+        }
 
         public static double GetIncomeGoldInHour(double profit, TimeSpan timeSpan)
         {
@@ -41,78 +68,10 @@ namespace info
             return copper / AmountCopperInGold;
         }
 
-        //public static double getTimeInSeconds(DateTime tempTimeNeed)
-        //{
-        //    return tempTimeNeed.Millisecond / 1000f + tempTimeNeed.Second * 1f + tempTimeNeed.Minute * 60f + tempTimeNeed.Hour * 3600f;
-        //}
-
         public static double ConvertCopperToSilver(double copper)
         {
             return copper / AmountCopperInSilver;
         }
-
-        //public static double getTimeInMinuts(DateTime timeNeed)
-        //{
-        //    return getTimeInSeconds(timeNeed) / 60f;
-        //}
-
-        //public static void KillGoogleChrome()
-        //{
-        //    string strCmdText = "/C taskkill /im chrome.exe /f";
-        //    RunProcess(strCmdText);
-        //}
-
-        //public static void RunProcess(string strCmdText)
-        //{
-        //    System.Diagnostics.Process process = new System.Diagnostics.Process();
-        //    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-        //    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-        //    startInfo.FileName = "cmd.exe";
-        //    startInfo.Arguments = strCmdText;
-        //    process.StartInfo = startInfo;
-        //    process.Start();
-
-        //    //System.Diagnostics.Process.Start("CMD.exe", strCmdText);
-        //}
-
-        //public static string getResponse(string path)
-        //{
-        //    string responce = ReadFile(path);
-        //    Util.KillGoogleChrome();
-        //    DeleteFile(path);
-        //    return responce;
-        //}
-
-        //public static void DeleteFile(string path)
-        //{
-        //    try
-        //    {
-        //        File.Delete(path);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        File.AppendAllText("Exception.txt", DateTime.Now.ToString() + "\n" + e.ToString() + "\n\n");
-        //    }
-        //}
-
-        //public static string ReadFile(string path)
-        //{
-        //    bool readed = false;
-        //    while (!readed)
-        //    {
-        //        try
-        //        {
-        //            string data = File.ReadAllText(path);
-        //            readed = true;
-        //            return data;
-        //        }
-        //        catch (Exception)
-        //        {
-        //            Thread.Sleep(1000);
-        //        }
-        //    }
-        //    return null;
-        //}
 
         public static void WriteAndLog(string str)
         {
@@ -131,141 +90,78 @@ namespace info
             File.AppendAllText("log.txt", DateTime.Now + "\n"+str + "\n");
         }
 
-        public static DateTime UnixTimeStampToDateTime(long unixTimeStamp)
-        {
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-            return dtDateTime;
-        }
-
         public static void ExceptionLogAndAlert(Exception e)
         {
-            Exception ex = e;
-            string log = DateTime.Now.ToString() + "\n";
-            while (ex != null)
+            lock (exeptionLocker)
             {
-                log += string.Format("{0} {1} \n", ex.TargetSite.Name, ex.Message);
-                ex = ex.InnerException;
+                Exception ex = e;
+                string log = DateTime.Now.ToString() + "\n";
+                while (ex != null)
+                {
+                    log += string.Format("{0} {1} \n", ex.Source, ex.Message);
+                    ex = ex.InnerException;
+                }
+                File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
+                Console.WriteLine("Надо перезагрузить\n");
+                SoundPlayer alert = new SoundPlayer("music.wav");
+                alert.PlayLooping();
             }
-            File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
-            Console.WriteLine("Надо перезагрузить\n");
-            SoundPlayer alert = new SoundPlayer("music.wav");
-            alert.PlayLooping();
-            Console.ReadLine();
         }
 
-        static public string GetResponse(string url, string pathLogFile)
+        static public string GetAuctionDataStr(int idRealm)
         {
-            string response = null;
             while (true)
             {
                 try
                 {
-                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                    using (var httpClient = new HttpClient())
+                    {
+                        httpClient.Timeout = TimeOut;
+                        using (var request = new HttpRequestMessage(new HttpMethod("GET"), string.Format(URL_ITEM_PAGE_FORMAT, idRealm)))
+                        {
+                            request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {accessToken}");
+                            Task<HttpResponseMessage> task = httpClient.SendAsync(request);
+                            task.Wait();
+                            var a = task.Result.Content.ReadAsStringAsync();
+                            a.Wait();
+                            return a.Result;
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        static public string GetTimeUpdateStr(int idRealm)
+        {
+            while (true)
+            {
+                try
+                {
+                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(
+                        string.Format(URL_ITEM_PAGE_FORMAT, idRealm) + $"&access_token={accessToken}");
                     httpWebRequest.AllowAutoRedirect = false;
                     httpWebRequest.Method = "GET";
-                    httpWebRequest.Timeout = TimeOut;
-                    using (var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+                    httpWebRequest.Timeout = 2000;
+                    using (var webResponse = httpWebRequest.GetResponse())
                     {
-                        using (var stream = httpWebResponse.GetResponseStream())
+                        return webResponse.Headers["Last-Modified"];
+                    }
+                }
+                catch (WebException e)
+                {
+                    if (e.Response != null)
+                    {
+                        HttpWebResponse httpWebResponse = e.Response as HttpWebResponse;
+                        if (httpWebResponse.StatusCode == HttpStatusCode.Unauthorized)
                         {
-                            using (var reader = new StreamReader(stream, Encoding.UTF8))
-                            {
-                                //timeOutDBPage = 2000;
-                                response = reader.ReadToEnd();
-                                //Thread.Sleep(1000);
-                                break;
-                            }
+                            throw e;
                         }
                     }
                 }
-                catch (WebException ex)
-                {
-                    try
-                    {
-                        using (var stream = ex.Response.GetResponseStream())
-                        using (var reader = new StreamReader(stream))
-                        {
-                            Maintenance maintenance = JsonConvert.DeserializeObject<Maintenance>(reader.ReadToEnd());
-                            DateTime dateTime = UnixTimeStampToDateTime(maintenance.TimeEnd);
-                            Util.WriteLineAndLogWhithTime(string.Format("\n\t\t Тех. работы до {0} \n", dateTime));
-                            throw new Exception(string.Format("Тех. работы до {0}", dateTime));
-                        }
-                    }
-                    catch (NullReferenceException)
-                    {
-                        //Thread.Sleep(1000);
-                    }
-                    //catch (Exception e)
-                    //{
-                    //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                    //    throw new Exception(url, e);
-                    //}
-                }
-                //catch (Exception e)
-                //{
-                //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                //    throw e;
-                //}
-            }
-            return response;
-        }
-
-        static public void WaitEndMaintenance()
-        {
-            while (true)
-            {
-                try
-                {
-                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("https://theunderminejournal.com/api/item.php?house=147&item=152576");
-                    httpWebRequest.AllowAutoRedirect = false;//Запрещаем автоматический редирект
-                    httpWebRequest.Method = "GET"; //Можно не указывать, по умолчанию используется GET.
-                    httpWebRequest.Timeout = TimeOut;
-                    using (var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
-                    {
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                }
-                catch (WebException ex)
-                {
-                    try
-                    {
-                        using (var stream = ex.Response.GetResponseStream())
-                        using (var reader = new StreamReader(stream))
-                        {
-                            Maintenance maintenance = JsonConvert.DeserializeObject<Maintenance>(reader.ReadToEnd());
-                            DateTime dateTime = UnixTimeStampToDateTime(maintenance.TimeEnd);
-                            Util.WriteLineAndLogWhithTime(String.Format("\n\t\t Тех. работы до {0} \n", dateTime));
-                            if (dateTime.CompareTo(DateTime.Now) != -1)
-                            {
-                                while (dateTime.CompareTo(DateTime.Now) != -1)
-                                {
-                                    Thread.Sleep(1000);
-                                }
-                            }
-                            else
-                            {
-                                Thread.Sleep(60000);
-                            }
-                        }
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Thread.Sleep(1000);
-                    }
-                    //catch (Exception e)
-                    //{
-                    //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                    //    throw e;
-                    //}
-
-                }
-                //catch (Exception e)
-                //{
-                //    //File.WriteAllText(pathLogFile, DateTime.Now.ToString() + "\n" + e.ToString() + "\n");
-                //    throw e;
-                //}
             }
         }
     }

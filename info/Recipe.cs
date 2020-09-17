@@ -8,14 +8,6 @@ namespace info
 {
     public class Recipe
     {
-        private class ComparerByDescendingIncomeGoldInHour : IComparer<Recipe>
-        {
-            public int Compare(Recipe obj1, Recipe obj2)
-            {
-                return obj2.IncomeGoldInHour.CompareTo(obj1.IncomeGoldInHour);
-            }
-        }
-
         public RecipeData recipeData;
         public long profit;
         public Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
@@ -49,11 +41,6 @@ namespace info
                 needMillisecondsToCraft = recipeData.NeedMillisecondsToCraft;
             }
             IncomeGoldInHour = Util.GetIncomeGoldInHour(profit, TimeSpan.FromMilliseconds(needMillisecondsToCraft));
-        }
-
-        internal static void SortByDescendingIncomeGoldInHour(List<Recipe> profitableRecipes)
-        {
-            profitableRecipes.Sort(new ComparerByDescendingIncomeGoldInHour());
         }
     }
 }

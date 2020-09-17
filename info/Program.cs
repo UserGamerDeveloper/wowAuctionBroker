@@ -11,12 +11,13 @@ using System.Xml.Serialization;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace info
 {
     public class Program
     {
-        //static Server[] servers;
         public static Settings settings;
         public static readonly object consoleLocker = new object();
 
@@ -34,26 +35,18 @@ namespace info
 
         private static void Start()
         {
+            DeserializeSettings();
+            Util.SetAccessToken(settings.ClientId, settings.ClientSecret);
             //SerializeServers();
             List<Server> servers = DeserializeServers();
-            DeserializeSettings();
-            ClientData clientData = DeserializeClientData();
-            Dictionary<int, RecipeData> recipeDataById = GetRecipeDataById();
-            foreach (var server in servers)
-            {
-                server.SetData(clientData.RealmsDatasByIdHouse[server.id], recipeDataById);
-            }
-            Server.SortByDescendingMoney(servers);
             string serversInfo = "";
-            foreach (var server in servers)
+            foreach (var server in servers.OrderByDescending(server => server.Money))
             {
                 serversInfo += server.GetInfo() + "\n";
             }
             Util.WriteLineAndLog(serversInfo);
             const string DELIMETR = "--------------------------------------------------------------------------------";
             Util.WriteLineAndLog(DELIMETR);
-
-            Util.WaitEndMaintenance();
 
             foreach (var server in servers)
             {
@@ -228,13 +221,17 @@ namespace info
             List<Server> servers = new List<Server>();
             DirectoryInfo directoryInfo = new DirectoryInfo("realms");
             FileInfo[] files = directoryInfo.GetFiles();
+            ClientData clientData = DeserializeClientData();
+            Dictionary<int, RecipeData> recipeDataById = GetRecipeDataById();
             foreach (var file in files)
             {
                 //servers.Add(JsonConvert.DeserializeObject<Server>(File.ReadAllText(file.FullName)));
                 using (FileStream fs = new FileStream(file.FullName, FileMode.Open))
                 {
                     XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
-                    servers.Add((Server)serverXmlSerializer.Deserialize(fs));
+                    Server server = (Server)serverXmlSerializer.Deserialize(fs);
+                    server.SetData(clientData.RealmsDatasByIdHouse[server.id], recipeDataById);
+                    servers.Add(server);
                 }
             }
             return servers;

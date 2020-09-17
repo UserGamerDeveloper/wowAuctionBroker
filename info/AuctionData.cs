@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,7 +44,74 @@ namespace info
         }
     }
 
-    class AuctionData
+    public class AuctionData
+    {
+        [JsonProperty("_links")]
+        public Links Links { get; set; }
+        [JsonProperty("connected_realm")]
+        public ConnectedRealm ConnectedRealm { get; set; }
+        [JsonProperty("auctions")]
+        public List<Auction> Auctions { get; set; }
+    }
+    public class Links
+    {
+        [JsonProperty("self")]
+        public Self Self { get; set; }
+    }
+    public class Self
+    {
+        [JsonProperty("href")]
+        public string Href { get; set; }
+    }
+    public class ConnectedRealm
+    {
+        [JsonProperty("href")]
+        public string Href { get; set; }
+    }
+    public class Auction
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+        [JsonProperty("item")]
+        public Itemm Item { get; set; }
+        [JsonProperty("bid")]
+        public long Bid { get; set; }
+        [JsonProperty("buyout")]
+        public long Buyout { get; set; }
+        [JsonProperty("unit_price")]
+        public long UnitPrice { get; set; }
+        [JsonProperty("quantity")]
+        public int Quantity { get; set; }
+        [JsonProperty("time_left")]
+        public string TimeLeft { get; set; }
+    }
+    public class Itemm
+    {
+        public class Modifier
+        {
+            [JsonProperty("type")]
+            public int Type { get; set; }
+            [JsonProperty("value")]
+            public int Value { get; set; }
+        }
+
+        [JsonProperty("id")]
+        public int Id { get; set; }
+        [JsonProperty("context")]
+        public int Context { get; set; }
+        [JsonProperty("modifiers")]
+        public List<Modifier> Modifiers { get; set; }
+        [JsonProperty("pet_breed_id")]
+        public int PetBreedId { get; set; }
+        [JsonProperty("pet_level")]
+        public int PetLevel { get; set; }
+        [JsonProperty("pet_quality_id")]
+        public int PetQualityId { get; set; }
+        [JsonProperty("pet_species_id")]
+        public int PetSpeciesId { get; set; }
+    }
+
+    class AuctionParser
     {
         private const double ChanceRandomProfit = 0.165562913907285d;
 
@@ -53,7 +121,7 @@ namespace info
         public double globalRandomProfit = 0d;
         public int recipesCount = 0;
 
-        public AuctionData(Server server)
+        public AuctionParser(Server server)
         {
             int targetIncomeInHour;
             if (server.farmMode)
@@ -65,24 +133,41 @@ namespace info
                 targetIncomeInHour = Program.settings.TARGET_INCOME_IN_HOUR;
             }
             long summaryCostCraft = 0L;
-            Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
-            //recipesById = new Dictionary<int, RecipesPage>();
+
+            HashSet<int> itemsId = new HashSet<int>();
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
-                HashSet<ItemData> itemsDataTree = new HashSet<ItemData>();
                 foreach (var recipeData in recipeDataTree)
                 {
                     foreach (var itemData in recipeData.ItemsData)
                     {
-                        itemsDataTree.Add(itemData);
+                        itemsId.Add(itemData.id);
                     }
                 }
-                Dictionary<int, ItemPageParser> parsersForTree = new Dictionary<int, ItemPageParser>();
-                foreach (var itemData in itemsDataTree)
+            }
+            Dictionary<int, List<Auction>> auctionsByIdItem = new Dictionary<int, List<Auction>>();
+            foreach (var itemId in itemsId)
+            {
+                auctionsByIdItem.Add(itemId, new List<Auction>());
+            }
+            string auctionDataStr = Util.GetAuctionDataStr(server.id);
+            AuctionData auctionData = JsonConvert.DeserializeObject<AuctionData>(auctionDataStr);
+            foreach (var auction in auctionData.Auctions)
+            {
+                if (auctionsByIdItem.Keys.Contains(auction.Item.Id))
                 {
-                    ItemPageParser parser = new ItemPageParser(server.id, itemData.id);
-                    parsersForTree.Add(itemData.id, parser);
+                    auctionsByIdItem[auction.Item.Id].Add(auction);
                 }
+            }
+            Dictionary<int, ItemPageParser> parsersByIdItem = new Dictionary<int, ItemPageParser>();
+            foreach (var keyValuePair in auctionsByIdItem)
+            {
+                parsersByIdItem.Add(keyValuePair.Key, new ItemPageParser(keyValuePair.Value));
+            }
+
+            Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
+            foreach (var recipeDataTree in server.RecipeDataTrees)
+            {
                 while (true)
                 {
                     List<Recipe> profitableRecipes = new List<Recipe>();
@@ -92,11 +177,11 @@ namespace info
                         foreach (var itemData in recipeData.ItemsData)
                         {
                             enoughItemsForRecipe = enoughItemsForRecipe &&
-                                parsersForTree[itemData.id].HasRequiredAmount(recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id]);
+                                parsersByIdItem[itemData.id].HasRequiredAmount(recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id]);
                         }
                         if (enoughItemsForRecipe)
                         {
-                            Recipe recipe = new Recipe(recipeData, server, parsersForTree, summaryCostCraft);
+                            Recipe recipe = new Recipe(recipeData, server, parsersByIdItem, summaryCostCraft);
                             if (recipe.IncomeGoldInHour >= targetIncomeInHour)
                             {
                                 profitableRecipes.Add(recipe);
@@ -105,8 +190,7 @@ namespace info
                     }
                     if (profitableRecipes.Count > 0)
                     {
-                        Recipe.SortByDescendingIncomeGoldInHour(profitableRecipes);
-                        Recipe maxProfitableRecipe = profitableRecipes[0];
+                        Recipe maxProfitableRecipe = profitableRecipes.OrderByDescending(recipe => recipe.IncomeGoldInHour).First();
                         int recipeId = maxProfitableRecipe.recipeData.ID;
                         if (!recipesById.ContainsKey(recipeId))
                         {
@@ -123,7 +207,7 @@ namespace info
                         {
                             foreach (var item in maxProfitableRecipe.items[idItem])
                             {
-                                parsersForTree[idItem].Remove(item);
+                                parsersByIdItem[idItem].Remove(item);
                             }
                         }
                     }
@@ -143,12 +227,6 @@ namespace info
                 recipesPage.randomProfit = recipesPage.Recipes.Count * recipesPage.recipeData.GetRandomProfit() * ChanceRandomProfit;
                 globalRandomProfit += recipesPage.randomProfit;
                 recipesCount += recipesPage.Recipes.Count;
-            }
-            Dictionary<int, RecipesPage> tempRecipesById = recipesById;
-            recipesById = new Dictionary<int, RecipesPage>();
-            foreach (var keyValuePair in tempRecipesById.OrderByDescending(pair => pair.Value.AverageIncome))
-            {
-                recipesById.Add(keyValuePair.Key, keyValuePair.Value);
             }
         }
     }
