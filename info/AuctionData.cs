@@ -113,7 +113,7 @@ namespace info
 
     class AuctionParser
     {
-        private const double ChanceRandomProfit = 0.165562913907285d;
+        private const double ChanceRandomProfit = 0.177637947725073d;
 
         public Dictionary<int, RecipesPage> recipesById { get; } = new Dictionary<int, RecipesPage>();
         public long globalProfit = 0L;
@@ -123,10 +123,10 @@ namespace info
 
         public AuctionParser(Server server)
         {
-            int targetIncomeInHour;
+            double targetIncomeInHour;
             if (server.farmMode)
             {
-                targetIncomeInHour = 0;
+                targetIncomeInHour = 0d;
             }
             else
             {

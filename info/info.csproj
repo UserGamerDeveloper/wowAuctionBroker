@@ -38,6 +38,15 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Exceptions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=fc5550082a9c642c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Exceptions.5.6.0\lib\net461\Serilog.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.4.1.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -50,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuctionData.cs" />
+    <Compile Include="Loader.cs" />
     <Compile Include="Reputation.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Recipe.cs" />
@@ -58,6 +68,7 @@
     <Compile Include="RecipeInfo.cs" />
     <Compile Include="HouseId.cs" />
     <Compile Include="ItemPageParser.cs" />
+    <Compile Include="Saver.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ItemData.cs" />
     <Compile Include="Program.cs" />

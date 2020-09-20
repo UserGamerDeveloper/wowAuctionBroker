@@ -1,6 +1,6 @@
 ﻿namespace info
 {
-    public enum HouseId
+    public enum RealmID
     {
         Twisting_Nether = 3674,
         Ravencrest = 1329,

@@ -1,4 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Serilog;
+using Serilog.Core;
+using Serilog.Exceptions;
+using Serilog.Exceptions.Core;
+using Serilog.Formatting.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,30 +28,51 @@ namespace info
             public int expires_in { get; set; }
         }
 
-        private static TimeSpan TimeOut = TimeSpan.FromSeconds(20d);
         private const int AmountCopperInGold = 10000;
         private const int AmountCopperInSilver = 100;
         public const string URL_ITEM_PAGE_FORMAT = "https://eu.api.blizzard.com/data/wow/connected-realm/{0}/auctions?namespace=dynamic-eu&locale=en_US";
         public static readonly object exeptionLocker = new object();
         private static string accessToken;
+        private static readonly Logger logger = 
+            new LoggerConfiguration()
+            .Enrich.WithExceptionDetails()
+            .WriteTo.File("Exception.txt"/*, fileSizeLimitBytes: 1, rollOnFileSizeLimit: true*/)
+            /*(new JsonFormatter(renderMessage: true), @"logs\log-{Date}.txt")*/.CreateLogger();
 
         public static void SetAccessToken(string clientId, string clientSecret)
         {
-            using (var httpClient = new HttpClient())
+            while (true)
             {
-                using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://eu.battle.net/oauth/token"))
+                try
                 {
-                    var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{clientId}:{clientSecret}"));
-                    request.Headers.TryAddWithoutValidation("Authorization", $"Basic {base64authorization}");
-                    request.Content = new StringContent("grant_type=client_credentials");
-                    request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
-                    httpClient.Timeout = TimeOut;
-                    Task<HttpResponseMessage> task = httpClient.SendAsync(request);
-                    task.Wait();
-                    var a = task.Result.Content.ReadAsStringAsync();
-                    a.Wait();
-                    string b = a.Result;
-                    accessToken = JsonConvert.DeserializeObject<Token>(b).AccessToken;
+                    using (var httpClient = new HttpClient())
+                    {
+                        httpClient.Timeout = TimeSpan.FromSeconds(2d);
+                        using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://eu.battle.net/oauth/token"))
+                        {
+                            var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{clientId}:{clientSecret}"));
+                            request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Basic {base64authorization}");
+                            request.Content = new StringContent("grant_type=client_credentials");
+                            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                            Task<HttpResponseMessage> task = httpClient.SendAsync(request);
+                            task.Wait();
+                            var a = task.Result.Content.ReadAsStringAsync();
+                            a.Wait();
+                            string b = a.Result;
+                            accessToken = JsonConvert.DeserializeObject<Token>(b).AccessToken;
+                            break;
+                        }
+                    }
+                }
+                catch (AggregateException ae)
+                {
+                    foreach (var e in ae.InnerExceptions)
+                    {
+                        if (!(e is TaskCanceledException))
+                        {
+                            throw;
+                        }
+                    }
                 }
             }
         }
@@ -92,19 +118,22 @@ namespace info
 
         public static void ExceptionLogAndAlert(Exception e)
         {
-            lock (exeptionLocker)
+            lock (Program.consoleLocker)
             {
-                Exception ex = e;
-                string log = DateTime.Now.ToString() + "\n";
-                while (ex != null)
-                {
-                    log += string.Format("{0} {1} \n", ex.Source, ex.Message);
-                    ex = ex.InnerException;
-                }
-                File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
+                //Exception ex = e;
+                //string log = DateTime.Now.ToString() + "\n";
+                //while (ex != null)
+                //{
+                //    log += string.Format("{0} {1} \n", ex.Source, ex.Message);
+                //    ex = ex.InnerException;
+                //}
+                //File.AppendAllText("Exception.txt", log + e.StackTrace + "\n\n");
+                logger.Error(e, "Exception");
                 Console.WriteLine("Надо перезагрузить\n");
                 SoundPlayer alert = new SoundPlayer("music.wav");
                 alert.PlayLooping();
+                Console.Read();
+                alert.Stop();
             }
         }
 
@@ -116,10 +145,10 @@ namespace info
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        httpClient.Timeout = TimeOut;
+                        httpClient.Timeout = TimeSpan.FromSeconds(20d);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), string.Format(URL_ITEM_PAGE_FORMAT, idRealm)))
                         {
-                            request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {accessToken}");
+                            request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");
                             Task<HttpResponseMessage> task = httpClient.SendAsync(request);
                             task.Wait();
                             var a = task.Result.Content.ReadAsStringAsync();
@@ -128,9 +157,15 @@ namespace info
                         }
                     }
                 }
-                catch(Exception e)
+                catch (AggregateException ae)
                 {
-                    throw e;
+                    foreach (var e in ae.InnerExceptions)
+                    {
+                        if (!(e is TaskCanceledException))
+                        {
+                            throw;
+                        }
+                    }
                 }
             }
         }
@@ -141,11 +176,11 @@ namespace info
             {
                 try
                 {
-                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(
-                        string.Format(URL_ITEM_PAGE_FORMAT, idRealm) + $"&access_token={accessToken}");
+                    HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(string.Format(URL_ITEM_PAGE_FORMAT, idRealm));
                     httpWebRequest.AllowAutoRedirect = false;
                     httpWebRequest.Method = "GET";
                     httpWebRequest.Timeout = 2000;
+                    httpWebRequest.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {accessToken}");
                     using (var webResponse = httpWebRequest.GetResponse())
                     {
                         return webResponse.Headers["Last-Modified"];

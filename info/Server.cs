@@ -38,10 +38,12 @@ namespace info
         private long moneyMax;
         [XmlIgnore]
         private Reputation reputation;
+        [XmlIgnore]
+        public static long TokenPrice;
 
         public Server() { }
 
-        public Server(HouseId serverId, List<int> idRecipes)
+        public Server(RealmID serverId, List<int> idRecipes)
         {
             this.id = (int)serverId;
             this.idRecipes = idRecipes;
@@ -54,7 +56,6 @@ namespace info
         {
             try
             {
-                //Server server = obj as Server;
                 while (true)
                 {
                     DateTime timeNextUpdate = timeUpdate.AddHours(1d);
@@ -93,7 +94,8 @@ namespace info
                             lock (Program.consoleLocker)
                             {
                                 Util.WriteLineAndLog(printStr);
-                                if (Util.ConvertCopperToGold(auctionData.globalProfit + auctionData.globalRandomProfit) > Program.settings.TARGET_PROFIT)
+                                if (Util.ConvertCopperToGold(auctionData.globalProfit + auctionData.globalRandomProfit) >
+                                    ScallingValueFromRemainingPersentUntilToken(Program.settings.TARGET_PROFIT))
                                 {
                                     Console.ForegroundColor = ConsoleColor.Green;
                                     Console.Write(STRING);
@@ -125,7 +127,7 @@ namespace info
                         }
                         else
                         {
-                            Thread.Sleep(60000);
+                            Thread.Sleep(1000);
                         }
                     }
                     else
@@ -254,6 +256,11 @@ namespace info
                 name,
                 Util.ConvertCopperToGold(Money).ToString("N0"),
                 Util.ConvertCopperToGold(waitingMoney).ToString("N0"));
+        }
+
+        public double ScallingValueFromRemainingPersentUntilToken(double value)
+        {
+            return value + (value * (((double)moneyMax / TokenPrice) - 1d));
         }
     }
 }
