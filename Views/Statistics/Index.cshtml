@@ -1,0 +1,26 @@
+﻿@using Mvc.Client.Models;
+
+@model List<StatisticsModel>
+
+<table class="table">
+    <tr><td><a href="/Calculator">Калькулятор</a></td></tr>
+</table>
+<table class="table">
+    <tr>
+        <td>Сервер</td>
+        <td>Доступное золото</td>
+        <td>Ожидающее золото</td>
+        <td>Последнее обновление</td>
+        <td>Фарм мод</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Money</td>
+            <td>@item.WaitMoney</td>
+            <td>@item.LastUpdate</td>
+            <td>@item.FarmMode</td>
+        </tr>
+    }
+</table>

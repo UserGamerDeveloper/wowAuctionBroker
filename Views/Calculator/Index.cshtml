@@ -1,0 +1,27 @@
+﻿@using Mvc.Client.Models
+
+<table class="table">
+    <tr><td><a href="/">Лог</a></td></tr>
+</table>
+
+@model CalculatorModel
+<form asp-action="Index" asp-antiforgery="true">
+    <p>
+        <select name="calculatorModel.SelectedRealmName" asp-items="@Model.ReamlsNameSelectList">
+            @*<option selected="selected" disabled hidden="">Выберите реалм</option>*@
+        </select>
+        @if (Model.SelectedRealmName != null)
+        {
+            @await Html.PartialAsync("_SelectRealm", Model)
+        }
+        <input type="submit" value="Отправить">
+
+        @*<select>
+            <option value="none" disabled hidden="">Выберите реалм</option>
+            @foreach (var keyValuePair in Model)
+            {
+                <option name="Realm" value=@keyValuePair.Key>@keyValuePair.Key</option>
+            }
+        </select>*@
+    </p>
+</form>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Settings>
+  <TARGET_PROFIT>1000</TARGET_PROFIT>
+  <TARGET_INCOME_IN_HOUR>10000</TARGET_INCOME_IN_HOUR>
+  <WOW_PATH>C:\Games\World of Warcraft</WOW_PATH>
+  <ClientId>2822529a2c004a43896c9a67395969dd</ClientId>
+  <ClientSecret>8wBVDXSb3owSWimdkioCAHjVwAMo8Hq9</ClientSecret>
+</Settings>

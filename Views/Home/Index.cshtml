@@ -1,0 +1,138 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@model AuthenticationScheme[]
+
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <table class="table">
+        <tr><td><a href="/Calculator">Калькулятор</a></td><td><a href="/Statistics">Статистика</a></td></tr>
+    </table>
+
+    @*<textarea id="messageList" readonly> </textarea>*@
+    <button class="btn btn-lg btn-success m-1" type="button" onclick="stopMusic()">stop music</button>
+   <div id="messageList"></div>
+
+    <style type="text/css">
+        .music {
+            background: #AAF387;
+        }
+        .alert {
+            background: #FCFFA1;
+        }
+    </style>
+    <script>
+        function stopMusic() {
+            musicElement.pause();
+            musicElement.currentTime = 0;
+        }
+        //$(messageList).height($(window).height() - $(window).height() * 0.05);
+        //$(messageList).width($(window).width() - $(window).width() * 0.01);
+
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/chat")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+        //hubConnection.serverTimeoutInMilliseconds = 1000 * 60 * 10;
+        // получение сообщения от сервера
+        //var isMusicPlayed = false;
+        //var alertElement = document.createElement('alert');
+        var parentElement = document.getElementById('messageList');
+        var alertElement = new Audio("media/alert.wav");
+        //alertElement.setAttribute('src', 'media/alert.wav');
+        //var musicElement = document.createElement('music');
+        var musicElement = new Audio("media/music.aac");
+        //musicElement.setAttribute('src', 'media/music.aac');
+        musicElement.setAttribute('loop', '');
+        //audioElement.setAttribute('autoplay', '');
+        //audioElement.play();
+        //var listener = function () {
+        //    //result = window.confirm("Есть профит");
+        //    //.remove();
+        //    //console.log(document.getElementsByTagName('audio'));
+        //    musicElement.pause();
+        //    //window.removeEventListener('focus', listener);
+        //    //isMusicPlayed = false;
+        //}
+        //musicElement.addEventListener('play', (event) => {
+        //    if (!document.hasFocus()) {
+        //        window.addEventListener('focus', listener);
+        //        window.focus();
+        //    }
+        //    {
+        //        result = window.confirm("Есть профит");
+        //        musicElement.pause();
+        //    }
+        //    //audioElement.remove();
+        //    //console.log("audioElement.remove");
+        //});
+        hubConnection.on("Notify", function (response) {
+            console.log(response.message);
+            //$(messageList).append(response.message);
+            console.log("alertId " + response.alertId);
+            let newElement = document.createElement("div");
+            newElement.innerHTML = "<pre>" + response.message + "</pre>";
+            if (response.alertId != null) {
+                switch (response.alertId) {
+                    case 0:
+                        //audioElement.addEventListener('ended', (event) => {
+                        //    audioElement.remove();
+                        //    //console.log("audioElement.remove");
+                        //});
+                        newElement.setAttribute('class', 'alert');
+                        alertElement.play();
+                        break;
+                    case 1:
+                        //if (musicElement.paused) {
+                        //    .attr({
+                        //        'src': 'http://picosong.com/media/songs/a53ac958428e20721ab0b5b2e3cf16c1.mp3',
+                        //        'autoplay': 'autoplay',
+                        //        'loop': 'loop'
+                        //    });
+                        //    isMusicPlayed = true;
+                        //}
+                        newElement.setAttribute('class', 'music');
+                        musicElement.play();
+                        break;
+                }
+            }
+            // создает элемент <p> для сообщения пользователя
+            //let elem = document.createElement("p");
+            //elem.appendChild(document.createTextNode(message));
+
+            parentElement.insertBefore(newElement, parentElement.firstChild);
+
+        });
+
+        async function start() {
+            try {
+                await hubConnection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                //setTimeout(start, 5000);
+            }
+        };
+
+        hubConnection.onclose(start);
+
+        // Start the connection.
+        start();
+    </script>
+
+    @*<h1>Welcome, @User.Identity.Name</h1>
+
+                    <p>
+                        @*<div>@Context.Request.Headers["Authorization"].ToString()</div>
+                        <!--@foreach (var claim in Context.User.Claims)
+                        {
+        <div><code>@claim.Type</code>: <strong>@claim.Value</strong></div>
+        }
+                    </p>
+
+                                    <a class="btn btn-lg btn-danger" href="/signout?returnUrl=%2F">Sign out</a>--> *@
+}
+else
+{
+    @*@await Html.PartialAsync("SignIn", Model)*@
+    <h1>Welcome, anonymous</h1>
+        <a class="btn btn-lg btn-success" href="/signin?returnUrl=%2F">Sign in</a>
+}
