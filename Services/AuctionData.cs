@@ -13,11 +13,17 @@ namespace info
     {
         public List<Recipe> Recipes = new List<Recipe>();
         public long SummaryProfit = 0L;
-        public double AverageIncome = 0d;
+        public double IncomeGoldInHour = 0d;
         public TimeSpan TimeCraft = new TimeSpan();
         public double randomProfit = 0d;
         public RecipeData recipeData;
 
+        public void SetData()
+        {
+            recipeData = Recipes[0].recipeData;
+            randomProfit = Recipes.Count * recipeData.GetRandomProfit();
+            IncomeGoldInHour = ParseService.GetIncomeGoldInHour(SummaryProfit + randomProfit, TimeCraft);
+        }
         public long GetMaxPrice(ItemData itemData)
         {
             Dictionary<long, List<Item>> bidsItemInRecipeByCost = new Dictionary<long, List<Item>>();
@@ -126,13 +132,11 @@ namespace info
         public AuctionParser(Server server)
         {
             double targetIncomeInHour;
-            Dictionary<int, RecipesPage> notTargetIncomeRecipesById = null;
-            Dictionary<int, double> summaryNotTargetIncomeIncomeRecipesByRecipeId = null;
+            Dictionary<int, RecipesPage> notTargetIncomeRecipesPagesById = null;
             if (server.farmMode)
             {
                 targetIncomeInHour = 0d;
-                notTargetIncomeRecipesById = new Dictionary<int, RecipesPage>();
-                summaryNotTargetIncomeIncomeRecipesByRecipeId = new Dictionary<int, double>();
+                notTargetIncomeRecipesPagesById = new Dictionary<int, RecipesPage>();
             }
             else
             {
@@ -171,8 +175,7 @@ namespace info
                 parsersByIdItem.Add(keyValuePair.Key, new ItemPageParser(keyValuePair.Value));
             }
 
-            Dictionary<int, double> summaryIncomeRecipesByRecipeId = new Dictionary<int, double>();
-            Dictionary<int, RecipesPage> recipesById = new Dictionary<int, RecipesPage>();
+            Dictionary<int, RecipesPage> recipesPagesById = new Dictionary<int, RecipesPage>();
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
                 while (true)
@@ -202,23 +205,13 @@ namespace info
                         RecipesPage recipesPage;
                         if (maxProfitableRecipe.IncomeGoldInHour < ParseService.settings.TARGET_INCOME_IN_HOUR && server.farmMode)
                         {
-                            if (!notTargetIncomeRecipesById.ContainsKey(recipeId))
-                            {
-                                notTargetIncomeRecipesById.Add(recipeId, new RecipesPage());
-                                summaryNotTargetIncomeIncomeRecipesByRecipeId.Add(recipeId, 0d);
-                            }
-                            recipesPage = notTargetIncomeRecipesById[recipeId];
-                            summaryNotTargetIncomeIncomeRecipesByRecipeId[recipeId] += maxProfitableRecipe.IncomeGoldInHour;
+                            notTargetIncomeRecipesPagesById.TryAdd(recipeId, new RecipesPage());
+                            recipesPage = notTargetIncomeRecipesPagesById[recipeId];
                         }
                         else
                         {
-                            if (!recipesById.ContainsKey(recipeId))
-                            {
-                                recipesById.Add(recipeId, new RecipesPage());
-                                summaryIncomeRecipesByRecipeId.Add(recipeId, 0d);
-                            }
-                            recipesPage = recipesById[recipeId];
-                            summaryIncomeRecipesByRecipeId[recipeId] += maxProfitableRecipe.IncomeGoldInHour;
+                            recipesPagesById.TryAdd(recipeId, new RecipesPage());
+                            recipesPage = recipesPagesById[recipeId];
                         }
                         summaryCostCraft += maxProfitableRecipe.costCraft;
                         recipesPage.SummaryProfit += maxProfitableRecipe.profit;
@@ -238,25 +231,16 @@ namespace info
                     }
                 }
             }
-            List<RecipesPage> recipesPageList = new List<RecipesPage>(recipesById.Values);
+            List<RecipesPage> recipesPageList = new List<RecipesPage>(recipesPagesById.Values);
             if (server.farmMode)
             {
-                recipesPageList.AddRange(notTargetIncomeRecipesById.Values);
+                recipesPageList.AddRange(notTargetIncomeRecipesPagesById.Values);
             }
             foreach (var recipesPage in recipesPageList)
             {
-                recipesPage.recipeData = recipesPage.Recipes[0].recipeData;
-                if (server.farmMode)
-                {
-                    recipesPage.AverageIncome += summaryNotTargetIncomeIncomeRecipesByRecipeId[recipesPage.recipeData.ID] / recipesPage.Recipes.Count;
-                }
-                else
-                {
-                    recipesPage.AverageIncome += summaryIncomeRecipesByRecipeId[recipesPage.recipeData.ID] / recipesPage.Recipes.Count;
-                }
+                recipesPage.SetData();
                 globalProfit += recipesPage.SummaryProfit;
                 timeCraft += recipesPage.TimeCraft;
-                recipesPage.randomProfit = recipesPage.Recipes.Count * recipesPage.recipeData.GetRandomProfit();
                 globalRandomProfit += recipesPage.randomProfit;
                 recipesCount += recipesPage.Recipes.Count;
                 RecipesPages.Add(recipesPage);

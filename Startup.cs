@@ -37,12 +37,6 @@ namespace Mvc.Client
 
         private IHostEnvironment HostingEnvironment { get; }
 
-        //private static readonly Logger logger =
-        //    new LoggerConfiguration()
-        //    //.Enrich.WithExceptionDetails()
-        //    .WriteTo.File("Exception.txt"/*, fileSizeLimitBytes: 1, rollOnFileSizeLimit: true*/)
-        //    /*(new JsonFormatter(renderMessage: true), @"logs\log-{Date}.txt")*/.CreateLogger();
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting();

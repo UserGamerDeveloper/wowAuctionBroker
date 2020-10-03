@@ -295,7 +295,7 @@ namespace info
             this.connectedRealmId = (int)connectedRealmId;
             this.idRecipes = idRecipes;
             this.Name = connectedRealmId.ToString();
-            farmMode = false;
+            farmMode = true;
             timeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT");
             this.characterId = characterId;
             id = (int)realmId;
@@ -318,18 +318,19 @@ namespace info
                             string newLine = "<br>";
                             string tabulate = "&#9;";
                             string printStr = string.Format("{3}{2}{3}{0} {1}{3}", Name, timeUpdate, DateTime.Now, newLine);
-                            foreach (var recipesPage in auctionData.RecipesPages.OrderByDescending(pair => pair.AverageIncome))
+                            foreach (var recipesPage in auctionData.RecipesPages.OrderByDescending(pair => pair.IncomeGoldInHour))
                             {
                                 List<Recipe> recipes = recipesPage.Recipes;
                                 RecipeData recipeData = recipesPage.recipeData;
                                 printStr += string.Format(
-                                    "{5} {0,-50} Профит: {1:0.} + {3:0.} {2:0.}{4}",
+                                    "{5} {0,-50} Профит: {6:0.} ({1:0.} + {3:0.}) {2:0.}{4}",
                                     string.Format("{0} x {1}", recipeData.Name, recipes.Count),
                                     ParseService.ConvertCopperToGold(recipesPage.SummaryProfit),
-                                    recipesPage.AverageIncome,
+                                    recipesPage.IncomeGoldInHour,
                                     ParseService.ConvertCopperToGold(recipesPage.randomProfit),
                                     newLine,
-                                    tabulate);
+                                    tabulate,
+                                    ParseService.ConvertCopperToGold(recipesPage.SummaryProfit + recipesPage.randomProfit));
                                 foreach (var itemData in recipeData.ItemsData)
                                 {
                                     printStr += string.Format(
@@ -341,13 +342,14 @@ namespace info
                                 }
                             }
                             const string STRING = "Профит ";
-                            string globalProfitString = string.Format("{0:0.} + {4:0.} {1:0.} {2:0.} мин, рецептов {3}{5}",
+                            string globalProfitString = string.Format("{6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
                                 ParseService.ConvertCopperToGold(auctionData.globalProfit),
-                                ParseService.GetIncomeGoldInHour(auctionData.globalProfit, auctionData.timeCraft),
+                                ParseService.GetIncomeGoldInHour(auctionData.globalProfit + auctionData.globalRandomProfit, auctionData.timeCraft),
                                 auctionData.timeCraft.TotalMinutes,
                                 auctionData.recipesCount,
                                 ParseService.ConvertCopperToGold(auctionData.globalRandomProfit),
-                                newLine);
+                                newLine,
+                                ParseService.ConvertCopperToGold(auctionData.globalProfit + auctionData.globalRandomProfit));
                             lock (ParseService.consoleLocker)
                             {
                                 //ParseService.SendAndLog(printStr);

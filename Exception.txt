@@ -4099,3 +4099,1228 @@ System.Collections.Generic.KeyNotFoundException: The given key '126988' was not 
 2020-10-03 13:24:20.963 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
 2020-10-03 13:24:20.966 +04:00 [INF] HTTP GET / responded 200 in 542.9946 ms
 2020-10-03 13:24:20.970 +04:00 [INF] Request finished in 560.3707ms 200 text/html; charset=utf-8
+2020-10-03 16:19:18.422 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 16:19:20.393 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 16:19:20.394 +04:00 [INF] Hosting environment: Development
+2020-10-03 16:19:20.394 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 16:19:20.523 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:19:20.934 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 16:19:20.938 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:19:21.028 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:19:21.056 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:19:21.169 +04:00 [INF] Executed ViewResult - view Index executed in 124.0102ms.
+2020-10-03 16:19:21.174 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 145.3896ms
+2020-10-03 16:19:21.176 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:19:21.180 +04:00 [INF] HTTP GET / responded 200 in 647.1607 ms
+2020-10-03 16:19:21.185 +04:00 [INF] Request finished in 669.6667ms 200 text/html; charset=utf-8
+2020-10-03 16:19:22.332 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 16:19:22.354 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 16:19:22.355 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:19:22.380 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:19:22.390 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 16:19:22.578 +04:00 [INF] Executed ViewResult - view SignIn executed in 188.8335ms.
+2020-10-03 16:19:22.578 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 197.7543ms
+2020-10-03 16:19:22.579 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:19:22.579 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 246.2137 ms
+2020-10-03 16:19:22.580 +04:00 [INF] Request finished in 248.1679ms 200 text/html; charset=utf-8
+2020-10-03 16:19:23.614 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 16:19:23.629 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 16:19:23.630 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:19:23.657 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:19:23.724 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 16:19:23.768 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 16:19:23.769 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 111.8603ms
+2020-10-03 16:19:23.769 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:19:23.770 +04:00 [INF] HTTP POST /signin responded 302 in 154.7793 ms
+2020-10-03 16:19:23.772 +04:00 [INF] Request finished in 160.0063ms 302 
+2020-10-03 16:19:24.431 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EU3GMEVXZ8HDJ0FSVM77A1GZC5SHUUUBZX&state=CfDJ8JpTqZXw8-VClwBhRuiajcS5XFObSeuIWukKmNNm4vAEiUPmbLEKJyEAX-qxR0U7RtlsNz7M1M8YUbiGfesEoibphLFNd6DwHPyzgeRCMvJJE79TWxdnpvm4hBUIWyHmWmibbSK9vO99nsF9YZipRwSGePFcLn08W02-AHpScxerpyD3Ftj5N_0D6HoXahjQnecjOPsCX-JDc9aEgbdZ1Z8  
+2020-10-03 16:19:26.060 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 16:19:26.068 +04:00 [INF] HTTP GET /signin-battlenet?code=EU3GMEVXZ8HDJ0FSVM77A1GZC5SHUUUBZX&state=CfDJ8JpTqZXw8-VClwBhRuiajcS5XFObSeuIWukKmNNm4vAEiUPmbLEKJyEAX-qxR0U7RtlsNz7M1M8YUbiGfesEoibphLFNd6DwHPyzgeRCMvJJE79TWxdnpvm4hBUIWyHmWmibbSK9vO99nsF9YZipRwSGePFcLn08W02-AHpScxerpyD3Ftj5N_0D6HoXahjQnecjOPsCX-JDc9aEgbdZ1Z8 responded 302 in 1630.8923 ms
+2020-10-03 16:19:26.070 +04:00 [INF] Request finished in 1639.2586ms 302 
+2020-10-03 16:19:26.125 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:19:26.131 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:19:26.133 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:19:26.135 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:19:26.149 +04:00 [INF] Executed ViewResult - view Index executed in 14.8966ms.
+2020-10-03 16:19:26.150 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 15.9634ms
+2020-10-03 16:19:26.150 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:19:26.150 +04:00 [INF] HTTP GET / responded 200 in 24.6730 ms
+2020-10-03 16:19:26.152 +04:00 [INF] Request finished in 36.2899ms 200 text/html; charset=utf-8
+2020-10-03 16:19:26.317 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 16:19:26.318 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 16:19:27.049 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 16:19:27.052 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 734.7673 ms
+2020-10-03 16:19:27.052 +04:00 [INF] Request finished in 735.4447ms 200 application/json
+2020-10-03 16:19:27.069 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=XkT164ZX-ashWdQzeTTYcA  
+2020-10-03 16:19:27.071 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:19:27.125 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=XkT164ZX-ashWdQzeTTYcA text/plain;charset=UTF-8 32
+2020-10-03 16:19:27.128 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:19:27.141 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:19:27.141 +04:00 [INF] HTTP POST /chat?id=XkT164ZX-ashWdQzeTTYcA responded 200 in 15.8839 ms
+2020-10-03 16:19:27.142 +04:00 [INF] Request finished in 17.0716ms 200 text/plain
+2020-10-03 16:19:42.517 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=XkT164ZX-ashWdQzeTTYcA text/plain;charset=UTF-8 11
+2020-10-03 16:19:42.529 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:19:42.530 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:19:42.531 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:19:42.532 +04:00 [INF] HTTP POST /chat?id=XkT164ZX-ashWdQzeTTYcA responded 200 in 9.8735 ms
+2020-10-03 16:19:42.534 +04:00 [INF] Request finished in 18.7896ms 200 text/plain
+2020-10-03 16:19:46.444 +04:00 [ERR] Exception
+System.Collections.Generic.KeyNotFoundException: The given key '161970' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at info.AuctionParser..ctor(Server server) in C:\Users\Skatt\Desktop\wow\Services\AuctionData.cs:line 251
+   at info.Server.Parse() in C:\Users\Skatt\Desktop\wow\Services\Server.cs:line 316
+2020-10-03 16:19:57.471 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=XkT164ZX-ashWdQzeTTYcA text/plain;charset=UTF-8 11
+2020-10-03 16:19:57.475 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:19:57.476 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:19:57.478 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:19:57.479 +04:00 [INF] HTTP POST /chat?id=XkT164ZX-ashWdQzeTTYcA responded 200 in 7.6559 ms
+2020-10-03 16:19:57.481 +04:00 [INF] Request finished in 10.8158ms 200 text/plain
+2020-10-03 16:20:09.099 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:20:09.105 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:20:09.106 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:20:09.124 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:20:09.144 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:20:09.159 +04:00 [INF] Executed ViewResult - view Index executed in 22.1063ms.
+2020-10-03 16:20:09.160 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 35.364ms
+2020-10-03 16:20:09.161 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:20:09.161 +04:00 [INF] HTTP GET / responded 200 in 61.5170 ms
+2020-10-03 16:20:09.162 +04:00 [INF] Request finished in 64.0718ms 200 text/html; charset=utf-8
+2020-10-03 16:20:09.287 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 16:20:09.289 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:20:09.290 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 16:20:09.316 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 16:20:09.316 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 28.5699 ms
+2020-10-03 16:20:09.317 +04:00 [INF] Request finished in 29.7311ms 200 application/json
+2020-10-03 16:20:09.349 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:20:09.351 +04:00 [INF] HTTP GET /chat?id=XkT164ZX-ashWdQzeTTYcA responded 200 in 42280.8628 ms
+2020-10-03 16:20:09.352 +04:00 [INF] Request finished in 42282.8818ms 200 text/event-stream
+2020-10-03 16:20:09.701 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/favicon.ico  
+2020-10-03 16:20:09.733 +04:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\Skatt\Desktop\wow\wwwroot\favicon.ico'
+2020-10-03 16:20:09.735 +04:00 [INF] HTTP GET /favicon.ico responded 200 in 34.0631 ms
+2020-10-03 16:20:09.736 +04:00 [INF] Request finished in 34.9351ms 200 image/x-icon
+2020-10-03 16:21:37.933 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 16:21:38.711 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 16:21:38.712 +04:00 [INF] Hosting environment: Development
+2020-10-03 16:21:38.712 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 16:21:38.787 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:21:39.227 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:21:39.232 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:21:39.365 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:21:39.400 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:21:39.532 +04:00 [INF] Executed ViewResult - view Index executed in 146.2559ms.
+2020-10-03 16:21:39.564 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 197.2079ms
+2020-10-03 16:21:39.565 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:21:39.569 +04:00 [INF] HTTP GET / responded 200 in 772.7545 ms
+2020-10-03 16:21:39.576 +04:00 [INF] Request finished in 796.4345ms 200 text/html; charset=utf-8
+2020-10-03 16:21:41.370 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 16:21:41.408 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:21:41.409 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:21:41.437 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:21:41.444 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 16:21:41.625 +04:00 [INF] Executed ViewResult - view SignIn executed in 182.6714ms.
+2020-10-03 16:21:41.625 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 188.4111ms
+2020-10-03 16:21:41.625 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:21:41.626 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 255.3234 ms
+2020-10-03 16:21:41.626 +04:00 [INF] Request finished in 257.1048ms 200 text/html; charset=utf-8
+2020-10-03 16:21:42.723 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 16:21:42.734 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:21:42.734 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:21:42.755 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:21:42.800 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 16:21:42.828 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 16:21:42.828 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 73.3574ms
+2020-10-03 16:21:42.829 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:21:42.829 +04:00 [INF] HTTP POST /signin responded 302 in 103.8212 ms
+2020-10-03 16:21:42.831 +04:00 [INF] Request finished in 110.2916ms 302 
+2020-10-03 16:21:43.480 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EU0T2ZXWPRSZJ6XN4RJEUAQDJZJ50RARMX&state=CfDJ8JpTqZXw8-VClwBhRuiajcQnws-AU5o9FdFBNa4L2PqL17LX0ktRc7riAVNcwsLFD0KL-xn1z-SHwi6MY3PgnR_7INTvbRZAHSWjh2K2X8DVF-3J4lNkoZM6-tft8QfblG22PkYtM1CLD1lFWP89HM-vGcRwmzjoPTMakgkyaw_8mtvt8THj_inRMbJ0N-x6HapR9s0I0gbQIqK3279kDVc  
+2020-10-03 16:21:44.720 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 16:21:44.738 +04:00 [INF] HTTP GET /signin-battlenet?code=EU0T2ZXWPRSZJ6XN4RJEUAQDJZJ50RARMX&state=CfDJ8JpTqZXw8-VClwBhRuiajcQnws-AU5o9FdFBNa4L2PqL17LX0ktRc7riAVNcwsLFD0KL-xn1z-SHwi6MY3PgnR_7INTvbRZAHSWjh2K2X8DVF-3J4lNkoZM6-tft8QfblG22PkYtM1CLD1lFWP89HM-vGcRwmzjoPTMakgkyaw_8mtvt8THj_inRMbJ0N-x6HapR9s0I0gbQIqK3279kDVc responded 302 in 1257.5418 ms
+2020-10-03 16:21:44.740 +04:00 [INF] Request finished in 1260.81ms 302 
+2020-10-03 16:21:44.781 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:21:44.783 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:21:44.784 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:21:44.785 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:21:44.811 +04:00 [INF] Executed ViewResult - view Index executed in 26.2451ms.
+2020-10-03 16:21:44.811 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 27.1652ms
+2020-10-03 16:21:44.811 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:21:44.811 +04:00 [INF] HTTP GET / responded 200 in 30.6431 ms
+2020-10-03 16:21:44.812 +04:00 [INF] Request finished in 31.3208ms 200 text/html; charset=utf-8
+2020-10-03 16:21:44.947 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 16:21:44.949 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 16:21:44.999 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 16:21:44.999 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 51.5164 ms
+2020-10-03 16:21:44.999 +04:00 [INF] Request finished in 52.1815ms 200 application/json
+2020-10-03 16:21:45.094 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=HXbED99fKleROEbTSdMTxg  
+2020-10-03 16:21:45.096 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:21:45.447 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=HXbED99fKleROEbTSdMTxg text/plain;charset=UTF-8 32
+2020-10-03 16:21:45.448 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:21:45.452 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:21:45.452 +04:00 [INF] HTTP POST /chat?id=HXbED99fKleROEbTSdMTxg responded 200 in 5.1049 ms
+2020-10-03 16:21:45.453 +04:00 [INF] Request finished in 6.2623ms 200 text/plain
+2020-10-03 16:21:55.704 +04:00 [ERR] Exception
+System.Collections.Generic.KeyNotFoundException: The given key '161970' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at info.AuctionParser..ctor(Server server) in C:\Users\Skatt\Desktop\wow\Services\AuctionData.cs:line 251
+   at info.Server.Parse() in C:\Users\Skatt\Desktop\wow\Services\Server.cs:line 316
+2020-10-03 16:22:00.770 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=HXbED99fKleROEbTSdMTxg text/plain;charset=UTF-8 11
+2020-10-03 16:22:00.772 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:22:00.773 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:22:00.773 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:22:00.774 +04:00 [INF] HTTP POST /chat?id=HXbED99fKleROEbTSdMTxg responded 200 in 2.7806 ms
+2020-10-03 16:22:00.775 +04:00 [INF] Request finished in 5.2723ms 200 text/plain
+2020-10-03 16:22:51.585 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 16:22:52.215 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 16:22:52.215 +04:00 [INF] Hosting environment: Development
+2020-10-03 16:22:52.228 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 16:22:52.278 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:22:52.553 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:22:52.555 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:22:52.649 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:22:52.678 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:22:52.817 +04:00 [INF] Executed ViewResult - view Index executed in 147.411ms.
+2020-10-03 16:22:52.823 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 172.7407ms
+2020-10-03 16:22:52.825 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:22:52.835 +04:00 [INF] HTTP GET / responded 200 in 541.9033 ms
+2020-10-03 16:22:52.870 +04:00 [INF] Request finished in 598.654ms 200 text/html; charset=utf-8
+2020-10-03 16:22:55.644 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 16:22:55.656 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:22:55.656 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:22:55.685 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:22:55.692 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 16:22:55.853 +04:00 [INF] Executed ViewResult - view SignIn executed in 162.4586ms.
+2020-10-03 16:22:55.853 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 167.8884ms
+2020-10-03 16:22:55.853 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:22:55.854 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 208.0026 ms
+2020-10-03 16:22:55.855 +04:00 [INF] Request finished in 210.469ms 200 text/html; charset=utf-8
+2020-10-03 16:22:56.587 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 16:22:56.597 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:22:56.598 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:22:56.617 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:22:56.664 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 16:22:56.690 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 16:22:56.690 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 73.6726ms
+2020-10-03 16:22:56.691 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:22:56.691 +04:00 [INF] HTTP POST /signin responded 302 in 102.7810 ms
+2020-10-03 16:22:56.694 +04:00 [INF] Request finished in 108.458ms 302 
+2020-10-03 16:22:57.723 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EUIRA5QUEXLEDH3XRLYMK9PHCFW73ZTW2A&state=CfDJ8JpTqZXw8-VClwBhRuiajcRh32sh7FlwJZgb7glZQp1Y9PtgxKsCF6zj91S8zai55rmM0331t0h1r_BylLS46R8kiSyTDi1qxGcFFqap43vidiA7a02yWHpB_Q-EGYa4wnbj9LpgzRsTS54H6sez25wPwaKD_R-3tk-HSp_BjHgiRxHofwR18ImwFr1T3xDYDknL2Zy9Z-QKZ9D4gXVP_WY  
+2020-10-03 16:22:58.984 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 16:22:58.987 +04:00 [INF] HTTP GET /signin-battlenet?code=EUIRA5QUEXLEDH3XRLYMK9PHCFW73ZTW2A&state=CfDJ8JpTqZXw8-VClwBhRuiajcRh32sh7FlwJZgb7glZQp1Y9PtgxKsCF6zj91S8zai55rmM0331t0h1r_BylLS46R8kiSyTDi1qxGcFFqap43vidiA7a02yWHpB_Q-EGYa4wnbj9LpgzRsTS54H6sez25wPwaKD_R-3tk-HSp_BjHgiRxHofwR18ImwFr1T3xDYDknL2Zy9Z-QKZ9D4gXVP_WY responded 302 in 1263.3157 ms
+2020-10-03 16:22:59.005 +04:00 [INF] Request finished in 1281.8807ms 302 
+2020-10-03 16:22:59.019 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:22:59.025 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:22:59.026 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:22:59.028 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:22:59.037 +04:00 [INF] Executed ViewResult - view Index executed in 9.5375ms.
+2020-10-03 16:22:59.037 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 10.307ms
+2020-10-03 16:22:59.037 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:22:59.037 +04:00 [INF] HTTP GET / responded 200 in 17.9026 ms
+2020-10-03 16:22:59.037 +04:00 [INF] Request finished in 18.6145ms 200 text/html; charset=utf-8
+2020-10-03 16:22:59.196 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 16:22:59.214 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 16:22:59.379 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 16:22:59.379 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 182.5608 ms
+2020-10-03 16:22:59.380 +04:00 [INF] Request finished in 184.5603ms 200 application/json
+2020-10-03 16:22:59.413 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=tgLbD45xYzNOvmJedFnR8A  
+2020-10-03 16:22:59.415 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:22:59.483 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=tgLbD45xYzNOvmJedFnR8A text/plain;charset=UTF-8 32
+2020-10-03 16:22:59.484 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:22:59.499 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:22:59.499 +04:00 [INF] HTTP POST /chat?id=tgLbD45xYzNOvmJedFnR8A responded 200 in 16.1938 ms
+2020-10-03 16:22:59.500 +04:00 [INF] Request finished in 17.3527ms 200 text/plain
+2020-10-03 16:33:10.230 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 16:33:10.862 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 16:33:10.862 +04:00 [INF] Hosting environment: Development
+2020-10-03 16:33:10.862 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 16:33:10.895 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:33:11.168 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:33:11.172 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:33:11.261 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:33:11.284 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:33:11.391 +04:00 [INF] Executed ViewResult - view Index executed in 113.2343ms.
+2020-10-03 16:33:11.397 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 134.8464ms
+2020-10-03 16:33:11.400 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:33:11.403 +04:00 [INF] HTTP GET / responded 200 in 498.6518 ms
+2020-10-03 16:33:11.408 +04:00 [INF] Request finished in 519.2336ms 200 text/html; charset=utf-8
+2020-10-03 16:33:13.747 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 16:33:13.774 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:33:13.775 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:33:13.839 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:33:13.846 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 16:33:14.054 +04:00 [INF] Executed ViewResult - view SignIn executed in 210.3911ms.
+2020-10-03 16:33:14.055 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 215.3536ms
+2020-10-03 16:33:14.055 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:33:14.057 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 308.2196 ms
+2020-10-03 16:33:14.058 +04:00 [INF] Request finished in 310.8227ms 200 text/html; charset=utf-8
+2020-10-03 16:33:15.134 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 16:33:15.144 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:33:15.145 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:33:15.165 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 16:33:15.209 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 16:33:15.235 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 16:33:15.236 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 70.4508ms
+2020-10-03 16:33:15.236 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 16:33:15.236 +04:00 [INF] HTTP POST /signin responded 302 in 99.0914 ms
+2020-10-03 16:33:15.238 +04:00 [INF] Request finished in 104.7954ms 302 
+2020-10-03 16:33:16.018 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EUKUEWSNL4UEWC8NL0NLIJL7AGCZRU97VU&state=CfDJ8JpTqZXw8-VClwBhRuiajcQxWwdlVNAVFibJ6lvmx_3Kr3aUDygywCgum0F4HSNaHasAlJG5PZChlwR6MHasiv8_N9mfRJbtOYd8nZFxi2VxXWpnnjd9cS_9YZNefBYerWufXXogfblk1hxaoAOrtsZ6C-9jX-s4d0OOs6oeJKc_kSyBEopbHLYb96RRum91Bvf3Br3hZ_vkFkHgxK1_unA  
+2020-10-03 16:33:17.243 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 16:33:17.247 +04:00 [INF] HTTP GET /signin-battlenet?code=EUKUEWSNL4UEWC8NL0NLIJL7AGCZRU97VU&state=CfDJ8JpTqZXw8-VClwBhRuiajcQxWwdlVNAVFibJ6lvmx_3Kr3aUDygywCgum0F4HSNaHasAlJG5PZChlwR6MHasiv8_N9mfRJbtOYd8nZFxi2VxXWpnnjd9cS_9YZNefBYerWufXXogfblk1hxaoAOrtsZ6C-9jX-s4d0OOs6oeJKc_kSyBEopbHLYb96RRum91Bvf3Br3hZ_vkFkHgxK1_unA responded 302 in 1227.2366 ms
+2020-10-03 16:33:17.280 +04:00 [INF] Request finished in 1263.5649ms 302 
+2020-10-03 16:33:17.293 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 16:33:17.297 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:33:17.298 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 16:33:17.299 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 16:33:17.341 +04:00 [INF] Executed ViewResult - view Index executed in 42.9297ms.
+2020-10-03 16:33:17.342 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 44.4403ms
+2020-10-03 16:33:17.345 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 16:33:17.345 +04:00 [INF] HTTP GET / responded 200 in 52.4258 ms
+2020-10-03 16:33:17.346 +04:00 [INF] Request finished in 53.8204ms 200 text/html; charset=utf-8
+2020-10-03 16:33:17.599 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 16:33:17.603 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 16:33:17.710 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 16:33:17.710 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 110.2875 ms
+2020-10-03 16:33:17.710 +04:00 [INF] Request finished in 111.0009ms 200 application/json
+2020-10-03 16:33:17.727 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=KJBFFUuGEbxmJxZN1ISOgA  
+2020-10-03 16:33:17.729 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:33:18.078 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=KJBFFUuGEbxmJxZN1ISOgA text/plain;charset=UTF-8 32
+2020-10-03 16:33:18.078 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:33:18.081 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:33:18.081 +04:00 [INF] HTTP POST /chat?id=KJBFFUuGEbxmJxZN1ISOgA responded 200 in 3.0252 ms
+2020-10-03 16:33:18.082 +04:00 [INF] Request finished in 4.1564ms 200 text/plain
+2020-10-03 16:33:33.405 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=KJBFFUuGEbxmJxZN1ISOgA text/plain;charset=UTF-8 11
+2020-10-03 16:33:33.408 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:33:33.409 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:33:33.410 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:33:33.410 +04:00 [INF] HTTP POST /chat?id=KJBFFUuGEbxmJxZN1ISOgA responded 200 in 4.2452 ms
+2020-10-03 16:33:33.411 +04:00 [INF] Request finished in 6.76ms 200 text/plain
+2020-10-03 16:33:48.395 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=KJBFFUuGEbxmJxZN1ISOgA text/plain;charset=UTF-8 11
+2020-10-03 16:33:48.398 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:33:48.399 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:33:48.401 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:33:48.401 +04:00 [INF] HTTP POST /chat?id=KJBFFUuGEbxmJxZN1ISOgA responded 200 in 5.9544 ms
+2020-10-03 16:33:48.406 +04:00 [INF] Request finished in 10.3032ms 200 text/plain
+2020-10-03 16:34:03.394 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=KJBFFUuGEbxmJxZN1ISOgA text/plain;charset=UTF-8 11
+2020-10-03 16:34:03.396 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:34:03.396 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:34:03.397 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:34:03.398 +04:00 [INF] HTTP POST /chat?id=KJBFFUuGEbxmJxZN1ISOgA responded 200 in 3.2118 ms
+2020-10-03 16:34:03.400 +04:00 [INF] Request finished in 6.0741ms 200 text/plain
+2020-10-03 16:34:18.394 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=KJBFFUuGEbxmJxZN1ISOgA text/plain;charset=UTF-8 11
+2020-10-03 16:34:18.396 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 16:34:18.396 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 16:34:18.397 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 16:34:18.398 +04:00 [INF] HTTP POST /chat?id=KJBFFUuGEbxmJxZN1ISOgA responded 200 in 3.1642 ms
+2020-10-03 16:34:18.400 +04:00 [INF] Request finished in 6.5814ms 200 text/plain
+2020-10-03 17:16:05.425 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 17:16:06.101 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 17:16:06.101 +04:00 [INF] Hosting environment: Development
+2020-10-03 17:16:06.101 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 17:16:06.133 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:16:06.423 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 17:16:06.427 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:16:06.515 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:16:06.538 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:16:06.661 +04:00 [INF] Executed ViewResult - view Index executed in 130.1896ms.
+2020-10-03 17:16:06.667 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 149.7576ms
+2020-10-03 17:16:06.669 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:16:06.672 +04:00 [INF] HTTP GET / responded 200 in 529.7100 ms
+2020-10-03 17:16:06.680 +04:00 [INF] Request finished in 550.9335ms 200 text/html; charset=utf-8
+2020-10-03 17:16:30.034 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 17:16:30.040 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 17:16:30.041 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:16:30.065 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:16:30.072 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 17:16:30.225 +04:00 [INF] Executed ViewResult - view SignIn executed in 154.4586ms.
+2020-10-03 17:16:30.226 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 159.9341ms
+2020-10-03 17:16:30.226 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:16:30.226 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 191.1111 ms
+2020-10-03 17:16:30.226 +04:00 [INF] Request finished in 192.4201ms 200 text/html; charset=utf-8
+2020-10-03 17:16:30.922 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 17:16:30.934 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 17:16:30.935 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:16:30.959 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:16:31.006 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 17:16:31.036 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 17:16:31.037 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 77.0699ms
+2020-10-03 17:16:31.037 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:16:31.037 +04:00 [INF] HTTP POST /signin responded 302 in 114.2400 ms
+2020-10-03 17:16:31.039 +04:00 [INF] Request finished in 118.7785ms 302 
+2020-10-03 17:16:32.361 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EUHQPBHG9AIZ55IK3AC7QQDM3RYXH6XEF7&state=CfDJ8JpTqZXw8-VClwBhRuiajcQprmHWGCUGbwKZdxFkREkAArqkmiz4IPhaWDTG0OO-gHHBvvmGSkJ1Njw2aW3c6TIBtypG6NR6JvhAAWHs_KY5T0Ncg8qRYzLLfDHQ-tKXm5MlwKaabyGcYk-Sdn9KOES0sYa0lhr11CVNtMX06IpxCxsd_otRxVwCp-NlAaHfCJldh_IjS6GowN5kJQOFi6c  
+2020-10-03 17:16:33.622 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 17:16:33.627 +04:00 [INF] HTTP GET /signin-battlenet?code=EUHQPBHG9AIZ55IK3AC7QQDM3RYXH6XEF7&state=CfDJ8JpTqZXw8-VClwBhRuiajcQprmHWGCUGbwKZdxFkREkAArqkmiz4IPhaWDTG0OO-gHHBvvmGSkJ1Njw2aW3c6TIBtypG6NR6JvhAAWHs_KY5T0Ncg8qRYzLLfDHQ-tKXm5MlwKaabyGcYk-Sdn9KOES0sYa0lhr11CVNtMX06IpxCxsd_otRxVwCp-NlAaHfCJldh_IjS6GowN5kJQOFi6c responded 302 in 1263.1855 ms
+2020-10-03 17:16:33.629 +04:00 [INF] Request finished in 1268.6825ms 302 
+2020-10-03 17:16:33.674 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:16:33.680 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:16:33.682 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:16:33.683 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:16:33.710 +04:00 [INF] Executed ViewResult - view Index executed in 26.6917ms.
+2020-10-03 17:16:33.711 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 28.5437ms
+2020-10-03 17:16:33.711 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:16:33.712 +04:00 [INF] HTTP GET / responded 200 in 36.3525 ms
+2020-10-03 17:16:33.714 +04:00 [INF] Request finished in 39.7551ms 200 text/html; charset=utf-8
+2020-10-03 17:16:33.971 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 17:16:34.065 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 17:16:34.332 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 17:16:34.333 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 360.7721 ms
+2020-10-03 17:16:34.333 +04:00 [INF] Request finished in 361.3338ms 200 application/json
+2020-10-03 17:16:34.349 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=nxhdt9aqGSTiRP5lux3TUw  
+2020-10-03 17:16:34.350 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:16:34.727 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=nxhdt9aqGSTiRP5lux3TUw text/plain;charset=UTF-8 32
+2020-10-03 17:16:34.727 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:16:34.731 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:16:34.731 +04:00 [INF] HTTP POST /chat?id=nxhdt9aqGSTiRP5lux3TUw responded 200 in 4.5178 ms
+2020-10-03 17:16:34.732 +04:00 [INF] Request finished in 5.4459ms 200 text/plain
+2020-10-03 17:16:50.053 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=nxhdt9aqGSTiRP5lux3TUw text/plain;charset=UTF-8 11
+2020-10-03 17:16:50.056 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:16:50.057 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:16:50.059 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:16:50.061 +04:00 [INF] HTTP POST /chat?id=nxhdt9aqGSTiRP5lux3TUw responded 200 in 6.0565 ms
+2020-10-03 17:16:50.063 +04:00 [INF] Request finished in 10.0044ms 200 text/plain
+2020-10-03 17:17:05.055 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=nxhdt9aqGSTiRP5lux3TUw text/plain;charset=UTF-8 11
+2020-10-03 17:17:05.057 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:17:05.057 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:17:05.058 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:17:05.058 +04:00 [INF] HTTP POST /chat?id=nxhdt9aqGSTiRP5lux3TUw responded 200 in 3.0670 ms
+2020-10-03 17:17:05.060 +04:00 [INF] Request finished in 5.29ms 200 text/plain
+2020-10-03 17:17:20.053 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=nxhdt9aqGSTiRP5lux3TUw text/plain;charset=UTF-8 11
+2020-10-03 17:17:20.057 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:17:20.057 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:17:20.059 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:17:20.060 +04:00 [INF] HTTP POST /chat?id=nxhdt9aqGSTiRP5lux3TUw responded 200 in 5.7482 ms
+2020-10-03 17:17:20.061 +04:00 [INF] Request finished in 8.112ms 200 text/plain
+2020-10-03 17:17:35.054 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=nxhdt9aqGSTiRP5lux3TUw text/plain;charset=UTF-8 11
+2020-10-03 17:17:35.056 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:17:35.057 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:17:35.058 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:17:35.058 +04:00 [INF] HTTP POST /chat?id=nxhdt9aqGSTiRP5lux3TUw responded 200 in 3.0137 ms
+2020-10-03 17:17:35.059 +04:00 [INF] Request finished in 5.3088ms 200 text/plain
+2020-10-03 17:17:50.052 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=nxhdt9aqGSTiRP5lux3TUw text/plain;charset=UTF-8 11
+2020-10-03 17:17:50.054 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:17:50.055 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:17:50.056 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:17:50.057 +04:00 [INF] HTTP POST /chat?id=nxhdt9aqGSTiRP5lux3TUw responded 200 in 4.6054 ms
+2020-10-03 17:17:50.058 +04:00 [INF] Request finished in 6.6017ms 200 text/plain
+2020-10-03 17:32:58.421 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 17:32:59.311 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 17:32:59.314 +04:00 [INF] Hosting environment: Development
+2020-10-03 17:32:59.316 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 17:32:59.379 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:32:59.841 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:32:59.845 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:33:00.021 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:33:00.051 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:33:00.221 +04:00 [INF] Executed ViewResult - view Index executed in 177.5618ms.
+2020-10-03 17:33:00.228 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 206.7788ms
+2020-10-03 17:33:00.230 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:33:00.235 +04:00 [INF] HTTP GET / responded 200 in 844.1785 ms
+2020-10-03 17:33:00.243 +04:00 [INF] Request finished in 869.0857ms 200 text/html; charset=utf-8
+2020-10-03 17:33:08.916 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 17:33:08.924 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:33:08.925 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:33:08.975 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:33:08.982 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 17:33:09.186 +04:00 [INF] Executed ViewResult - view SignIn executed in 205.305ms.
+2020-10-03 17:33:09.186 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 210.5485ms
+2020-10-03 17:33:09.186 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:33:09.187 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 269.6214 ms
+2020-10-03 17:33:09.187 +04:00 [INF] Request finished in 270.9646ms 200 text/html; charset=utf-8
+2020-10-03 17:33:10.848 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 17:33:10.859 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:33:10.859 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:33:10.883 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:33:10.926 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 17:33:10.952 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 17:33:10.953 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 69.141ms
+2020-10-03 17:33:10.953 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:33:10.953 +04:00 [INF] HTTP POST /signin responded 302 in 104.4867 ms
+2020-10-03 17:33:10.955 +04:00 [INF] Request finished in 108.5924ms 302 
+2020-10-03 17:33:11.720 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EUZBKQF6M6OOU0DBEDEH5GIOTO9ZLWZQVH&state=CfDJ8JpTqZXw8-VClwBhRuiajcQs81rVxpstE6113jtV0Nc5cqoEeVIw9Qrwc3z7S4ymAYmpNsZzbuyGfYji_nB-Z9Uj1hZQNWI6gDif0kwr2z7jY_nfWEU-1XyXV50LUdAL_MfMkrpBkxDXd6uQHHOgrdwZBWSoPtR9uB3JOIKAxrF5lz1W0eIzn-1mhmg4CzXnFiWy5SgvpNbowFBCvHa-y74  
+2020-10-03 17:33:12.927 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 17:33:12.931 +04:00 [INF] HTTP GET /signin-battlenet?code=EUZBKQF6M6OOU0DBEDEH5GIOTO9ZLWZQVH&state=CfDJ8JpTqZXw8-VClwBhRuiajcQs81rVxpstE6113jtV0Nc5cqoEeVIw9Qrwc3z7S4ymAYmpNsZzbuyGfYji_nB-Z9Uj1hZQNWI6gDif0kwr2z7jY_nfWEU-1XyXV50LUdAL_MfMkrpBkxDXd6uQHHOgrdwZBWSoPtR9uB3JOIKAxrF5lz1W0eIzn-1mhmg4CzXnFiWy5SgvpNbowFBCvHa-y74 responded 302 in 1209.3804 ms
+2020-10-03 17:33:12.932 +04:00 [INF] Request finished in 1212.6291ms 302 
+2020-10-03 17:33:12.956 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:33:12.967 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:33:12.968 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:33:12.971 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:33:12.984 +04:00 [INF] Executed ViewResult - view Index executed in 14.9246ms.
+2020-10-03 17:33:12.985 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 16.0517ms
+2020-10-03 17:33:12.985 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:33:12.985 +04:00 [INF] HTTP GET / responded 200 in 29.3237 ms
+2020-10-03 17:33:12.986 +04:00 [INF] Request finished in 30.0736ms 200 text/html; charset=utf-8
+2020-10-03 17:33:13.138 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 17:33:13.139 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 17:33:13.158 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 17:33:13.158 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 20.2113 ms
+2020-10-03 17:33:13.158 +04:00 [INF] Request finished in 20.6133ms 200 application/json
+2020-10-03 17:33:13.284 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ  
+2020-10-03 17:33:13.286 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:33:13.368 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 32
+2020-10-03 17:33:13.369 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:33:13.386 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:33:13.386 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 17.6838 ms
+2020-10-03 17:33:13.387 +04:00 [INF] Request finished in 19.3349ms 200 text/plain
+2020-10-03 17:33:28.710 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:33:28.713 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:33:28.714 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:33:28.718 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:33:28.718 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 7.7016 ms
+2020-10-03 17:33:28.720 +04:00 [INF] Request finished in 10.4187ms 200 text/plain
+2020-10-03 17:33:43.710 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:33:43.712 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:33:43.713 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:33:43.714 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:33:43.714 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 3.5559 ms
+2020-10-03 17:33:43.715 +04:00 [INF] Request finished in 5.9486ms 200 text/plain
+2020-10-03 17:33:58.709 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:33:58.712 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:33:58.712 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:33:58.715 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:33:58.717 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 5.9647 ms
+2020-10-03 17:33:58.723 +04:00 [INF] Request finished in 13.7546ms 200 text/plain
+2020-10-03 17:34:13.711 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:34:13.714 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:34:13.714 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:34:13.715 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:34:13.715 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 3.2744 ms
+2020-10-03 17:34:13.718 +04:00 [INF] Request finished in 6.803ms 200 text/plain
+2020-10-03 17:34:28.710 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:34:28.714 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:34:28.715 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:34:28.716 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:34:28.717 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 5.8084 ms
+2020-10-03 17:34:28.718 +04:00 [INF] Request finished in 7.72ms 200 text/plain
+2020-10-03 17:34:43.711 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:34:43.716 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:34:43.716 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:34:43.717 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:34:43.718 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 6.3249 ms
+2020-10-03 17:34:43.719 +04:00 [INF] Request finished in 8.2472ms 200 text/plain
+2020-10-03 17:34:58.711 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:34:58.713 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:34:58.713 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:34:58.714 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:34:58.714 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 2.6105 ms
+2020-10-03 17:34:58.715 +04:00 [INF] Request finished in 4.3484ms 200 text/plain
+2020-10-03 17:35:13.711 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:35:13.713 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:35:13.713 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:35:13.714 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:35:13.714 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 2.4066 ms
+2020-10-03 17:35:13.716 +04:00 [INF] Request finished in 4.426ms 200 text/plain
+2020-10-03 17:35:28.714 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:35:28.716 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:35:28.716 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:35:28.717 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:35:28.717 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 3.1058 ms
+2020-10-03 17:35:28.719 +04:00 [INF] Request finished in 4.949ms 200 text/plain
+2020-10-03 17:35:43.711 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:35:43.713 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:35:43.714 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:35:43.715 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:35:43.715 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 3.5682 ms
+2020-10-03 17:35:43.716 +04:00 [INF] Request finished in 5.0922ms 200 text/plain
+2020-10-03 17:35:58.716 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:35:58.717 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:35:58.718 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:35:58.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:35:58.720 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 3.9760 ms
+2020-10-03 17:35:58.723 +04:00 [INF] Request finished in 5.9678ms 200 text/plain
+2020-10-03 17:36:13.712 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:36:13.713 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:36:13.713 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:36:13.714 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:36:13.715 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 2.7322 ms
+2020-10-03 17:36:13.716 +04:00 [INF] Request finished in 4.1867ms 200 text/plain
+2020-10-03 17:36:28.713 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:36:28.714 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:36:28.715 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:36:28.715 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:36:28.715 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.9980 ms
+2020-10-03 17:36:28.717 +04:00 [INF] Request finished in 3.6975ms 200 text/plain
+2020-10-03 17:36:43.715 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:36:43.717 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:36:43.718 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:36:43.718 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:36:43.718 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 2.9868 ms
+2020-10-03 17:36:43.720 +04:00 [INF] Request finished in 4.5174ms 200 text/plain
+2020-10-03 17:36:58.715 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:36:58.717 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:36:58.718 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:36:58.718 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:36:58.719 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 3.1596 ms
+2020-10-03 17:36:58.720 +04:00 [INF] Request finished in 4.689ms 200 text/plain
+2020-10-03 17:37:13.714 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:37:13.716 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:37:13.717 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:37:13.717 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:37:13.717 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 2.5367 ms
+2020-10-03 17:37:13.719 +04:00 [INF] Request finished in 4.2474ms 200 text/plain
+2020-10-03 17:37:28.713 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:37:28.715 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:37:28.715 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:37:28.716 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:37:28.716 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 2.2499 ms
+2020-10-03 17:37:28.717 +04:00 [INF] Request finished in 3.7582ms 200 text/plain
+2020-10-03 17:37:43.718 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:37:43.719 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:37:43.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:37:43.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:37:43.720 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.7914 ms
+2020-10-03 17:37:43.721 +04:00 [INF] Request finished in 2.9399ms 200 text/plain
+2020-10-03 17:37:58.720 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:37:58.721 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:37:58.721 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:37:58.721 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:37:58.722 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.5360 ms
+2020-10-03 17:37:58.725 +04:00 [INF] Request finished in 4.1203ms 200 text/plain
+2020-10-03 17:38:13.718 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:38:13.719 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:38:13.719 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:38:13.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:38:13.720 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.5172 ms
+2020-10-03 17:38:13.721 +04:00 [INF] Request finished in 2.5866ms 200 text/plain
+2020-10-03 17:38:28.717 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:38:28.718 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:38:28.718 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:38:28.719 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:38:28.719 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.5441 ms
+2020-10-03 17:38:28.720 +04:00 [INF] Request finished in 3.221ms 200 text/plain
+2020-10-03 17:38:43.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:38:43.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:38:43.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:38:43.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:38:43.720 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.3290 ms
+2020-10-03 17:38:43.721 +04:00 [INF] Request finished in 2.1903ms 200 text/plain
+2020-10-03 17:38:58.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:38:58.721 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:38:58.721 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:38:58.721 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:38:58.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.4500 ms
+2020-10-03 17:38:58.722 +04:00 [INF] Request finished in 2.3646ms 200 text/plain
+2020-10-03 17:39:13.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:39:13.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:39:13.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:39:13.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:39:13.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.7418 ms
+2020-10-03 17:39:13.722 +04:00 [INF] Request finished in 3.8803ms 200 text/plain
+2020-10-03 17:39:28.721 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:39:28.722 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:39:28.722 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:39:28.723 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:39:28.723 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.8467 ms
+2020-10-03 17:39:28.724 +04:00 [INF] Request finished in 3.0727ms 200 text/plain
+2020-10-03 17:39:43.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:39:43.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:39:43.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:39:43.721 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:39:43.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.5329 ms
+2020-10-03 17:39:43.722 +04:00 [INF] Request finished in 3.6207ms 200 text/plain
+2020-10-03 17:39:58.720 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:39:58.721 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:39:58.721 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:39:58.721 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:39:58.722 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.0806 ms
+2020-10-03 17:39:58.723 +04:00 [INF] Request finished in 2.7901ms 200 text/plain
+2020-10-03 17:40:13.718 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:40:13.718 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:40:13.718 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:40:13.719 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:40:13.719 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.1639 ms
+2020-10-03 17:40:13.720 +04:00 [INF] Request finished in 2.0006ms 200 text/plain
+2020-10-03 17:40:28.718 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:40:28.718 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:40:28.718 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:40:28.719 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:40:28.719 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.1048 ms
+2020-10-03 17:40:28.720 +04:00 [INF] Request finished in 1.8977ms 200 text/plain
+2020-10-03 17:40:43.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:40:43.719 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:40:43.719 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:40:43.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:40:43.720 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.7288 ms
+2020-10-03 17:40:43.721 +04:00 [INF] Request finished in 1.9741ms 200 text/plain
+2020-10-03 17:40:58.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:40:58.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:40:58.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:40:58.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:40:58.720 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.5871 ms
+2020-10-03 17:40:58.721 +04:00 [INF] Request finished in 2.0544ms 200 text/plain
+2020-10-03 17:41:13.718 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:41:13.718 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:41:13.719 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:41:13.719 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:41:13.719 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.7058 ms
+2020-10-03 17:41:13.720 +04:00 [INF] Request finished in 1.4745ms 200 text/plain
+2020-10-03 17:41:28.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:41:28.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:41:28.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:41:28.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:41:28.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.2315 ms
+2020-10-03 17:41:28.721 +04:00 [INF] Request finished in 2.1024ms 200 text/plain
+2020-10-03 17:41:43.720 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:41:43.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:41:43.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:41:43.721 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:41:43.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.4666 ms
+2020-10-03 17:41:43.722 +04:00 [INF] Request finished in 2.1692ms 200 text/plain
+2020-10-03 17:41:58.719 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:41:58.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:41:58.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:41:58.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:41:58.720 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.7976 ms
+2020-10-03 17:41:58.721 +04:00 [INF] Request finished in 2.1884ms 200 text/plain
+2020-10-03 17:42:13.720 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:42:13.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:42:13.720 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:42:13.720 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:42:13.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.4904 ms
+2020-10-03 17:42:13.722 +04:00 [INF] Request finished in 1.5828ms 200 text/plain
+2020-10-03 17:42:28.718 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:42:28.718 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:42:28.719 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:42:28.719 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:42:28.719 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.6067 ms
+2020-10-03 17:42:28.720 +04:00 [INF] Request finished in 1.5079ms 200 text/plain
+2020-10-03 17:42:43.720 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:42:43.721 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:42:43.721 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:42:43.721 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:42:43.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.6052 ms
+2020-10-03 17:42:43.724 +04:00 [INF] Request finished in 4.2536ms 200 text/plain
+2020-10-03 17:42:58.720 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:42:58.720 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:42:58.721 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:42:58.721 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:42:58.721 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.7000 ms
+2020-10-03 17:42:58.721 +04:00 [INF] Request finished in 1.3685ms 200 text/plain
+2020-10-03 17:43:13.713 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:43:13.713 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:43:13.713 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:43:13.713 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:43:13.713 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.6167 ms
+2020-10-03 17:43:13.715 +04:00 [INF] Request finished in 2.5382ms 200 text/plain
+2020-10-03 17:43:28.713 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:43:28.714 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:43:28.714 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:43:28.714 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:43:28.714 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.9999 ms
+2020-10-03 17:43:28.717 +04:00 [INF] Request finished in 3.4913ms 200 text/plain
+2020-10-03 17:43:43.713 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:43:43.714 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:43:43.714 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:43:43.714 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:43:43.714 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.8041 ms
+2020-10-03 17:43:43.715 +04:00 [INF] Request finished in 1.7414ms 200 text/plain
+2020-10-03 17:43:58.714 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:43:58.715 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:43:58.715 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:43:58.715 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:43:58.715 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.9228 ms
+2020-10-03 17:43:58.716 +04:00 [INF] Request finished in 1.8382ms 200 text/plain
+2020-10-03 17:44:13.723 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:44:13.724 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:44:13.724 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:44:13.724 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:44:13.724 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.7093 ms
+2020-10-03 17:44:13.725 +04:00 [INF] Request finished in 1.746ms 200 text/plain
+2020-10-03 17:44:28.721 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:44:28.722 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:44:28.722 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:44:28.722 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:44:28.722 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.8767 ms
+2020-10-03 17:44:28.723 +04:00 [INF] Request finished in 2.0705ms 200 text/plain
+2020-10-03 17:44:43.724 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:44:43.724 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:44:43.724 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:44:43.725 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:44:43.725 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.7795 ms
+2020-10-03 17:44:43.726 +04:00 [INF] Request finished in 1.6573ms 200 text/plain
+2020-10-03 17:44:58.717 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:44:58.718 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:44:58.718 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:44:58.718 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:44:58.718 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.6874 ms
+2020-10-03 17:44:58.720 +04:00 [INF] Request finished in 2.562ms 200 text/plain
+2020-10-03 17:45:13.723 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:45:13.723 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:45:13.723 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:45:13.724 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:45:13.724 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.8191 ms
+2020-10-03 17:45:13.725 +04:00 [INF] Request finished in 1.6892ms 200 text/plain
+2020-10-03 17:45:28.715 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:45:28.715 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:45:28.716 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:45:28.716 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:45:28.716 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.9911 ms
+2020-10-03 17:45:28.717 +04:00 [INF] Request finished in 1.7545ms 200 text/plain
+2020-10-03 17:45:43.724 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:45:43.725 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:45:43.725 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:45:43.725 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:45:43.725 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.4911 ms
+2020-10-03 17:45:43.727 +04:00 [INF] Request finished in 2.1965ms 200 text/plain
+2020-10-03 17:45:58.728 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:45:58.729 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:45:58.729 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:45:58.729 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:45:58.729 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.3805 ms
+2020-10-03 17:45:58.732 +04:00 [INF] Request finished in 3.8818ms 200 text/plain
+2020-10-03 17:46:13.757 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:46:13.757 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:46:13.757 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:46:13.758 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:46:13.758 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.8521 ms
+2020-10-03 17:46:13.762 +04:00 [INF] Request finished in 5.414ms 200 text/plain
+2020-10-03 17:46:28.725 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:46:28.725 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:46:28.725 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:46:28.725 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:46:28.725 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.4401 ms
+2020-10-03 17:46:28.726 +04:00 [INF] Request finished in 1.2587ms 200 text/plain
+2020-10-03 17:46:43.727 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:46:43.728 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:46:43.728 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:46:43.728 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:46:43.728 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.6812 ms
+2020-10-03 17:46:43.729 +04:00 [INF] Request finished in 1.9899ms 200 text/plain
+2020-10-03 17:46:58.728 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:46:58.730 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:46:58.730 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:46:58.730 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:46:58.731 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 2.7283 ms
+2020-10-03 17:46:58.731 +04:00 [INF] Request finished in 3.6618ms 200 text/plain
+2020-10-03 17:47:13.726 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:47:13.726 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:47:13.726 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:47:13.727 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:47:13.727 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.9151 ms
+2020-10-03 17:47:13.728 +04:00 [INF] Request finished in 1.8697ms 200 text/plain
+2020-10-03 17:47:28.725 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:47:28.726 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:47:28.726 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:47:28.727 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:47:28.727 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.3455 ms
+2020-10-03 17:47:28.728 +04:00 [INF] Request finished in 2.1193ms 200 text/plain
+2020-10-03 17:47:43.735 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:47:43.737 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:47:43.737 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:47:43.737 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:47:43.737 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 1.0898 ms
+2020-10-03 17:47:43.738 +04:00 [INF] Request finished in 2.3044ms 200 text/plain
+2020-10-03 17:47:58.731 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:47:58.732 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:47:58.732 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:47:58.732 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:47:58.732 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.8759 ms
+2020-10-03 17:47:58.734 +04:00 [INF] Request finished in 2.8139ms 200 text/plain
+2020-10-03 17:48:13.727 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:48:13.727 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:48:13.728 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:48:13.728 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:48:13.728 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.4746 ms
+2020-10-03 17:48:13.728 +04:00 [INF] Request finished in 1.2541ms 200 text/plain
+2020-10-03 17:48:28.730 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=3C4NHv4znaIFgTe7jW-wTQ text/plain;charset=UTF-8 11
+2020-10-03 17:48:28.731 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:48:28.731 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:48:28.731 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:48:28.731 +04:00 [INF] HTTP POST /chat?id=3C4NHv4znaIFgTe7jW-wTQ responded 200 in 0.5004 ms
+2020-10-03 17:48:28.732 +04:00 [INF] Request finished in 1.4822ms 200 text/plain
+2020-10-03 17:48:52.029 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 17:48:52.610 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 17:48:52.611 +04:00 [INF] Hosting environment: Development
+2020-10-03 17:48:52.611 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 17:48:52.646 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:48:52.916 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:48:52.920 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:48:52.997 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:48:53.020 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:48:53.124 +04:00 [INF] Executed ViewResult - view Index executed in 110.8554ms.
+2020-10-03 17:48:53.130 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 132.1634ms
+2020-10-03 17:48:53.132 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:48:53.135 +04:00 [INF] HTTP GET / responded 200 in 480.1673 ms
+2020-10-03 17:48:53.141 +04:00 [INF] Request finished in 505.2032ms 200 text/html; charset=utf-8
+2020-10-03 17:48:54.475 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 17:48:54.490 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:48:54.491 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:48:54.532 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:48:54.549 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 17:48:54.748 +04:00 [INF] Executed ViewResult - view SignIn executed in 200.4289ms.
+2020-10-03 17:48:54.748 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 215.6124ms
+2020-10-03 17:48:54.748 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:48:54.748 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 268.4203 ms
+2020-10-03 17:48:54.749 +04:00 [INF] Request finished in 273.9987ms 200 text/html; charset=utf-8
+2020-10-03 17:48:55.907 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 17:48:55.919 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:48:55.919 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:48:55.941 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:48:55.980 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 17:48:56.004 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 17:48:56.005 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 63.1763ms
+2020-10-03 17:48:56.005 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:48:56.005 +04:00 [INF] HTTP POST /signin responded 302 in 96.9771 ms
+2020-10-03 17:48:56.008 +04:00 [INF] Request finished in 101.059ms 302 
+2020-10-03 17:48:56.804 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EUMVMAAVZIFTJ1Z8B2Q96LRCIDGJ3BOPED&state=CfDJ8JpTqZXw8-VClwBhRuiajcSSjaQupS1wk5iETysDdrZuzlD1aJV17IFEeVADBQWKsG66cdEdL97cdjmTLr9WrZrmfk090Qzm8lzgs1rmMGd0fM9qPS8F1dT_MaUQXtdAP8X7KRuqRbPCPqlFwgYrNkMo97F0LE29fNtduthfy84gNeTt2Uj7cDB0Ws5zdsHx0fliCdtPPXl95sQYKd1RSkc  
+2020-10-03 17:48:57.975 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 17:48:57.988 +04:00 [INF] HTTP GET /signin-battlenet?code=EUMVMAAVZIFTJ1Z8B2Q96LRCIDGJ3BOPED&state=CfDJ8JpTqZXw8-VClwBhRuiajcSSjaQupS1wk5iETysDdrZuzlD1aJV17IFEeVADBQWKsG66cdEdL97cdjmTLr9WrZrmfk090Qzm8lzgs1rmMGd0fM9qPS8F1dT_MaUQXtdAP8X7KRuqRbPCPqlFwgYrNkMo97F0LE29fNtduthfy84gNeTt2Uj7cDB0Ws5zdsHx0fliCdtPPXl95sQYKd1RSkc responded 302 in 1176.7923 ms
+2020-10-03 17:48:57.990 +04:00 [INF] Request finished in 1187.7376ms 302 
+2020-10-03 17:48:58.014 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:48:58.021 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:48:58.022 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:48:58.023 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:48:58.037 +04:00 [INF] Executed ViewResult - view Index executed in 14.7008ms.
+2020-10-03 17:48:58.037 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 15.6304ms
+2020-10-03 17:48:58.038 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:48:58.038 +04:00 [INF] HTTP GET / responded 200 in 23.6831 ms
+2020-10-03 17:48:58.039 +04:00 [INF] Request finished in 24.7843ms 200 text/html; charset=utf-8
+2020-10-03 17:48:58.465 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 17:48:58.467 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 17:48:58.479 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 17:48:58.480 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 14.0277 ms
+2020-10-03 17:48:58.480 +04:00 [INF] Request finished in 14.8985ms 200 application/json
+2020-10-03 17:48:58.499 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=TD95cxj2TxcAzUdlfLZHTQ  
+2020-10-03 17:48:58.499 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:48:58.724 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=TD95cxj2TxcAzUdlfLZHTQ text/plain;charset=UTF-8 32
+2020-10-03 17:48:58.725 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:48:58.728 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:48:58.728 +04:00 [INF] HTTP POST /chat?id=TD95cxj2TxcAzUdlfLZHTQ responded 200 in 4.1111 ms
+2020-10-03 17:48:58.729 +04:00 [INF] Request finished in 5.0381ms 200 text/plain
+2020-10-03 17:49:14.055 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=TD95cxj2TxcAzUdlfLZHTQ text/plain;charset=UTF-8 11
+2020-10-03 17:49:14.058 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:49:14.059 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:49:14.061 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:49:14.063 +04:00 [INF] HTTP POST /chat?id=TD95cxj2TxcAzUdlfLZHTQ responded 200 in 6.6521 ms
+2020-10-03 17:49:14.064 +04:00 [INF] Request finished in 9.7694ms 200 text/plain
+2020-10-03 17:49:29.050 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=TD95cxj2TxcAzUdlfLZHTQ text/plain;charset=UTF-8 11
+2020-10-03 17:49:29.052 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:49:29.053 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:49:29.054 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:49:29.055 +04:00 [INF] HTTP POST /chat?id=TD95cxj2TxcAzUdlfLZHTQ responded 200 in 3.9668 ms
+2020-10-03 17:49:29.056 +04:00 [INF] Request finished in 5.8698ms 200 text/plain
+2020-10-03 17:49:38.910 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 17:49:39.708 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 17:49:39.709 +04:00 [INF] Hosting environment: Development
+2020-10-03 17:49:39.709 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 17:49:39.740 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:49:40.129 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:49:40.132 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:49:40.236 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:49:40.260 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:49:40.378 +04:00 [INF] Executed ViewResult - view Index executed in 124.0394ms.
+2020-10-03 17:49:40.386 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 149.174ms
+2020-10-03 17:49:40.388 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:49:40.392 +04:00 [INF] HTTP GET / responded 200 in 641.0853 ms
+2020-10-03 17:49:40.399 +04:00 [INF] Request finished in 664.723ms 200 text/html; charset=utf-8
+2020-10-03 17:49:41.724 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 17:49:41.735 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:49:41.736 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:49:41.761 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:49:41.771 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 17:49:41.925 +04:00 [INF] Executed ViewResult - view SignIn executed in 156.7999ms.
+2020-10-03 17:49:41.925 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 163.6163ms
+2020-10-03 17:49:41.925 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:49:41.926 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 201.1244 ms
+2020-10-03 17:49:41.926 +04:00 [INF] Request finished in 202.7913ms 200 text/html; charset=utf-8
+2020-10-03 17:49:42.784 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 17:49:42.794 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:49:42.794 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:49:42.813 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:49:42.853 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 17:49:42.881 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 17:49:42.882 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 68.1706ms
+2020-10-03 17:49:42.882 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:49:42.882 +04:00 [INF] HTTP POST /signin responded 302 in 96.7390 ms
+2020-10-03 17:49:42.885 +04:00 [INF] Request finished in 101.3735ms 302 
+2020-10-03 17:49:44.065 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EUOPBRTGXXT3C1UQPWN4UDA9USLV6WXT3U&state=CfDJ8JpTqZXw8-VClwBhRuiajcTL82iADdf0cMiEVEBKmO4ds_Le2tkGe_tM4KS0SsjUoDt7AlUtT3LzzVkVXlM8XAiuLaY46LbmlD_clHQTMbSrikyYOXSsGVHa8pzfuTq-lfsVfh3rj9__u7K_QGZLsbLgedCTtrwPjaWMnwO6LzmeAkpTYucq8l91eM0bkPyBwy9fLMeFFexayY5Q-bjWTXM  
+2020-10-03 17:49:45.102 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 17:49:45.105 +04:00 [INF] HTTP GET /signin-battlenet?code=EUOPBRTGXXT3C1UQPWN4UDA9USLV6WXT3U&state=CfDJ8JpTqZXw8-VClwBhRuiajcTL82iADdf0cMiEVEBKmO4ds_Le2tkGe_tM4KS0SsjUoDt7AlUtT3LzzVkVXlM8XAiuLaY46LbmlD_clHQTMbSrikyYOXSsGVHa8pzfuTq-lfsVfh3rj9__u7K_QGZLsbLgedCTtrwPjaWMnwO6LzmeAkpTYucq8l91eM0bkPyBwy9fLMeFFexayY5Q-bjWTXM responded 302 in 1038.4810 ms
+2020-10-03 17:49:45.107 +04:00 [INF] Request finished in 1043.5299ms 302 
+2020-10-03 17:49:45.121 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:49:45.125 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:49:45.127 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:49:45.135 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:49:45.172 +04:00 [INF] Executed ViewResult - view Index executed in 43.5971ms.
+2020-10-03 17:49:45.172 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 45.1346ms
+2020-10-03 17:49:45.172 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:49:45.173 +04:00 [INF] HTTP GET / responded 200 in 51.4750 ms
+2020-10-03 17:49:45.173 +04:00 [INF] Request finished in 52.0943ms 200 text/html; charset=utf-8
+2020-10-03 17:49:45.356 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 17:49:45.357 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 17:49:45.403 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 17:49:45.403 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 47.5908 ms
+2020-10-03 17:49:45.404 +04:00 [INF] Request finished in 48.0308ms 200 application/json
+2020-10-03 17:49:45.486 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ  
+2020-10-03 17:49:45.496 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:49:45.556 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 32
+2020-10-03 17:49:45.558 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:49:45.562 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:49:45.562 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 5.9455 ms
+2020-10-03 17:49:45.565 +04:00 [INF] Request finished in 8.8102ms 200 text/plain
+2020-10-03 17:50:00.887 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:50:00.891 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:50:00.891 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:50:00.892 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:50:00.892 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 4.2801 ms
+2020-10-03 17:50:00.895 +04:00 [INF] Request finished in 7.5771ms 200 text/plain
+2020-10-03 17:50:15.885 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:50:15.889 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:50:15.890 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:50:15.892 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:50:15.894 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 6.7339 ms
+2020-10-03 17:50:15.896 +04:00 [INF] Request finished in 11.2075ms 200 text/plain
+2020-10-03 17:50:30.886 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:50:30.888 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:50:30.888 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:50:30.889 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:50:30.890 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 3.4134 ms
+2020-10-03 17:50:30.892 +04:00 [INF] Request finished in 5.6298ms 200 text/plain
+2020-10-03 17:50:45.886 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:50:45.888 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:50:45.888 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:50:45.889 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:50:45.890 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 3.0440 ms
+2020-10-03 17:50:45.893 +04:00 [INF] Request finished in 7.4343ms 200 text/plain
+2020-10-03 17:51:00.882 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:51:00.884 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:51:00.885 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:51:00.887 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:51:00.887 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 4.4041 ms
+2020-10-03 17:51:00.890 +04:00 [INF] Request finished in 7.3456ms 200 text/plain
+2020-10-03 17:51:15.884 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:51:15.886 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:51:15.886 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:51:15.887 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:51:15.888 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 3.3819 ms
+2020-10-03 17:51:15.890 +04:00 [INF] Request finished in 5.9501ms 200 text/plain
+2020-10-03 17:51:30.887 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:51:30.890 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:51:30.890 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:51:30.891 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:51:30.892 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 4.6142 ms
+2020-10-03 17:51:30.893 +04:00 [INF] Request finished in 6.8321ms 200 text/plain
+2020-10-03 17:51:45.884 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:51:45.885 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:51:45.886 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:51:45.886 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:51:45.887 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 2.3497 ms
+2020-10-03 17:51:45.888 +04:00 [INF] Request finished in 4.3565ms 200 text/plain
+2020-10-03 17:52:00.885 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:52:00.887 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:52:00.887 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:52:00.887 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:52:00.888 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 2.4185 ms
+2020-10-03 17:52:00.889 +04:00 [INF] Request finished in 4.3576ms 200 text/plain
+2020-10-03 17:52:15.884 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:52:15.885 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:52:15.885 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:52:15.886 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:52:15.887 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 2.4592 ms
+2020-10-03 17:52:15.887 +04:00 [INF] Request finished in 3.7133ms 200 text/plain
+2020-10-03 17:52:30.883 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:52:30.884 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:52:30.884 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:52:30.884 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:52:30.885 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 1.8993 ms
+2020-10-03 17:52:30.886 +04:00 [INF] Request finished in 3.1891ms 200 text/plain
+2020-10-03 17:52:45.884 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:52:45.885 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:52:45.885 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:52:45.886 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:52:45.887 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 2.4304 ms
+2020-10-03 17:52:45.888 +04:00 [INF] Request finished in 3.7947ms 200 text/plain
+2020-10-03 17:53:00.885 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:53:00.886 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:53:00.887 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:53:00.887 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:53:00.888 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 2.1274 ms
+2020-10-03 17:53:00.889 +04:00 [INF] Request finished in 3.5094ms 200 text/plain
+2020-10-03 17:53:15.887 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:53:15.889 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:53:15.889 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:53:15.889 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:53:15.890 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 1.9527 ms
+2020-10-03 17:53:15.891 +04:00 [INF] Request finished in 3.5781ms 200 text/plain
+2020-10-03 17:53:30.888 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:53:30.889 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:53:30.890 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:53:30.890 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:53:30.890 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 2.6450 ms
+2020-10-03 17:53:30.892 +04:00 [INF] Request finished in 3.8169ms 200 text/plain
+2020-10-03 17:53:35.832 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/Statistics  
+2020-10-03 17:53:35.835 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:53:35.836 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.StatisticsController.Index (Mvc.Client)'
+2020-10-03 17:53:35.840 +04:00 [INF] Route matched with {action = "Index", controller = "Statistics"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.StatisticsController (Mvc.Client).
+2020-10-03 17:53:35.863 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:53:35.875 +04:00 [INF] Executed ViewResult - view Index executed in 13.8786ms.
+2020-10-03 17:53:35.876 +04:00 [INF] Executed action Mvc.Client.Controllers.StatisticsController.Index (Mvc.Client) in 35.3022ms
+2020-10-03 17:53:35.876 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.StatisticsController.Index (Mvc.Client)'
+2020-10-03 17:53:35.877 +04:00 [INF] HTTP GET /Statistics responded 200 in 43.8947 ms
+2020-10-03 17:53:35.877 +04:00 [INF] Request finished in 45.1139ms 200 text/html; charset=utf-8
+2020-10-03 17:53:45.945 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:53:45.947 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:53:45.947 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:53:45.948 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:53:45.948 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 2.7752 ms
+2020-10-03 17:53:45.949 +04:00 [INF] Request finished in 4.1614ms 200 text/plain
+2020-10-03 17:53:56.582 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/Calculator  
+2020-10-03 17:53:56.583 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:53:56.583 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:53:56.592 +04:00 [INF] Route matched with {action = "Index", controller = "Calculator"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.CalculatorController (Mvc.Client).
+2020-10-03 17:53:56.600 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:53:56.742 +04:00 [INF] Executed ViewResult - view Index executed in 144.7283ms.
+2020-10-03 17:53:56.742 +04:00 [INF] Executed action Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client) in 150.0764ms
+2020-10-03 17:53:56.743 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:53:56.743 +04:00 [INF] HTTP GET /Calculator responded 200 in 160.6534 ms
+2020-10-03 17:53:56.743 +04:00 [INF] Request finished in 161.2313ms 200 text/html; charset=utf-8
+2020-10-03 17:53:59.697 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/Calculator application/x-www-form-urlencoded 227
+2020-10-03 17:53:59.699 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:53:59.699 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:53:59.730 +04:00 [INF] Route matched with {action = "Index", controller = "Calculator"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index(Mvc.Client.Models.CalculatorModel) on controller Mvc.Client.Controllers.CalculatorController (Mvc.Client).
+2020-10-03 17:53:59.769 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:53:59.791 +04:00 [INF] Executed ViewResult - view Index executed in 22.3428ms.
+2020-10-03 17:53:59.792 +04:00 [INF] Executed action Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client) in 61.1249ms
+2020-10-03 17:53:59.792 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:53:59.792 +04:00 [INF] HTTP POST /Calculator responded 200 in 94.7983 ms
+2020-10-03 17:53:59.792 +04:00 [INF] Request finished in 95.2763ms 200 text/html; charset=utf-8
+2020-10-03 17:54:00.635 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=QOAQkD61qdZINiwOS_LZoQ text/plain;charset=UTF-8 11
+2020-10-03 17:54:00.641 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:54:00.643 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 17:54:00.643 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:54:00.644 +04:00 [INF] HTTP POST /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 4.3200 ms
+2020-10-03 17:54:00.645 +04:00 [INF] Request finished in 11.6099ms 200 text/plain
+2020-10-03 17:54:01.619 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/Calculator application/x-www-form-urlencoded 265
+2020-10-03 17:54:01.620 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:54:01.620 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:54:01.621 +04:00 [INF] Route matched with {action = "Index", controller = "Calculator"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index(Mvc.Client.Models.CalculatorModel) on controller Mvc.Client.Controllers.CalculatorController (Mvc.Client).
+2020-10-03 17:54:01.635 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:54:01.639 +04:00 [INF] Executed ViewResult - view Index executed in 4.2221ms.
+2020-10-03 17:54:01.639 +04:00 [INF] Executed action Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client) in 18.0597ms
+2020-10-03 17:54:01.639 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:54:01.639 +04:00 [INF] HTTP POST /Calculator responded 200 in 20.1487 ms
+2020-10-03 17:54:01.639 +04:00 [INF] Request finished in 20.5883ms 200 text/html; charset=utf-8
+2020-10-03 17:54:04.238 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/Calculator application/x-www-form-urlencoded 265
+2020-10-03 17:54:04.240 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 17:54:04.241 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:54:04.242 +04:00 [INF] Route matched with {action = "Index", controller = "Calculator"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index(Mvc.Client.Models.CalculatorModel) on controller Mvc.Client.Controllers.CalculatorController (Mvc.Client).
+2020-10-03 17:54:04.247 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:54:04.251 +04:00 [INF] Executed ViewResult - view Index executed in 4.7055ms.
+2020-10-03 17:54:04.252 +04:00 [INF] Executed action Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client) in 9.3466ms
+2020-10-03 17:54:04.252 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.CalculatorController.Index (Mvc.Client)'
+2020-10-03 17:54:04.252 +04:00 [INF] HTTP POST /Calculator responded 200 in 13.1663 ms
+2020-10-03 17:54:04.252 +04:00 [INF] Request finished in 13.7442ms 200 text/html; charset=utf-8
+2020-10-03 17:54:10.098 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 17:54:10.099 +04:00 [INF] HTTP GET /chat?id=QOAQkD61qdZINiwOS_LZoQ responded 200 in 264606.5215 ms
+2020-10-03 17:54:10.101 +04:00 [INF] Request finished in 264618.1649ms 200 text/event-stream
+2020-10-03 17:59:28.102 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 17:59:28.844 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 17:59:28.844 +04:00 [INF] Hosting environment: Development
+2020-10-03 17:59:28.844 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 17:59:28.895 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:59:29.295 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 17:59:29.298 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:59:29.411 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:59:29.439 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:59:29.602 +04:00 [INF] Executed ViewResult - view Index executed in 174.9959ms.
+2020-10-03 17:59:29.608 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 195.797ms
+2020-10-03 17:59:29.609 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:59:29.613 +04:00 [INF] HTTP GET / responded 200 in 707.7181 ms
+2020-10-03 17:59:29.620 +04:00 [INF] Request finished in 732.7194ms 200 text/html; charset=utf-8
+2020-10-03 17:59:30.825 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 17:59:30.834 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 17:59:30.843 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:59:30.873 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:59:30.882 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 17:59:31.079 +04:00 [INF] Executed ViewResult - view SignIn executed in 199.467ms.
+2020-10-03 17:59:31.079 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 206.3867ms
+2020-10-03 17:59:31.079 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:59:31.080 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 253.5301 ms
+2020-10-03 17:59:31.080 +04:00 [INF] Request finished in 255.0319ms 200 text/html; charset=utf-8
+2020-10-03 17:59:31.843 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 17:59:31.853 +04:00 [INF] Cookies was not authenticated. Failure message: Unprotect ticket failed
+2020-10-03 17:59:31.853 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:59:31.872 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 17:59:31.931 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 17:59:31.959 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 17:59:31.959 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 86.5813ms
+2020-10-03 17:59:31.959 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 17:59:31.960 +04:00 [INF] HTTP POST /signin responded 302 in 114.8245 ms
+2020-10-03 17:59:31.963 +04:00 [INF] Request finished in 120.9378ms 302 
+2020-10-03 17:59:32.742 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EU7EMZSI4NA2FBIFNJ7OJ1XTZ4B6BH8QYU&state=CfDJ8JpTqZXw8-VClwBhRuiajcTQZktbYYnnnOf3beFBvlXxZYcFb-U8WY8QgIlM9mUPnzgzZTdlST-FGLr6C569OWd9O4IpMNjr0xRNoOJt10g2XqwoMehnBMy7V8lAakpN1jnobQFonTY-KyAOkHdoG3GVqbbuV95vgPBl0J0AwRYE9RAtIEOdOHAGFnTyTvhktR_rYhJh-cbiGyOVUBN4Sq4  
+2020-10-03 17:59:33.963 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 17:59:33.967 +04:00 [INF] HTTP GET /signin-battlenet?code=EU7EMZSI4NA2FBIFNJ7OJ1XTZ4B6BH8QYU&state=CfDJ8JpTqZXw8-VClwBhRuiajcTQZktbYYnnnOf3beFBvlXxZYcFb-U8WY8QgIlM9mUPnzgzZTdlST-FGLr6C569OWd9O4IpMNjr0xRNoOJt10g2XqwoMehnBMy7V8lAakpN1jnobQFonTY-KyAOkHdoG3GVqbbuV95vgPBl0J0AwRYE9RAtIEOdOHAGFnTyTvhktR_rYhJh-cbiGyOVUBN4Sq4 responded 302 in 1223.1082 ms
+2020-10-03 17:59:33.980 +04:00 [INF] Request finished in 1239.1403ms 302 
+2020-10-03 17:59:33.992 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 17:59:34.001 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:59:34.005 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 17:59:34.009 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 17:59:34.022 +04:00 [INF] Executed ViewResult - view Index executed in 13.3994ms.
+2020-10-03 17:59:34.022 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 16.971ms
+2020-10-03 17:59:34.022 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 17:59:34.022 +04:00 [INF] HTTP GET / responded 200 in 29.9496 ms
+2020-10-03 17:59:34.023 +04:00 [INF] Request finished in 30.8919ms 200 text/html; charset=utf-8
+2020-10-03 18:01:43.809 +04:00 [INF] User profile is available. Using 'C:\Users\Skatt\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2020-10-03 18:01:44.615 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2020-10-03 18:01:44.615 +04:00 [INF] Hosting environment: Development
+2020-10-03 18:01:44.616 +04:00 [INF] Content root path: C:\Users\Skatt\Desktop\wow
+2020-10-03 18:01:44.652 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 18:01:45.046 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 18:01:45.052 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 18:01:45.145 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 18:01:45.168 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 18:01:45.299 +04:00 [INF] Executed ViewResult - view Index executed in 135.5798ms.
+2020-10-03 18:01:45.305 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 158.9737ms
+2020-10-03 18:01:45.306 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 18:01:45.310 +04:00 [INF] HTTP GET / responded 200 in 649.1379 ms
+2020-10-03 18:01:45.319 +04:00 [INF] Request finished in 672.5794ms 200 text/html; charset=utf-8
+2020-10-03 18:01:47.086 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin?returnUrl=%2F  
+2020-10-03 18:01:47.098 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 18:01:47.099 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 18:01:47.134 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn() on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 18:01:47.146 +04:00 [INF] Executing ViewResult, running view SignIn.
+2020-10-03 18:01:47.317 +04:00 [INF] Executed ViewResult - view SignIn executed in 175.714ms.
+2020-10-03 18:01:47.317 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 183.103ms
+2020-10-03 18:01:47.317 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 18:01:47.318 +04:00 [INF] HTTP GET /signin?returnUrl=%2F responded 200 in 229.9366 ms
+2020-10-03 18:01:47.318 +04:00 [INF] Request finished in 231.39ms 200 text/html; charset=utf-8
+2020-10-03 18:01:47.990 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/signin application/x-www-form-urlencoded 29
+2020-10-03 18:01:48.000 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 18:01:48.001 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 18:01:48.028 +04:00 [INF] Route matched with {action = "SignIn", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SignIn(System.String) on controller Mvc.Client.Controllers.AuthenticationController (Mvc.Client).
+2020-10-03 18:01:48.068 +04:00 [INF] Executing ChallengeResult with authentication schemes (["BattleNet"]).
+2020-10-03 18:01:48.097 +04:00 [INF] AuthenticationScheme: BattleNet was challenged.
+2020-10-03 18:01:48.098 +04:00 [INF] Executed action Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client) in 69.4851ms
+2020-10-03 18:01:48.098 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.AuthenticationController.SignIn (Mvc.Client)'
+2020-10-03 18:01:48.098 +04:00 [INF] HTTP POST /signin responded 302 in 106.9317 ms
+2020-10-03 18:01:48.101 +04:00 [INF] Request finished in 111.2551ms 302 
+2020-10-03 18:01:48.584 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/signin-battlenet?code=EUYYM7HJWBVYWENKHPOBDTDYG5LKL5IRAT&state=CfDJ8JpTqZXw8-VClwBhRuiajcQNsDfr3WvKJT2agAu1KJBI2ac8VopuyXIkIt7Rfvtr-_l_xWfDp0nkuycMiUGPhtzOhNCkucr7USp5NiJO_bMFE6KXqwJ4RcdVDjuOfUAyMJV8RdzQPhVISFOh5YdAYgfggaUmOYU-9ZaWtPAd8JZnlJ44hE4Cxab-ZUiW9kvHgqsrS6RYY44apUchl6jab3Y  
+2020-10-03 18:01:49.624 +04:00 [INF] AuthenticationScheme: Cookies signed in.
+2020-10-03 18:01:49.630 +04:00 [INF] HTTP GET /signin-battlenet?code=EUYYM7HJWBVYWENKHPOBDTDYG5LKL5IRAT&state=CfDJ8JpTqZXw8-VClwBhRuiajcQNsDfr3WvKJT2agAu1KJBI2ac8VopuyXIkIt7Rfvtr-_l_xWfDp0nkuycMiUGPhtzOhNCkucr7USp5NiJO_bMFE6KXqwJ4RcdVDjuOfUAyMJV8RdzQPhVISFOh5YdAYgfggaUmOYU-9ZaWtPAd8JZnlJ44hE4Cxab-ZUiW9kvHgqsrS6RYY44apUchl6jab3Y responded 302 in 1044.9215 ms
+2020-10-03 18:01:49.633 +04:00 [INF] Request finished in 1049.7454ms 302 
+2020-10-03 18:01:49.671 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/  
+2020-10-03 18:01:49.681 +04:00 [INF] Executing endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 18:01:49.682 +04:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Mvc.Client.Controllers.HomeController (Mvc.Client).
+2020-10-03 18:01:49.683 +04:00 [INF] Executing ViewResult, running view Index.
+2020-10-03 18:01:49.695 +04:00 [INF] Executed ViewResult - view Index executed in 12.1164ms.
+2020-10-03 18:01:49.695 +04:00 [INF] Executed action Mvc.Client.Controllers.HomeController.Index (Mvc.Client) in 13.1348ms
+2020-10-03 18:01:49.695 +04:00 [INF] Executed endpoint 'Mvc.Client.Controllers.HomeController.Index (Mvc.Client)'
+2020-10-03 18:01:49.695 +04:00 [INF] HTTP GET / responded 200 in 24.2268 ms
+2020-10-03 18:01:49.696 +04:00 [INF] Request finished in 25.0746ms 200 text/html; charset=utf-8
+2020-10-03 18:01:49.841 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat/negotiate?negotiateVersion=1 text/plain;charset=UTF-8 0
+2020-10-03 18:01:49.842 +04:00 [INF] Executing endpoint '/chat/negotiate'
+2020-10-03 18:01:49.882 +04:00 [INF] Executed endpoint '/chat/negotiate'
+2020-10-03 18:01:49.882 +04:00 [INF] HTTP POST /chat/negotiate?negotiateVersion=1 responded 200 in 40.6284 ms
+2020-10-03 18:01:49.882 +04:00 [INF] Request finished in 41.1552ms 200 application/json
+2020-10-03 18:01:50.121 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:44318/chat?id=6JaJtvluBLGV-tF_vIp5sQ  
+2020-10-03 18:01:50.123 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 18:01:50.516 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=6JaJtvluBLGV-tF_vIp5sQ text/plain;charset=UTF-8 32
+2020-10-03 18:01:50.519 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 18:01:50.523 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 18:01:50.524 +04:00 [INF] HTTP POST /chat?id=6JaJtvluBLGV-tF_vIp5sQ responded 200 in 5.8672 ms
+2020-10-03 18:01:50.526 +04:00 [INF] Request finished in 10.1023ms 200 text/plain
+2020-10-03 18:02:05.849 +04:00 [INF] Request starting HTTP/1.1 POST https://localhost:44318/chat?id=6JaJtvluBLGV-tF_vIp5sQ text/plain;charset=UTF-8 11
+2020-10-03 18:02:05.852 +04:00 [INF] Cookies was not authenticated. Failure message: Ticket expired
+2020-10-03 18:02:05.853 +04:00 [INF] Executing endpoint '/chat'
+2020-10-03 18:02:05.855 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 18:02:05.856 +04:00 [INF] HTTP POST /chat?id=6JaJtvluBLGV-tF_vIp5sQ responded 200 in 5.6157 ms
+2020-10-03 18:02:05.858 +04:00 [INF] Request finished in 8.7287ms 200 text/plain
+2020-10-03 18:02:17.894 +04:00 [INF] Executed endpoint '/chat'
+2020-10-03 18:02:17.898 +04:00 [INF] HTTP GET /chat?id=6JaJtvluBLGV-tF_vIp5sQ responded 200 in 27775.9710 ms
+2020-10-03 18:02:17.901 +04:00 [INF] Request finished in 27779.8586ms 200 text/event-stream

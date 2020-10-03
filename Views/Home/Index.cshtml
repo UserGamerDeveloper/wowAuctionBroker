@@ -9,14 +9,20 @@
 
     @*<textarea id="messageList" readonly> </textarea>*@
     <button class="btn btn-lg btn-success m-1" type="button" onclick="stopMusic()">stop music</button>
-   <div id="messageList"></div>
+    <div id="messageList"></div>
 
     <style type="text/css">
         .music {
             background: #AAF387;
         }
+
         .alert {
             background: #FCFFA1;
+        }
+
+        body {
+            line-height: 1.5;
+            font-size: 110%;
         }
     </style>
     <script>
@@ -134,5 +140,5 @@ else
 {
     @*@await Html.PartialAsync("SignIn", Model)*@
     <h1>Welcome, anonymous</h1>
-        <a class="btn btn-lg btn-success" href="/signin?returnUrl=%2F">Sign in</a>
+    <a class="btn btn-lg btn-success" href="/signin?returnUrl=%2F">Sign in</a>
 }

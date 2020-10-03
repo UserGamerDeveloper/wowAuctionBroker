@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="realms\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
