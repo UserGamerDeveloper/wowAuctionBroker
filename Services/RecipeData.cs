@@ -7,7 +7,7 @@ namespace info
     [Serializable]
     public class RecipeData
     {
-        public const double BFANeedMillisecondsToCraft = 15000d / 70d;
+        public const double DropToMailNeedMillisecondsToCraft = 15000d / 70d;
         private const double ChanceRandomProfit = 0.177637947725073d;
 
         public int ID;
@@ -49,6 +49,18 @@ namespace info
         internal double GetRandomProfit()
         {
             return (SellRandomPrice - SellNormalPrice) * ChanceRandomProfit;
+        }
+
+        internal double GetNeedMillisecondsToCraft(long money = 0, long summaryCostCraft = 0, long costCraft = 0)
+        {
+            if (DropToMail && money >= summaryCostCraft + costCraft)
+            {
+                return DropToMailNeedMillisecondsToCraft;
+            }
+            else
+            {
+                return NeedMillisecondsToCraft;
+            }
         }
     }
 }

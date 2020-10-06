@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <Server xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <id>554</id>
-  <connectedRealmId>1329</connectedRealmId>
-  <characterId>106799868</characterId>
-  <timeUpdate>2020-10-06T18:07:43+04:00</timeUpdate>
+  <id>503</id>
+  <connectedRealmId>1396</connectedRealmId>
+  <characterId>154866560</characterId>
+  <timeUpdate>2020-10-06T18:07:30+04:00</timeUpdate>
   <idRecipes>
     <int>128897</int>
     <int>161970</int>
@@ -13,6 +13,6 @@
     <int>128881</int>
   </idRecipes>
   <farmMode>false</farmMode>
-  <moneyMax>29412286</moneyMax>
-  <Name>Ravencrest</Name>
+  <moneyMax>837429593</moneyMax>
+  <Name>Azjol_Nerub</Name>
 </Server>

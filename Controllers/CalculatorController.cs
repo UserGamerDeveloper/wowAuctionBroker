@@ -105,7 +105,7 @@ namespace Mvc.Client.Controllers
                     RecipeData recipeData = recipesData.First();
                     long spending = Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
                     double value = (recipeData.SellNormalPrice - spending - 
-                        calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.NeedMillisecondsToCraft) /
+                        calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToCraft()) /
                         recipeData.ID_ITEM_AND_NEED_AMOUNT.Values.First();
                     calculatorModel.Result.Add(
                         recipeData.Name,
@@ -139,9 +139,8 @@ namespace Mvc.Client.Controllers
                                 spending += calculatorModel.Items[idItem] * 100 * recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem];
                             }
                             spending += Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
-
                             double tempValue = (recipeData.SellNormalPrice - spending -
-                                calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.NeedMillisecondsToCraft) /
+                                calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToCraft()) /
                                 recipeData.ID_ITEM_AND_NEED_AMOUNT[calculatorModel.SelectedItemID];
                             if (value < tempValue)
                             {

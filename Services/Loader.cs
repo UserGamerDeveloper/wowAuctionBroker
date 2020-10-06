@@ -31,11 +31,11 @@ namespace info
             }
         }
 
-        private static string ConvertLuaDataToJSON(string getGoldAndRepStr)
-        {
-            getGoldAndRepStr = getGoldAndRepStr.Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("DB = ", "").Replace("[", "").Replace("]", "").Replace("=", ":");
-            return getGoldAndRepStr;
-        }
+        //private static string ConvertLuaDataToJSON(string getGoldAndRepStr)
+        //{
+        //    getGoldAndRepStr = getGoldAndRepStr.Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("DB = ", "").Replace("[", "").Replace("]", "").Replace("=", ":");
+        //    return getGoldAndRepStr;
+        //}
 
         //private static Dictionary<int, RecipeData> DeserializeRecipes()
         //{
@@ -60,6 +60,7 @@ namespace info
         private static Dictionary<int, RecipeData> GetRecipeDataById()
         {
             const double DefaultNeedMillisecondsToCraft = 2000d;
+            const double BFANeedMillisecondsToCraft = 1000d;
 
             List<RecipeData> recipesData = new List<RecipeData>{
                 new RecipeData(
@@ -68,7 +69,7 @@ namespace info
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     561697,
-                    DefaultNeedMillisecondsToCraft,
+                    BFANeedMillisecondsToCraft,
                     0,
                     679654,
                     true),
@@ -78,7 +79,7 @@ namespace info
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     574983,
-                    DefaultNeedMillisecondsToCraft,
+                    BFANeedMillisecondsToCraft,
                     0,
                     695731,
                     true),
@@ -97,7 +98,7 @@ namespace info
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
                     399124,
-                    DefaultNeedMillisecondsToCraft,
+                    BFANeedMillisecondsToCraft,
                     60000,
                     482941,
                     true),
@@ -107,7 +108,7 @@ namespace info
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
                     390773,
-                    DefaultNeedMillisecondsToCraft,
+                    BFANeedMillisecondsToCraft,
                     60000,
                     472837,
                     true),
@@ -117,7 +118,7 @@ namespace info
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     563788,
-                    DefaultNeedMillisecondsToCraft,
+                    BFANeedMillisecondsToCraft,
                     0,
                     682185,
                     true),
@@ -127,7 +128,7 @@ namespace info
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     577018,
-                    DefaultNeedMillisecondsToCraft,
+                    BFANeedMillisecondsToCraft,
                     0,
                     698193,
                     true),

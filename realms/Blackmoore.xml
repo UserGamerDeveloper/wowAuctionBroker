@@ -1,17 +1,18 @@
 <?xml version="1.0"?>
 <Server xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <id>1384</id>
-  <connectedRealmId>1384</connectedRealmId>
-  <characterId>162670117</characterId>
-  <timeUpdate>2020-10-06T18:07:27+04:00</timeUpdate>
+  <id>580</id>
+  <connectedRealmId>580</connectedRealmId>
+  <characterId>135371269</characterId>
+  <timeUpdate>2020-10-06T18:07:35+04:00</timeUpdate>
   <idRecipes>
     <int>128897</int>
     <int>154161</int>
     <int>154160</int>
     <int>126988</int>
     <int>154689</int>
+    <int>128881</int>
   </idRecipes>
   <farmMode>false</farmMode>
-  <moneyMax>278591331</moneyMax>
-  <Name>Tyrande</Name>
+  <moneyMax>684423847</moneyMax>
+  <Name>Blackmoore</Name>
 </Server>

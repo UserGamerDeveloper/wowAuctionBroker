@@ -23,6 +23,7 @@ namespace Mvc.Client.Controllers
             List<StatisticsModel> statisticsModels = new List<StatisticsModel>();
             foreach (var server in parseService.GetModel().Values.OrderByDescending(server => server.Money))
             {
+                server.UpdateData();
                 statisticsModels.Add(new StatisticsModel()
                 {
                     Money = ParseService.ConvertCopperToGold(server.Money).ToString("N0"),

@@ -13,51 +13,51 @@ namespace info
         public static void SerializeServers()
         {
             List<Server> servers = new List<Server> {
-                //new Server(
-                //    ConnectedRealmId.Twisting_Nether,
-                //    getAllRecipesHorde(),
-                //    145432820,
-                //    RealmId.Twisting_Nether),
-                //new Server(
-                //    ConnectedRealmId.Blackmoore,
-                //    getAllRecipesHorde(),
-                //    135371269,
-                //    RealmId.Blackmoore),
-                //new Server(
-                //    ConnectedRealmId.Antonidas,
-                //    getAllRecipesAlliance(),
-                //    106880759,
-                //    RealmId.Antonidas),
+                new Server(
+                    ConnectedRealmId.Twisting_Nether,
+                    getAllRecipesHorde(),
+                    145432820,
+                    RealmId.Twisting_Nether),
+                new Server(
+                    ConnectedRealmId.Blackmoore,
+                    getAllRecipesHorde(),
+                    135371269,
+                    RealmId.Blackmoore),
+                new Server(
+                    ConnectedRealmId.Antonidas,
+                    getAllRecipesAlliance(),
+                    106880759,
+                    RealmId.Antonidas),
                 new Server(
                     ConnectedRealmId.Ravencrest,
                     getAllRecipesAlliance(),
                     106799868,
                     RealmId.Ravencrest),
-                //new Server(
-                //    ConnectedRealmId.svezewatel,
-                //    getAllRecipesHorde(),
-                //    166396992,
-                //    RealmId.svezewatel),
-                //new Server(
-                //    ConnectedRealmId.gorduni,
-                //    getAllRecipesAlliance(),
-                //    181666336,
-                //    RealmId.gorduni),
-                //new Server(
-                //    ConnectedRealmId.Azjol_Nerub,
-                //    getAllRecipesAlliance(),
-                //    154866560,
-                //    RealmId.Azjol_Nerub),
-                //new Server(
-                //    ConnectedRealmId.Kazzak,
-                //    getAllRecipesHorde(),
-                //    186121814,
-                //    RealmId.Kazzak),
-                //new Server(
-                //    ConnectedRealmId.Silvermoon,
-                //    getAllRecipesAlliance(),
-                //    186033540,
-                //    RealmId.Silvermoon),
+                new Server(
+                    ConnectedRealmId.svezewatel,
+                    getAllRecipesHorde(),
+                    166396992,
+                    RealmId.svezewatel),
+                new Server(
+                    ConnectedRealmId.gorduni,
+                    getAllRecipesAlliance(),
+                    181666336,
+                    RealmId.gorduni),
+                new Server(
+                    ConnectedRealmId.Azjol_Nerub,
+                    getAllRecipesAlliance(),
+                    154866560,
+                    RealmId.Azjol_Nerub),
+                new Server(
+                    ConnectedRealmId.Kazzak,
+                    getAllRecipesHorde(),
+                    186121814,
+                    RealmId.Kazzak),
+                new Server(
+                    ConnectedRealmId.Silvermoon,
+                    getAllRecipesAlliance(),
+                    186033540,
+                    RealmId.Silvermoon),
                 new Server(
                     ConnectedRealmId.Tyrande,
                     new List<int>{
@@ -68,22 +68,22 @@ namespace info
                         (int)RecipeInfo.Tidespray_Linen_Pants_H
                     },
                     162670117,
-                    RealmId.Tyrande)
-                //new Server(
-                //    ConnectedRealmId.Hyjal,
-                //    getAllRecipesHorde(),
-                //    187157904,
-                //    RealmId.Hyjal),
-                //new Server(
-                //    ConnectedRealmId.Howling_Fjord,
-                //    getAllRecipesHorde(),
-                //    165853118,
-                //    RealmId.Howling_Fjord),
-                //new Server(
-                //    ConnectedRealmId.malganis,
-                //    getAllRecipesAlliance(),
-                //    153387171,
-                //    RealmId.malganis)
+                    RealmId.Tyrande),
+                new Server(
+                    ConnectedRealmId.Hyjal,
+                    getAllRecipesHorde(),
+                    187157904,
+                    RealmId.Hyjal),
+                new Server(
+                    ConnectedRealmId.Howling_Fjord,
+                    getAllRecipesHorde(),
+                    165853118,
+                    RealmId.Howling_Fjord),
+                new Server(
+                    ConnectedRealmId.malganis,
+                    getAllRecipesAlliance(),
+                    153387171,
+                    RealmId.malganis)
             };
             foreach (var server in servers)
             {

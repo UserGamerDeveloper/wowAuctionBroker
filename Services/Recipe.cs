@@ -9,38 +9,21 @@ namespace info
 {
     public class Recipe
     {
-        public RecipeData recipeData;
-        public long profit;
-        public Dictionary<int, List<Item>> items = new Dictionary<int, List<Item>>();
+        public RecipeData RecipeData { get; }
+        public long Profit { get; }
+        public Dictionary<int, List<Item>> Items { get; }
         public double IncomeGoldInHour { get; }
-        //public long spending;
-        public long costCraft = 0;
-        public double needMillisecondsToCraft;
+        public double NeedMillisecondsToCraft { get; }
+        public long CostCraft { get; }
 
-        public Recipe(RecipeData recipeData, Server server, Dictionary<int, ItemPageParser> parsersForTree, long summaryCostCraft)
+        public Recipe(RecipeData recipeData, double needMillisecondsToCraft, Dictionary<int, List<Item>> items, long spending, long costCraft)
         {
-            this.recipeData = recipeData;
-            foreach (var itemData in recipeData.ItemsData)
-            {
-                items.Add(itemData.id, new List<Item>());
-                for (int i = 0; i < recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id]; i++)
-                {
-                    Item item = parsersForTree[itemData.id].GetItem(i);
-                    costCraft += item.cost;
-                    items[itemData.id].Add(item);
-                }
-            }
-            long spending = Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
-            profit = recipeData.SellNormalPrice - spending - costCraft;
-            if (recipeData.DropToMail && server.Money >= summaryCostCraft + costCraft)
-            {
-                needMillisecondsToCraft = RecipeData.BFANeedMillisecondsToCraft;
-            }
-            else
-            {
-                needMillisecondsToCraft = recipeData.NeedMillisecondsToCraft;
-            }
-            IncomeGoldInHour = ParseService.GetIncomeGoldInHour(profit, TimeSpan.FromMilliseconds(needMillisecondsToCraft));
+            Items = items;
+            RecipeData = recipeData;
+            CostCraft = costCraft;
+            NeedMillisecondsToCraft = needMillisecondsToCraft;
+            Profit = RecipeData.SellNormalPrice - spending - CostCraft;
+            IncomeGoldInHour = ParseService.GetIncomeGoldInHour(Profit, NeedMillisecondsToCraft);
         }
     }
 }

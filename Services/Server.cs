@@ -270,7 +270,8 @@ namespace info
         const string TokenPriceURL = "https://eu.api.blizzard.com/data/wow/token/index?namespace=dynamic-eu&locale=en_US";
         const string CharacterDataURLFormat = "https://eu.api.blizzard.com/profile/user/wow/protected-character/{0}-{1}?namespace=profile-eu&locale=en_US";
         const string ReputationsDataURLFormat = "https://eu.api.blizzard.com/profile/wow/character/{0}/{1}/reputations?namespace=profile-eu&locale=en_US";
-
+        private const int Alert = 0;
+        private const int Music = 1;
         public int id;
         public int connectedRealmId;
         public string Name { get; set; }
@@ -295,7 +296,7 @@ namespace info
             this.connectedRealmId = (int)connectedRealmId;
             this.idRecipes = idRecipes;
             this.Name = connectedRealmId.ToString();
-            farmMode = true;
+            farmMode = false;
             timeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT");
             this.characterId = characterId;
             id = (int)realmId;
@@ -325,12 +326,12 @@ namespace info
                                 printStr += string.Format(
                                     "{5} {0,-50} Профит: {6:0.} ({1:0.} + {3:0.}) {2:0.}{4}",
                                     string.Format("{0} x {1}", recipeData.Name, recipes.Count),
-                                    ParseService.ConvertCopperToGold(recipesPage.SummaryProfit),
+                                    ParseService.ConvertCopperToGold(recipesPage.NormalProfit),
                                     recipesPage.IncomeGoldInHour,
                                     ParseService.ConvertCopperToGold(recipesPage.randomProfit),
                                     newLine,
                                     tabulate,
-                                    ParseService.ConvertCopperToGold(recipesPage.SummaryProfit + recipesPage.randomProfit));
+                                    ParseService.ConvertCopperToGold(recipesPage.NormalProfit + recipesPage.randomProfit));
                                 foreach (var itemData in recipeData.ItemsData)
                                 {
                                     printStr += string.Format(
@@ -343,35 +344,29 @@ namespace info
                             }
                             const string STRING = "Профит ";
                             string globalProfitString = string.Format("{6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
-                                ParseService.ConvertCopperToGold(auctionData.globalProfit),
-                                ParseService.GetIncomeGoldInHour(auctionData.globalProfit + auctionData.globalRandomProfit, auctionData.timeCraft),
-                                auctionData.timeCraft.TotalMinutes,
+                                ParseService.ConvertCopperToGold(auctionData.NormalProfit),
+                                ParseService.GetIncomeGoldInHour(
+                                    auctionData.NormalProfit + auctionData.globalRandomProfit,
+                                    auctionData.TimeCraftInMilliseconds),
+                                TimeSpan.FromMilliseconds(auctionData.TimeCraftInMilliseconds).TotalMinutes,
                                 auctionData.recipesCount,
                                 ParseService.ConvertCopperToGold(auctionData.globalRandomProfit),
                                 newLine,
-                                ParseService.ConvertCopperToGold(auctionData.globalProfit + auctionData.globalRandomProfit));
-                            lock (ParseService.consoleLocker)
+                                ParseService.ConvertCopperToGold(auctionData.NormalProfit + auctionData.globalRandomProfit));
+                            object alertId = null;
+                            if (auctionData.NormalProfit > 0)
                             {
-                                //ParseService.SendAndLog(printStr);
-                                object alertId = null;
-                                if (auctionData.globalProfit > 0)
+                                if (ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome) >=
+                                    ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT))
                                 {
-                                    if (ParseService.ConvertCopperToGold(auctionData.globalProfit + auctionData.globalRandomProfit) >=
-                                        ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT))
-                                    {
-                                        alertId = 1;
-                                    }
-                                    else
-                                    {
-                                        alertId = 0;
-                                    }
+                                    alertId = Music;
                                 }
-                                //else
-                                //{
-                                //    File.AppendAllText("log.txt", STRING + globalProfitString);
-                                //}
-                                ParseService.SendAndLog(printStr + STRING + globalProfitString, alertId);
+                                else
+                                {
+                                    alertId = Alert;
+                                }
                             }
+                            ParseService.SendAndLog(printStr + STRING + globalProfitString, alertId);
                             using (FileStream fs = new FileStream(string.Format(@"realms\{0}.xml", Name), FileMode.Create))
                             {
                                 XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
@@ -385,7 +380,7 @@ namespace info
                     }
                     else
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(timeNextUpdate.Subtract(DateTime.Now));
                     }
                 }
             }
@@ -401,7 +396,7 @@ namespace info
             TokenPrice = JsonConvert.DeserializeObject<TokenPriceData>(TokenPriceDataStr).Price;
         }
 
-        private async void UpdateData()
+        internal async void UpdateData()
         {
             string CharacterDataStr = await ParseService.GetResponseStringAsync(string.Format(CharacterDataURLFormat, id, characterId));
             CharacterData characterData = JsonConvert.DeserializeObject<CharacterData>(CharacterDataStr);

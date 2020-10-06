@@ -74,8 +74,9 @@ namespace wowCalc
                 .Start();
             }
         }
-        public static double GetIncomeGoldInHour(double profit, TimeSpan timeSpan)
+        public static double GetIncomeGoldInHour(double profit, double milliseconds)
         {
+            TimeSpan timeSpan = TimeSpan.FromMilliseconds(milliseconds);
             if (timeSpan.Ticks != 0)
             {
                 return ConvertCopperToGold(profit / timeSpan.Ticks * TimeSpan.TicksPerHour);
@@ -100,7 +101,10 @@ namespace wowCalc
         {
             await hubContext.Clients.All.SendAsync("Notify", new Response(message, alertId));
 
-            File.AppendAllText("log.txt", message.Replace("<br>", "\n").Replace("&#9;", "\t"));
+            lock (consoleLocker)
+            {
+                File.AppendAllText("log.txt", message.Replace("<br>", "\n").Replace("&#9;", "\t"));
+            }
         }
 
         public static void WriteLineAndLogWhithTime(string str)
