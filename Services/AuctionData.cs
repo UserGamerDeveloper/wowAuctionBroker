@@ -131,19 +131,6 @@ namespace info
 
         public AuctionParser(Server server)
         {
-            double targetIncomeInHour;
-            Dictionary<int, RecipesPage> notTargetIncomeRecipesPagesById = null;
-            if (server.farmMode)
-            {
-                targetIncomeInHour = 0d;
-                notTargetIncomeRecipesPagesById = new Dictionary<int, RecipesPage>();
-            }
-            else
-            {
-                targetIncomeInHour = ParseService.settings.TARGET_INCOME_IN_HOUR;
-            }
-            long summaryCostCraft = 0L;
-
             HashSet<int> itemsId = new HashSet<int>();
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
@@ -176,6 +163,8 @@ namespace info
             }
 
             Dictionary<int, RecipesPage> recipesPagesById = new Dictionary<int, RecipesPage>();
+            Dictionary<int, RecipesPage> notTargetIncomeRecipesPagesById = new Dictionary<int, RecipesPage>();
+            long summaryCostCraft = 0L;
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
                 while (true)
@@ -192,7 +181,7 @@ namespace info
                         if (enoughItemsForRecipe)
                         {
                             Recipe recipe = new Recipe(recipeData, server, parsersByIdItem, summaryCostCraft);
-                            if (recipe.IncomeGoldInHour >= targetIncomeInHour)
+                            if (recipe.IncomeGoldInHour >= server.GetTargetIncomeGoldInHour())
                             {
                                 profitableRecipes.Add(recipe);
                             }

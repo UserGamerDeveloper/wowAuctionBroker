@@ -33,7 +33,9 @@ namespace Mvc.Client.Controllers
                 calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = key, Value = key });
             }
             calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = "Выберите реалм", Value = "", Selected = true, Disabled = true });
+            calculatorModel.RequiredIncomeGold = ParseService.settings.TARGET_INCOME_IN_HOUR;
             //TempData["model"] = JsonConvert.SerializeObject(calculatorModel);
+            TempData["LastSelectedRealmName"] = "";
             return View(calculatorModel);
         }
 
@@ -47,6 +49,10 @@ namespace Mvc.Client.Controllers
             //CalculatorModel calculatorModela = JsonConvert.DeserializeObject<CalculatorModel>(TempData["model"].ToString());
             //calculatorModel.ReamlsNameSelectList =
             //    new SelectList(parseService.GetModel().Values, "Name", "Name", parseService.GetModel()[calculatorModel.SelectedRealmName]);
+            if (calculatorModel.SelectedRealmName != TempData["LastSelectedRealmName"].ToString())
+            {
+                calculatorModel.SelectedItemID = int.MinValue;
+            }
             foreach (var key in parseService.GetModel().Keys)
             {
                 if (key == calculatorModel.SelectedRealmName)
@@ -98,10 +104,12 @@ namespace Mvc.Client.Controllers
                 {
                     RecipeData recipeData = recipesData.First();
                     long spending = Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
-                    double value = (recipeData.SellNormalPrice - spending) / recipeData.ID_ITEM_AND_NEED_AMOUNT.Values.First();
+                    double value = (recipeData.SellNormalPrice - spending - 
+                        calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.NeedMillisecondsToCraft) /
+                        recipeData.ID_ITEM_AND_NEED_AMOUNT.Values.First();
                     calculatorModel.Result.Add(
-                        itemsData.First().itemName,
-                        string.Format("  {0:# ##}", Math.Floor(value / 100d)));
+                        recipeData.Name,
+                        string.Format("  {0:# ##}", Math.Floor(value / 100)));
                 }
                 else
                 {
@@ -132,7 +140,8 @@ namespace Mvc.Client.Controllers
                             }
                             spending += Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
 
-                            double tempValue = (recipeData.SellNormalPrice - spending) /
+                            double tempValue = (recipeData.SellNormalPrice - spending -
+                                calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.NeedMillisecondsToCraft) /
                                 recipeData.ID_ITEM_AND_NEED_AMOUNT[calculatorModel.SelectedItemID];
                             if (value < tempValue)
                             {
@@ -140,10 +149,12 @@ namespace Mvc.Client.Controllers
                                 recipe = recipeData;
                             }
                         }
-                        calculatorModel.Result.Add(recipe.Name, string.Format("  {0:# ##}", Math.Floor(value / 100d)));
+                        calculatorModel.Result.Add(recipe.Name, string.Format("  {0:# ##}", Math.Floor(value / 100)));
                     }
                 }
             }
+            //calculatorModel.LastSelectedRealmName = calculatorModel.SelectedRealmName;
+            TempData["LastSelectedRealmName"] = calculatorModel.SelectedRealmName;
             return View(calculatorModel);
         }
 

@@ -32,7 +32,7 @@ namespace info
                     ConnectedRealmId.Ravencrest,
                     getAllRecipesAlliance(),
                     106799868,
-                    RealmId.Ravencrest)
+                    RealmId.Ravencrest),
                 //new Server(
                 //    ConnectedRealmId.svezewatel,
                 //    getAllRecipesHorde(),
@@ -58,17 +58,17 @@ namespace info
                 //    getAllRecipesAlliance(),
                 //    186033540,
                 //    RealmId.Silvermoon),
-                //new Server(
-                //    ConnectedRealmId.Tyrande,
-                //    new List<int>{
-                //        (int)RecipeInfo.Battlebound_Spaulders,
-                //        (int)RecipeInfo.Coarse_Leather_Cestus_H,
-                //        (int)RecipeInfo.Shimmerscale_Striker_H,
-                //        (int)RecipeInfo.Silkweave_Slippers,
-                //        (int)RecipeInfo.Tidespray_Linen_Pants_H
-                //    },
-                //    162670117,
-                //    RealmId.Tyrande),
+                new Server(
+                    ConnectedRealmId.Tyrande,
+                    new List<int>{
+                        (int)RecipeInfo.Battlebound_Spaulders,
+                        (int)RecipeInfo.Coarse_Leather_Cestus_H,
+                        (int)RecipeInfo.Shimmerscale_Striker_H,
+                        (int)RecipeInfo.Silkweave_Slippers,
+                        (int)RecipeInfo.Tidespray_Linen_Pants_H
+                    },
+                    162670117,
+                    RealmId.Tyrande)
                 //new Server(
                 //    ConnectedRealmId.Hyjal,
                 //    getAllRecipesHorde(),

@@ -48,7 +48,7 @@ namespace wowCalc
         static Dictionary<string, Server> serversByName;
         public static readonly object consoleLocker = new object();
         public static Settings settings = Loader.DeserializeSettings();
-        private const int AmountCopperInGold = 10000;
+        public const int AmountCopperInGold = 10000;
         private const int AmountCopperInSilver = 100;
         public const string URL_ITEM_PAGE_FORMAT = "https://eu.api.blizzard.com/data/wow/connected-realm/{0}/auctions?namespace=dynamic-eu&locale=en_US";
         public static readonly object exeptionLocker = new object();

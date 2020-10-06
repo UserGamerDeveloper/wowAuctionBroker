@@ -6,22 +6,60 @@
 
 @model CalculatorModel
 <form asp-action="Index" asp-antiforgery="true">
-    <p>
-        <select name="calculatorModel.SelectedRealmName" asp-items="@Model.ReamlsNameSelectList">
-            @*<option selected="selected" disabled hidden="">Выберите реалм</option>*@
-        </select>
-        @if (Model.SelectedRealmName != null)
-        {
-            @await Html.PartialAsync("_SelectRealm", Model)
-        }
-        <input type="submit" value="Отправить">
+    @*<p>
+        </p>*@
+    <input name="calculatorModel.RequiredIncomeGold" type="number" size="40" value="@Model.RequiredIncomeGold">
+    <br>
+    <select name="calculatorModel.SelectedRealmName" asp-items="@Model.ReamlsNameSelectList">
+        @*<option selected="selected" disabled hidden="">Выберите реалм</option>*@
+    </select>
+    @if (Model.SelectedRealmName != null)
+    {
+        @*@await Html.PartialAsync("_SelectRealm", Model)*@
+        <p>
+            @*asp-for="SelectedRecipeTreeName"*@
+            <select name="calculatorModel.SelectedItemID" asp-items="@Model.RecipeTreeNameSelectList">
+                <option selected="selected" disabled hidden="">Выберите список рецептов</option>
+            </select>
+            @if (Model.SelectedItemID != int.MinValue)
+            {
+                <table>
+                    @foreach (var item in Model.ItemList)
+                    {
+                        <tr>
+                            <td>@item.itemName</td>
+                            <td>
+                                @if (Model.Items.ContainsKey(item.id))
+                                {
+                                    <input name="calculatorModel.Items[@item.id]" type="number" size="40" value="@Model.Items[item.id]">
+                                }
+                                else
+                                {
+                                    <input name="calculatorModel.Items[@item.id]" type="number" size="40">
+                                }
 
-        @*<select>
+                            </td>
+
+                        </tr>
+                    }
+                    @if (Model.Result.Count > 0)
+                    {
+                        @foreach (var keyValuePair in Model.Result)
+                        {
+                            <tr><td>@keyValuePair.Key</td><td>@keyValuePair.Value</td></tr>
+                        }
+                    }
+                </table>
+            }
+            @*<input type="submit" value="Отправить">*@
+        </p>
+    }
+    <input type="submit" value="Отправить">
+    @*<select>
             <option value="none" disabled hidden="">Выберите реалм</option>
             @foreach (var keyValuePair in Model)
             {
                 <option name="Realm" value=@keyValuePair.Key>@keyValuePair.Key</option>
             }
         </select>*@
-    </p>
 </form>

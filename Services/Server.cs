@@ -526,5 +526,17 @@ namespace info
         {
             return value + (value * (((double)moneyMax / TokenPrice) - 1d));
         }
+
+        internal double GetTargetIncomeGoldInHour()
+        {
+            if (farmMode)
+            {
+                return 0d;
+            }
+            else
+            {
+                return ParseService.settings.TARGET_INCOME_IN_HOUR;
+            }
+        }
     }
 }
