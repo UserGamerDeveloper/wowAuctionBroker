@@ -2,25 +2,29 @@
 
 @model List<StatisticsModel>
 
-<table class="table">
-    <tr><td><a href="/Calculator">Калькулятор</a></td></tr>
-</table>
-<table class="table">
-    <tr>
-        <td>Сервер</td>
-        <td>Доступное золото</td>
-        <td>Ожидающее золото</td>
-        <td>Последнее обновление</td>
-        <td>Фарм мод</td>
-    </tr>
-    @foreach (var item in Model)
-    {
+    <style type="text/css">
+        .True {
+            background: #AAF387;
+        }
+    </style>
+
+    <table class="table">
+        <tr><td><a href="/Calculator">Калькулятор</a></td></tr>
+    </table>
+    <table class="table">
         <tr>
-            <td>@item.Name</td>
-            <td>@item.Money</td>
-            <td>@item.WaitMoney</td>
-            <td>@item.LastUpdate</td>
-            <td>@item.FarmMode</td>
+            <td>Сервер</td>
+            <td>Доступное золото</td>
+            <td>Ожидающее золото</td>
+            <td>Последнее обновление</td>
         </tr>
-    }
-</table>
+        @foreach (var item in Model)
+        {
+            <tr class="@item.FarmMode.ToString()">
+                <td>@item.Name</td>
+                <td>@item.Money</td>
+                <td>@item.WaitMoney</td>
+                <td>@item.LastUpdate</td>
+            </tr>
+        }
+    </table>

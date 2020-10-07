@@ -68,9 +68,9 @@ namespace wowCalc
             foreach (var server in serversByName.Values)
             {
                 new Thread(new ThreadStart(server.Parse))
-                {
-                    IsBackground = true
-                }
+                //{
+                //    IsBackground = true
+                //}
                 .Start();
             }
         }
@@ -103,7 +103,7 @@ namespace wowCalc
 
             lock (consoleLocker)
             {
-                File.AppendAllText("log.txt", message.Replace("<br>", "\n").Replace("&#9;", "\t"));
+                File.AppendAllText("log.log", message.Replace("<br>", "\n").Replace("&#9;", "\t"));
             }
         }
 

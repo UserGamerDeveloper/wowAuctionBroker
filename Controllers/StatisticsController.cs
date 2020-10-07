@@ -21,9 +21,14 @@ namespace Mvc.Client.Controllers
         public ActionResult Index()
         {
             List<StatisticsModel> statisticsModels = new List<StatisticsModel>();
+            List<Task> tasks = new List<Task>();
+            foreach (var server in parseService.GetModel().Values)
+            {
+                tasks.Add(server.UpdateMoney());
+            }
+            Task.WaitAll(tasks.ToArray());
             foreach (var server in parseService.GetModel().Values.OrderByDescending(server => server.Money))
             {
-                server.UpdateData();
                 statisticsModels.Add(new StatisticsModel()
                 {
                     Money = ParseService.ConvertCopperToGold(server.Money).ToString("N0"),

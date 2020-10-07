@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using wowCalc;
 
@@ -296,7 +297,7 @@ namespace info
             this.connectedRealmId = (int)connectedRealmId;
             this.idRecipes = idRecipes;
             this.Name = connectedRealmId.ToString();
-            farmMode = false;
+            farmMode = true;
             timeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT");
             this.characterId = characterId;
             id = (int)realmId;
@@ -313,7 +314,7 @@ namespace info
                     {
                         if (HasUpdate())
                         {
-                            UpdateData();
+                            UpdateData().Wait();
                             AuctionParser auctionData = new AuctionParser(this);
                             //string newLine = Environment.NewLine;
                             string newLine = "<br>";
@@ -396,7 +397,18 @@ namespace info
             TokenPrice = JsonConvert.DeserializeObject<TokenPriceData>(TokenPriceDataStr).Price;
         }
 
-        internal async void UpdateData()
+        internal async Task UpdateData()
+        {
+            CharacterData characterData = await UpdateMoney();
+
+            string ReputationsDataStr = await ParseService.GetResponseStringAsync(
+                string.Format(ReputationsDataURLFormat, characterData.Characterr.Realm.Slug, characterData.Name.ToLower()));
+            ReputationsData reputationsData = JsonConvert.DeserializeObject<ReputationsData>(ReputationsDataStr);
+
+            reputationTier = reputationsData.Reputations.FindAll(rep => rep.Factionn.Id == 2103 || rep.Factionn.Id == 2160)[0].Standingg.Tier;
+        }
+
+        internal async Task<CharacterData> UpdateMoney()
         {
             string CharacterDataStr = await ParseService.GetResponseStringAsync(string.Format(CharacterDataURLFormat, id, characterId));
             CharacterData characterData = JsonConvert.DeserializeObject<CharacterData>(CharacterDataStr);
@@ -406,11 +418,7 @@ namespace info
                 moneyMax = Money;
             }
 
-            string ReputationsDataStr = await ParseService.GetResponseStringAsync(
-                string.Format(ReputationsDataURLFormat, characterData.Characterr.Realm.Slug, characterData.Name.ToLower()));
-            ReputationsData reputationsData = JsonConvert.DeserializeObject<ReputationsData>(ReputationsDataStr);
-
-            reputationTier = reputationsData.Reputations.FindAll(rep => rep.Factionn.Id == 2103 || rep.Factionn.Id == 2160)[0].Standingg.Tier;
+            return characterData;
         }
 
         public float GetSpendingRate()
