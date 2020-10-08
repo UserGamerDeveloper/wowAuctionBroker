@@ -11,13 +11,13 @@ namespace info
 {
     public class ItemPageParser
     {
-        List<Item> items = new List<Item>();
-        List<Auction> itemPage;
-        int idBid;
+        private readonly List<Item> items = new List<Item>();
+        private readonly List<Auction> itemPage;
+        private int idBid;
 
         public ItemPageParser(List<Auction> auctions)
         {
-            itemPage = auctions.FindAll(x => x.UnitPrice > 0).OrderByDescending(x => x.UnitPrice).ToList();
+            itemPage = auctions/*.FindAll(x => x.UnitPrice > 0)*/.OrderByDescending(x => x.UnitPrice).ToList();
             idBid = itemPage.Count - 1;
         }
 

@@ -125,19 +125,29 @@ namespace info
     {
         public List<RecipesPage> RecipesPages { get; } = new List<RecipesPage>();
         public double ProfitInTargetIncome { get; } = 0;
-
-        public long NormalProfit = 0;
-        public double TimeCraftInMilliseconds = 0;
-        public double globalRandomProfit = 0;
-        public int recipesCount = 0;
+        public double TargetIncomeNormalProfit { get; } = 0;
+        public double TargetIncomeRandomProfit { get;  } = 0;
+        public double TargetIncomeTimeCraftInMilliseconds { get; } = 0;
+        public int TargetIncomeRecipesCount { get; } = 0;
+        public double ProfitOutTargetIncome { get; }
+        public long NotTargetIncomeNormalProfit { get; } = 0;
+        public double NotTargetIncomeTimeCraftInMilliseconds { get; } = 0;
+        public double NotTargetIncomeRandomProfit { get; } = 0;
+        public int NotTargetIncomeRecipesCount { get; } = 0;
 
         public AuctionParser(Server server)
         {
+            Task task = server.UpdateData();
             HashSet<int> itemsId = new HashSet<int>();
+            HashSet<int> itemsIdOneItemInRecipe = new HashSet<int>();
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
                 foreach (var recipeData in recipeDataTree.Value)
                 {
+                    if (recipeData.ItemsData.Count == 1)
+                    {
+                        itemsIdOneItemInRecipe.Add(recipeData.ItemsData.First().id);
+                    }
                     foreach (var itemData in recipeData.ItemsData)
                     {
                         itemsId.Add(itemData.id);
@@ -145,9 +155,14 @@ namespace info
                 }
             }
             Dictionary<int, List<Auction>> auctionsByIdItem = new Dictionary<int, List<Auction>>();
+            Dictionary<int, Dictionary<long, int>> quatityItemsByPriceItemByIdItem = new Dictionary<int, Dictionary<long, int>>();
             foreach (var itemId in itemsId)
             {
                 auctionsByIdItem.Add(itemId, new List<Auction>());
+            }
+            foreach (var itemId in itemsIdOneItemInRecipe)
+            {
+                quatityItemsByPriceItemByIdItem.Add(itemId, new Dictionary<long, int>());
             }
             string auctionDataStr = ParseService.GetAuctionDataStr(server.connectedRealmId);
             AuctionData auctionData = JsonConvert.DeserializeObject<AuctionData>(auctionDataStr);
@@ -156,6 +171,14 @@ namespace info
                 if (auctionsByIdItem.Keys.Contains(auction.Item.Id))
                 {
                     auctionsByIdItem[auction.Item.Id].Add(auction);
+                }
+                if (quatityItemsByPriceItemByIdItem.Keys.Contains(auction.Item.Id))
+                {
+                    if (!quatityItemsByPriceItemByIdItem[auction.Item.Id].ContainsKey(auction.UnitPrice))
+                    {
+                        quatityItemsByPriceItemByIdItem[auction.Item.Id].Add(auction.UnitPrice, 0);
+                    }
+                    quatityItemsByPriceItemByIdItem[auction.Item.Id][auction.UnitPrice] += auction.Quantity;
                 }
             }
             Dictionary<int, ItemPageParser> parsersByIdItem = new Dictionary<int, ItemPageParser>();
@@ -167,6 +190,7 @@ namespace info
             Dictionary<int, RecipesPage> recipesPagesById = new Dictionary<int, RecipesPage>();
             Dictionary<int, RecipesPage> notTargetIncomeRecipesPagesById = new Dictionary<int, RecipesPage>();
             long summaryCostCraft = 0L;
+            task.Wait();
             foreach (var recipeDataTree in server.RecipeDataTrees)
             {
                 while (true)
@@ -211,7 +235,7 @@ namespace info
                         double incomeWithRandomProfit = ParseService.GetIncomeGoldInHour(
                             maxProfitableRecipe.Profit + maxProfitableRecipe.RecipeData.GetRandomProfit(),
                             maxProfitableRecipe.NeedMillisecondsToCraft);
-                        if (incomeWithRandomProfit < server.GetTargetIncomeGoldInHour() /*ParseService.settings.TARGET_INCOME_IN_HOUR*/ /*&& server.farmMode*/)
+                        if (incomeWithRandomProfit < ParseService.settings.TARGET_INCOME_IN_HOUR)
                         {
                             notTargetIncomeRecipesPagesById.TryAdd(recipeId, new RecipesPage());
                             recipesPage = notTargetIncomeRecipesPagesById[recipeId];
@@ -241,23 +265,24 @@ namespace info
             }
             foreach (var recipesPage in recipesPagesById.Values)
             {
-                SetData(recipesPage);
-                ProfitInTargetIncome += recipesPage.NormalProfit + recipesPage.randomProfit;
+                recipesPage.SetData();
+                RecipesPages.Add(recipesPage);
+                TargetIncomeNormalProfit += recipesPage.NormalProfit;
+                TargetIncomeRandomProfit += recipesPage.randomProfit;
+                TargetIncomeTimeCraftInMilliseconds += recipesPage.TimeCraftInMilliseconds;
+                TargetIncomeRecipesCount += recipesPage.Recipes.Count;
             }
+            ProfitInTargetIncome = TargetIncomeNormalProfit + TargetIncomeRandomProfit;
             foreach (var recipesPage in notTargetIncomeRecipesPagesById.Values)
             {
-                SetData(recipesPage);
+                recipesPage.SetData();
+                RecipesPages.Add(recipesPage);
+                NotTargetIncomeNormalProfit += recipesPage.NormalProfit;
+                NotTargetIncomeRandomProfit += recipesPage.randomProfit;
+                NotTargetIncomeTimeCraftInMilliseconds += recipesPage.TimeCraftInMilliseconds;
+                NotTargetIncomeRecipesCount += recipesPage.Recipes.Count;
             }
-        }
-
-        private void SetData(RecipesPage recipesPage)
-        {
-            recipesPage.SetData();
-            NormalProfit += recipesPage.NormalProfit;
-            TimeCraftInMilliseconds += recipesPage.TimeCraftInMilliseconds;
-            globalRandomProfit += recipesPage.randomProfit;
-            recipesCount += recipesPage.Recipes.Count;
-            RecipesPages.Add(recipesPage);
+            ProfitOutTargetIncome = NotTargetIncomeNormalProfit + NotTargetIncomeRandomProfit;
         }
     }
 }

@@ -137,7 +137,7 @@ namespace wowCalc
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        httpClient.Timeout = TimeSpan.FromSeconds(60d);
+                        httpClient.Timeout = TimeSpan.FromSeconds(60);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), string.Format(URL_ITEM_PAGE_FORMAT, idRealm)))
                         {
                             request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");
@@ -170,7 +170,7 @@ namespace wowCalc
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        httpClient.Timeout = TimeSpan.FromSeconds(10d);
+                        httpClient.Timeout = TimeSpan.FromSeconds(10);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), uri))
                         {
                             request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");

@@ -297,7 +297,7 @@ namespace info
             this.connectedRealmId = (int)connectedRealmId;
             this.idRecipes = idRecipes;
             this.Name = connectedRealmId.ToString();
-            farmMode = true;
+            farmMode = false;
             timeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT");
             this.characterId = characterId;
             id = (int)realmId;
@@ -314,7 +314,6 @@ namespace info
                     {
                         if (HasUpdate())
                         {
-                            UpdateData().Wait();
                             AuctionParser auctionData = new AuctionParser(this);
                             //string newLine = Environment.NewLine;
                             string newLine = "<br>";
@@ -343,20 +342,33 @@ namespace info
                                         tabulate);
                                 }
                             }
-                            const string STRING = "Профит ";
-                            string globalProfitString = string.Format("{6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
-                                ParseService.ConvertCopperToGold(auctionData.NormalProfit),
-                                ParseService.GetIncomeGoldInHour(
-                                    auctionData.NormalProfit + auctionData.globalRandomProfit,
-                                    auctionData.TimeCraftInMilliseconds),
-                                TimeSpan.FromMilliseconds(auctionData.TimeCraftInMilliseconds).TotalMinutes,
-                                auctionData.recipesCount,
-                                ParseService.ConvertCopperToGold(auctionData.globalRandomProfit),
-                                newLine,
-                                ParseService.ConvertCopperToGold(auctionData.NormalProfit + auctionData.globalRandomProfit));
                             object alertId = null;
-                            if (auctionData.NormalProfit > 0)
+                            if (auctionData.NotTargetIncomeNormalProfit > 0)
                             {
+                                if (auctionData.ProfitInTargetIncome > 0)
+                                {
+                                    printStr += string.Format("Профит в таргете {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
+                                        ParseService.ConvertCopperToGold(auctionData.TargetIncomeNormalProfit),
+                                        ParseService.GetIncomeGoldInHour(
+                                            auctionData.ProfitInTargetIncome,
+                                            auctionData.TargetIncomeTimeCraftInMilliseconds),
+                                        TimeSpan.FromMilliseconds(auctionData.TargetIncomeTimeCraftInMilliseconds).TotalMinutes,
+                                        auctionData.TargetIncomeRecipesCount,
+                                        ParseService.ConvertCopperToGold(auctionData.TargetIncomeRandomProfit),
+                                        newLine,
+                                        ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome));
+                                }
+                                printStr += string.Format("Профит вне таргета {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
+                                    ParseService.ConvertCopperToGold(auctionData.NotTargetIncomeNormalProfit),
+                                    ParseService.GetIncomeGoldInHour(
+                                        auctionData.ProfitOutTargetIncome,
+                                        auctionData.NotTargetIncomeTimeCraftInMilliseconds),
+                                    TimeSpan.FromMilliseconds(auctionData.NotTargetIncomeTimeCraftInMilliseconds).TotalMinutes,
+                                    auctionData.NotTargetIncomeRecipesCount,
+                                    ParseService.ConvertCopperToGold(auctionData.NotTargetIncomeRandomProfit),
+                                    newLine,
+                                    ParseService.ConvertCopperToGold(auctionData.ProfitOutTargetIncome));
+
                                 if (ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome) >=
                                     ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT))
                                 {
@@ -367,7 +379,7 @@ namespace info
                                     alertId = Alert;
                                 }
                             }
-                            ParseService.SendAndLog(printStr + STRING + globalProfitString, alertId);
+                            ParseService.SendAndLog(printStr, alertId);
                             using (FileStream fs = new FileStream(string.Format(@"realms\{0}.xml", Name), FileMode.Create))
                             {
                                 XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
@@ -472,7 +484,7 @@ namespace info
             {
                 recipes.Add(recipeDataByIdRecipe[idRecipe]);
             }
-            UpdateData();
+            //UpdateData();
             List<RecipeData> serverRecipesList = new List<RecipeData>(recipes);
             while (serverRecipesList.Count > 0)
             {
