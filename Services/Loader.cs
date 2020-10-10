@@ -149,7 +149,7 @@ namespace info
                     283778,
                     DefaultNeedMillisecondsToCraft,
                     0,
-                    283778),
+                    383224),
                 new RecipeData(
                     RecipeInfo.Crafted_Dreadful_Gladiators_Cloak_of_Prowess,
                     new XmlSerializableDictionary<int, int>(){

@@ -3,7 +3,7 @@
   <id>549</id>
   <connectedRealmId>3391</connectedRealmId>
   <characterId>186033540</characterId>
-  <timeUpdate>2020-10-08T13:08:01+04:00</timeUpdate>
+  <timeUpdate>2018-08-18T11:22:16+04:00</timeUpdate>
   <idRecipes>
     <int>128897</int>
     <int>161970</int>
@@ -13,6 +13,6 @@
     <int>128881</int>
   </idRecipes>
   <farmMode>false</farmMode>
-  <moneyMax>226713825</moneyMax>
+  <moneyMax>0</moneyMax>
   <Name>Silvermoon</Name>
 </Server>

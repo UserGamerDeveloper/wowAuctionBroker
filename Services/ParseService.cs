@@ -47,6 +47,7 @@ namespace wowCalc
         static IHubContext<LogHub> hubContext;
         static Dictionary<string, Server> serversByName;
         public static readonly object consoleLocker = new object();
+        //public static readonly object getAuctionDataLocker = new object();
         public static Settings settings = Loader.DeserializeSettings();
         public const int AmountCopperInGold = 10000;
         private const int AmountCopperInSilver = 100;
@@ -137,7 +138,7 @@ namespace wowCalc
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        httpClient.Timeout = TimeSpan.FromSeconds(60);
+                        httpClient.Timeout = Timeout.InfiniteTimeSpan;
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), string.Format(URL_ITEM_PAGE_FORMAT, idRealm)))
                         {
                             request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");
@@ -170,15 +171,11 @@ namespace wowCalc
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        httpClient.Timeout = TimeSpan.FromSeconds(10);
+                        httpClient.Timeout = TimeSpan.FromSeconds(2);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), uri))
                         {
                             request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");
                             HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(request);
-                            //task.Wait();
-                            //var a = task.Result.Content.ReadAsStringAsync();
-                            //a.Wait();
-                            //return a.Result;
                             return await httpResponseMessage.Content.ReadAsStringAsync();
                         }
                     }
@@ -216,12 +213,17 @@ namespace wowCalc
                 {
                     if (e.Response != null)
                     {
-                        HttpWebResponse httpWebResponse = e.Response as HttpWebResponse;
-                        if (httpWebResponse.StatusCode == HttpStatusCode.Unauthorized)
-                        {
-                            throw e;
-                        }
+                        ExceptionLogAndAlert(e);
+                        //HttpWebResponse httpWebResponse = e.Response as HttpWebResponse;
+                        //if (httpWebResponse.StatusCode == HttpStatusCode.Unauthorized)
+                        //{
+                        //    throw e;
+                        //}
                     }
+                }
+                catch (InvalidOperationException)
+                {
+
                 }
             }
         }

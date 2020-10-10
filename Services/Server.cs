@@ -343,7 +343,7 @@ namespace info
                                 }
                             }
                             object alertId = null;
-                            if (auctionData.NotTargetIncomeNormalProfit > 0)
+                            if (auctionData.ProfitInTargetIncome + auctionData.ProfitOutTargetIncome > 0)
                             {
                                 if (auctionData.ProfitInTargetIncome > 0)
                                 {
@@ -376,7 +376,15 @@ namespace info
                                 }
                                 else
                                 {
-                                    alertId = Alert;
+                                    if (ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome + auctionData.ProfitOutTargetIncome) >=
+                                        ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT) && farmMode)
+                                    {
+                                        alertId = Music;
+                                    }
+                                    else
+                                    {
+                                        alertId = Alert;
+                                    }
                                 }
                             }
                             ParseService.SendAndLog(printStr, alertId);
@@ -542,16 +550,16 @@ namespace info
             return value + (value * (((double)moneyMax / TokenPrice) - 1d));
         }
 
-        internal double GetTargetIncomeGoldInHour()
-        {
-            if (farmMode)
-            {
-                return 0d;
-            }
-            else
-            {
-                return ParseService.settings.TARGET_INCOME_IN_HOUR;
-            }
-        }
+        //internal double GetTargetIncomeGoldInHour()
+        //{
+        //    if (farmMode)
+        //    {
+        //        return 0d;
+        //    }
+        //    else
+        //    {
+        //        return ParseService.settings.TARGET_INCOME_IN_HOUR;
+        //    }
+        //}
     }
 }

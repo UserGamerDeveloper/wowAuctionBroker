@@ -219,7 +219,7 @@ namespace info
                                 }
                             }
                             long spending = Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
-                            double needMillisecondsToCraft = recipeData.GetNeedMillisecondsToCraft(server.Money, summaryCostCraft, costCraft);
+                            double needMillisecondsToCraft = recipeData.GetNeedMillisecondsToCraft(server.moneyMax, summaryCostCraft, costCraft);
                             Recipe recipe = new Recipe(recipeData, needMillisecondsToCraft, items, spending, costCraft);
                             if (recipe.IncomeGoldInHour >= 0)
                             {
@@ -232,10 +232,10 @@ namespace info
                         Recipe maxProfitableRecipe = profitableRecipes.OrderByDescending(recipe => recipe.IncomeGoldInHour).First();
                         int recipeId = maxProfitableRecipe.RecipeData.ID;
                         RecipesPage recipesPage;
-                        double incomeWithRandomProfit = ParseService.GetIncomeGoldInHour(
+                        double incomeGoldWithRandomProfit = ParseService.GetIncomeGoldInHour(
                             maxProfitableRecipe.Profit + maxProfitableRecipe.RecipeData.GetRandomProfit(),
                             maxProfitableRecipe.NeedMillisecondsToCraft);
-                        if (incomeWithRandomProfit < ParseService.settings.TARGET_INCOME_IN_HOUR)
+                        if (incomeGoldWithRandomProfit < ParseService.settings.TARGET_INCOME_IN_HOUR)
                         {
                             notTargetIncomeRecipesPagesById.TryAdd(recipeId, new RecipesPage());
                             recipesPage = notTargetIncomeRecipesPagesById[recipeId];
