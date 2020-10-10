@@ -163,7 +163,7 @@ namespace wowCalc
             }
         }
 
-        static async public Task<string> GetResponseStringAsync(string uri)
+        static public string GetResponseString(string uri)
         {
             while (true)
             {
@@ -171,12 +171,15 @@ namespace wowCalc
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        httpClient.Timeout = TimeSpan.FromSeconds(2);
+                        httpClient.Timeout = TimeSpan.FromSeconds(4);
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), uri))
                         {
                             request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");
-                            HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(request);
-                            return await httpResponseMessage.Content.ReadAsStringAsync();
+                            var task =  httpClient.SendAsync(request);
+                            task.Wait();
+                            var taskl = task.Result.Content.ReadAsStringAsync();
+                            taskl.Wait();
+                            return taskl.Result;
                         }
                     }
                 }

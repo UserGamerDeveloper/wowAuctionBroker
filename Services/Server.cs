@@ -411,26 +411,26 @@ namespace info
             }
         }
 
-        internal async static void RefreshTokenPrice()
+        internal static void RefreshTokenPrice()
         {
-            string TokenPriceDataStr = await ParseService.GetResponseStringAsync(TokenPriceURL);
+            string TokenPriceDataStr = ParseService.GetResponseString(TokenPriceURL);
             TokenPrice = JsonConvert.DeserializeObject<TokenPriceData>(TokenPriceDataStr).Price;
         }
 
-        internal async Task UpdateData()
+        internal void UpdateData()
         {
-            CharacterData characterData = await UpdateMoney();
+            CharacterData characterData = UpdateMoney();
 
-            string ReputationsDataStr = await ParseService.GetResponseStringAsync(
+            string ReputationsDataStr = ParseService.GetResponseString(
                 string.Format(ReputationsDataURLFormat, characterData.Characterr.Realm.Slug, characterData.Name.ToLower()));
             ReputationsData reputationsData = JsonConvert.DeserializeObject<ReputationsData>(ReputationsDataStr);
 
             reputationTier = reputationsData.Reputations.FindAll(rep => rep.Factionn.Id == 2103 || rep.Factionn.Id == 2160)[0].Standingg.Tier;
         }
 
-        internal async Task<CharacterData> UpdateMoney()
+        internal CharacterData UpdateMoney()
         {
-            string CharacterDataStr = await ParseService.GetResponseStringAsync(string.Format(CharacterDataURLFormat, id, characterId));
+            string CharacterDataStr = ParseService.GetResponseString(string.Format(CharacterDataURLFormat, id, characterId));
             CharacterData characterData = JsonConvert.DeserializeObject<CharacterData>(CharacterDataStr);
             Money = characterData.Money;
             if (Money > moneyMax)

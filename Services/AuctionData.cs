@@ -137,7 +137,8 @@ namespace info
 
         public AuctionParser(Server server)
         {
-            Task task = server.UpdateData();
+            var task = new Task(() => { server.UpdateData(); });
+            task.Start();
             HashSet<int> itemsId = new HashSet<int>();
             HashSet<int> itemsIdOneItemInRecipe = new HashSet<int>();
             foreach (var recipeDataTree in server.RecipeDataTrees)

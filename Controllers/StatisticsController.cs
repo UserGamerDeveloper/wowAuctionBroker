@@ -24,7 +24,9 @@ namespace Mvc.Client.Controllers
             List<Task> tasks = new List<Task>();
             foreach (var server in parseService.GetModel().Values)
             {
-                tasks.Add(server.UpdateMoney());
+                var task = new Task(() => { server.UpdateMoney(); });
+                task.Start();
+                tasks.Add(task);
             }
             Task.WaitAll(tasks.ToArray());
             foreach (var server in parseService.GetModel().Values.OrderByDescending(server => server.Money))
