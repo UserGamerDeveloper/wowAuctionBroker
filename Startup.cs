@@ -17,11 +17,13 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
+using Mvc.Client.Data;
 using Serilog;
 using Serilog.Core;
 using System;
 using System.IO;
 using wowCalc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mvc.Client
 {
@@ -63,6 +65,8 @@ namespace Mvc.Client
             });
             services.AddSignalR();
             services.AddSingleton<ParseService>();
+            //services.AddDbContext<DatabaseContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 

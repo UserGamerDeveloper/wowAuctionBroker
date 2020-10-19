@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Mvc.Client.Data;
+using Mvc.Client.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -129,7 +131,7 @@ namespace info
         //}
 
         [JsonProperty("money")]
-        public int Money { get; set; }
+        public long Money { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("character")]
@@ -278,7 +280,7 @@ namespace info
         public string Name { get; set; }
         public long characterId;
         public DateTime timeUpdate;
-        public List<int> idRecipes;
+        public List<int> idRecipes = new List<int>();
         public bool farmMode;
         public long moneyMax;
         [XmlIgnore]
@@ -302,112 +304,145 @@ namespace info
             this.characterId = characterId;
             id = (int)realmId;
         }
+        public Server(int connectedRealmId, List<int> idRecipes, long characterId, int realmId, string name)
+        {
+            this.connectedRealmId = connectedRealmId;
+            this.idRecipes = idRecipes;
+            farmMode = false;
+            timeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT");
+            this.characterId = characterId;
+            id = realmId;
+            Name = name;
+        }
+        public Server(RealmModel realm)
+        {
+            this.id = realm.Id;
+            this.connectedRealmId = realm.ConnectedRealmId;
+            Name = realm.Name;
+            this.characterId = realm.CharacterId;
+            this.timeUpdate = realm.TimeUpdate;
+            foreach (var activeRecipe in realm.ActiveRecipes)
+            {
+                this.idRecipes.Add(activeRecipe.IdRecipe);
+            }
+            this.farmMode = realm.FarmMode;
+            this.moneyMax = realm.MoneyMax;
+        }
 
-        public void Parse()
+        public void StartParse()
         {
             try
             {
                 while (true)
                 {
-                    DateTime timeNextUpdate = timeUpdate.AddHours(1d);
-                    if (timeNextUpdate.CompareTo(DateTime.Now) == -1)
-                    {
-                        if (HasUpdate())
-                        {
-                            AuctionParser auctionData = new AuctionParser(this);
-                            //string newLine = Environment.NewLine;
-                            string newLine = "<br>";
-                            string tabulate = "&#9;";
-                            string printStr = string.Format("{3}{2}{3}{0} {1}{3}", Name, timeUpdate, DateTime.Now, newLine);
-                            foreach (var recipesPage in auctionData.RecipesPages.OrderByDescending(pair => pair.IncomeGoldInHour))
-                            {
-                                List<Recipe> recipes = recipesPage.Recipes;
-                                RecipeData recipeData = recipesPage.recipeData;
-                                printStr += string.Format(
-                                    "{5} {0,-50} Профит: {6:0.} ({1:0.} + {3:0.}) {2:0.}{4}",
-                                    string.Format("{0} x {1}", recipeData.Name, recipes.Count),
-                                    ParseService.ConvertCopperToGold(recipesPage.NormalProfit),
-                                    recipesPage.IncomeGoldInHour,
-                                    ParseService.ConvertCopperToGold(recipesPage.randomProfit),
-                                    newLine,
-                                    tabulate,
-                                    ParseService.ConvertCopperToGold(recipesPage.NormalProfit + recipesPage.randomProfit));
-                                foreach (var itemData in recipeData.ItemsData)
-                                {
-                                    printStr += string.Format(
-                                        "{3}{3}{0}{2}{3}{3}{3}Макс цена: {3}{1:# ## ##.}{2}",
-                                        itemData.itemName,
-                                        ParseService.ConvertCopperToSilver(recipesPage.GetMaxPrice(itemData)),
-                                        newLine,
-                                        tabulate);
-                                }
-                            }
-                            object alertId = null;
-                            if (auctionData.ProfitInTargetIncome + auctionData.ProfitOutTargetIncome > 0)
-                            {
-                                if (auctionData.ProfitInTargetIncome > 0)
-                                {
-                                    printStr += string.Format("Профит в таргете {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
-                                        ParseService.ConvertCopperToGold(auctionData.TargetIncomeNormalProfit),
-                                        ParseService.GetIncomeGoldInHour(
-                                            auctionData.ProfitInTargetIncome,
-                                            auctionData.TargetIncomeTimeCraftInMilliseconds),
-                                        TimeSpan.FromMilliseconds(auctionData.TargetIncomeTimeCraftInMilliseconds).TotalMinutes,
-                                        auctionData.TargetIncomeRecipesCount,
-                                        ParseService.ConvertCopperToGold(auctionData.TargetIncomeRandomProfit),
-                                        newLine,
-                                        ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome));
-                                }
-                                printStr += string.Format("Профит вне таргета {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
-                                    ParseService.ConvertCopperToGold(auctionData.NotTargetIncomeNormalProfit),
-                                    ParseService.GetIncomeGoldInHour(
-                                        auctionData.ProfitOutTargetIncome,
-                                        auctionData.NotTargetIncomeTimeCraftInMilliseconds),
-                                    TimeSpan.FromMilliseconds(auctionData.NotTargetIncomeTimeCraftInMilliseconds).TotalMinutes,
-                                    auctionData.NotTargetIncomeRecipesCount,
-                                    ParseService.ConvertCopperToGold(auctionData.NotTargetIncomeRandomProfit),
-                                    newLine,
-                                    ParseService.ConvertCopperToGold(auctionData.ProfitOutTargetIncome));
-
-                                if (ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome) >=
-                                    ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT))
-                                {
-                                    alertId = Music;
-                                }
-                                else
-                                {
-                                    if (ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome + auctionData.ProfitOutTargetIncome) >=
-                                        ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT) && farmMode)
-                                    {
-                                        alertId = Music;
-                                    }
-                                    else
-                                    {
-                                        alertId = Alert;
-                                    }
-                                }
-                            }
-                            ParseService.SendAndLog(printStr, alertId);
-                            using (FileStream fs = new FileStream(string.Format(@"realms\{0}.xml", Name), FileMode.Create))
-                            {
-                                XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
-                                serverXmlSerializer.Serialize(fs, this);
-                            }
-                        }
-                        else
-                        {
-                            Thread.Sleep(1000);
-                        }
-                    }
-                    else
-                    {
-                        Thread.Sleep(timeNextUpdate.Subtract(DateTime.Now));
-                    }
+                    Parse();
                 }
             }
             catch (Exception e)
             {
                 ParseService.ExceptionLogAndAlert(e);
+            }
+        }
+
+        private void Parse()
+        {
+            DateTime timeNextUpdate = timeUpdate.AddHours(1d);
+            if (timeNextUpdate.CompareTo(DateTime.Now) == -1)
+            {
+                if (HasUpdate())
+                {
+                    AuctionParser auctionData = new AuctionParser(this);
+                    //string newLine = Environment.NewLine;
+                    string newLine = "<br>";
+                    string tabulate = "&#9;";
+                    string printStr = string.Format("{3}{2}{3}{0} {1}{3}", Name, timeUpdate, DateTime.Now, newLine);
+                    foreach (var recipesPage in auctionData.RecipesPages.OrderByDescending(pair => pair.IncomeGoldInHour))
+                    {
+                        List<Recipe> recipes = recipesPage.Recipes;
+                        RecipeData recipeData = recipesPage.recipeData;
+                        printStr += string.Format(
+                            "{5} {0,-50} Профит: {6:0.} ({1:0.} + {3:0.}) {2:0.}{4}",
+                            string.Format("{0} x {1}", recipeData.Name, recipes.Count),
+                            ParseService.ConvertCopperToGold(recipesPage.NormalProfit),
+                            recipesPage.IncomeGoldInHour,
+                            ParseService.ConvertCopperToGold(recipesPage.randomProfit),
+                            newLine,
+                            tabulate,
+                            ParseService.ConvertCopperToGold(recipesPage.NormalProfit + recipesPage.randomProfit));
+                        foreach (var itemData in recipeData.ItemsData)
+                        {
+                            printStr += string.Format(
+                                "{3}{3}{0}{2}{3}{3}{3}Макс цена: {3}{1:# ## ##.}{2}",
+                                itemData.itemName,
+                                ParseService.ConvertCopperToSilver(recipesPage.GetMaxPrice(itemData)),
+                                newLine,
+                                tabulate);
+                        }
+                    }
+                    object alertId = null;
+                    if (auctionData.ProfitInTargetIncome + auctionData.ProfitOutTargetIncome > 0)
+                    {
+                        if (auctionData.ProfitInTargetIncome > 0)
+                        {
+                            printStr += string.Format("Профит в таргете {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
+                                ParseService.ConvertCopperToGold(auctionData.TargetIncomeNormalProfit),
+                                ParseService.GetIncomeGoldInHour(
+                                    auctionData.ProfitInTargetIncome,
+                                    auctionData.TargetIncomeTimeCraftInMilliseconds),
+                                TimeSpan.FromMilliseconds(auctionData.TargetIncomeTimeCraftInMilliseconds).TotalMinutes,
+                                auctionData.TargetIncomeRecipesCount,
+                                ParseService.ConvertCopperToGold(auctionData.TargetIncomeRandomProfit),
+                                newLine,
+                                ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome));
+                        }
+                        printStr += string.Format("Профит вне таргета {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
+                            ParseService.ConvertCopperToGold(auctionData.NotTargetIncomeNormalProfit),
+                            ParseService.GetIncomeGoldInHour(
+                                auctionData.ProfitOutTargetIncome,
+                                auctionData.NotTargetIncomeTimeCraftInMilliseconds),
+                            TimeSpan.FromMilliseconds(auctionData.NotTargetIncomeTimeCraftInMilliseconds).TotalMinutes,
+                            auctionData.NotTargetIncomeRecipesCount,
+                            ParseService.ConvertCopperToGold(auctionData.NotTargetIncomeRandomProfit),
+                            newLine,
+                            ParseService.ConvertCopperToGold(auctionData.ProfitOutTargetIncome));
+
+                        if (ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome) >=
+                            ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT))
+                        {
+                            alertId = Music;
+                        }
+                        else
+                        {
+                            if (ParseService.ConvertCopperToGold(auctionData.ProfitInTargetIncome + auctionData.ProfitOutTargetIncome) >=
+                                ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT) && farmMode)
+                            {
+                                alertId = Music;
+                            }
+                            else
+                            {
+                                alertId = Alert;
+                            }
+                        }
+                    }
+                    ParseService.SendAndLog(printStr, alertId);
+                    using (var db = new DatabaseContext())
+                    {
+                        var realm = db.Realms.Where(x => x.Id == id).ToList().First();
+                        realm.TimeUpdate = timeUpdate;
+                        realm.MoneyMax = moneyMax;
+                        db.SaveChanges();
+                        //XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
+                        //serverXmlSerializer.Serialize(fs, this);
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+            else
+            {
+                Thread.Sleep(timeNextUpdate.Subtract(DateTime.Now));
             }
         }
 
@@ -437,7 +472,6 @@ namespace info
             {
                 moneyMax = Money;
             }
-
             return characterData;
         }
 

@@ -1,5 +1,8 @@
 ﻿using info;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Hosting;
+using Mvc.Client.Data;
+using Mvc.Client.Models;
 using NAudio.Wave;
 using Newtonsoft.Json;
 using Serilog;
@@ -17,6 +20,7 @@ using System.Threading;
 using System.Threading.Tasks;
 //using System.Windows.Forms;
 using System.Xml.Serialization;
+using static Mvc.Client.Models.RealmModel;
 
 namespace wowCalc
 {
@@ -45,6 +49,7 @@ namespace wowCalc
         }
 
         static IHubContext<LogHub> hubContext;
+        private static IHostEnvironment HostingEnvironment;
         static Dictionary<string, Server> serversByName;
         public static readonly object consoleLocker = new object();
         //public static readonly object getAuctionDataLocker = new object();
@@ -55,20 +60,20 @@ namespace wowCalc
         public static readonly object exeptionLocker = new object();
         public static string accessToken;
 
-        public ParseService(IHubContext<LogHub> hubContext)
+        public ParseService(IHubContext<LogHub> hubContext, IHostEnvironment hostingEnvironment)
         {
             ParseService.hubContext = hubContext;
+            HostingEnvironment = hostingEnvironment;
         }
 
         public void Start(string accessToken)
         {
             ParseService.accessToken = accessToken;
-            Saver.SerializeServers();
-            serversByName = Loader.DeserializeServers();
+            serversByName = Loader.DeserializeServers(HostingEnvironment);
 
             foreach (var server in serversByName.Values)
             {
-                new Thread(new ThreadStart(server.Parse))
+                new Thread(new ThreadStart(server.StartParse))
                 //{
                 //    IsBackground = true
                 //}
@@ -132,38 +137,14 @@ namespace wowCalc
 
         static public string GetAuctionDataStr(int idRealm)
         {
-            while (true)
-            {
-                try
-                {
-                    using (var httpClient = new HttpClient())
-                    {
-                        httpClient.Timeout = Timeout.InfiniteTimeSpan;
-                        using (var request = new HttpRequestMessage(new HttpMethod("GET"), string.Format(URL_ITEM_PAGE_FORMAT, idRealm)))
-                        {
-                            request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");
-                            Task<HttpResponseMessage> task = httpClient.SendAsync(request);
-                            task.Wait();
-                            var a = task.Result.Content.ReadAsStringAsync();
-                            a.Wait();
-                            return a.Result;
-                        }
-                    }
-                }
-                catch (AggregateException ae)
-                {
-                    foreach (var e in ae.InnerExceptions)
-                    {
-                        if (!(e is TaskCanceledException))
-                        {
-                            throw;
-                        }
-                    }
-                }
-            }
+            return GetResponseString(string.Format(URL_ITEM_PAGE_FORMAT, idRealm), Timeout.InfiniteTimeSpan);
         }
 
         static public string GetResponseString(string uri)
+        {
+            return GetResponseString(uri, TimeSpan.FromSeconds(4));
+        }
+        static private string GetResponseString(string uri, TimeSpan timeout)
         {
             while (true)
             {
@@ -171,11 +152,11 @@ namespace wowCalc
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        httpClient.Timeout = TimeSpan.FromSeconds(4);
+                        httpClient.Timeout = timeout;
                         using (var request = new HttpRequestMessage(new HttpMethod("GET"), uri))
                         {
                             request.Headers.Authorization = AuthenticationHeaderValue.Parse($"Bearer {accessToken}");
-                            var task =  httpClient.SendAsync(request);
+                            var task = httpClient.SendAsync(request);
                             task.Wait();
                             var taskl = task.Result.Content.ReadAsStringAsync();
                             taskl.Wait();
@@ -187,15 +168,21 @@ namespace wowCalc
                 {
                     foreach (var e in ae.InnerExceptions)
                     {
-                        if (!(e is TaskCanceledException))
+                        if (!(e is TaskCanceledException) &&
+                            !(e is HttpRequestException) &&
+                            !(e is IOException) &&
+                            !(e is System.Net.Sockets.SocketException))
                         {
                             throw;
+                        }
+                        else
+                        {
+                            Log.Logger.Debug(e, "Exception");
                         }
                     }
                 }
             }
         }
-
         static public string GetTimeUpdateStr(int idRealm)
         {
             while (true)
@@ -214,6 +201,7 @@ namespace wowCalc
                 }
                 catch (WebException e)
                 {
+                    Log.Logger.Error(e, "Exception");
                     if (e.Response != null)
                     {
                         ExceptionLogAndAlert(e);
@@ -224,9 +212,9 @@ namespace wowCalc
                         //}
                     }
                 }
-                catch (InvalidOperationException)
+                catch (OperationCanceledException e)
                 {
-
+                    Log.Logger.Debug(e, "Exception");
                 }
             }
         }

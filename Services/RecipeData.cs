@@ -35,6 +35,20 @@ namespace info
             SellRandomPrice = sellRandomPrice;
             DropToMail = dropToMail;
         }
+        public RecipeData(
+            RecipeInfo recipeInfo,
+            XmlSerializableDictionary<int, int> dictionary,
+            int SELL_PRICE, double NeedMillisecondsToCraft, long SPENDING, bool dropToMail = false)
+        {
+            ID = (int)recipeInfo;
+            ID_ITEM_AND_NEED_AMOUNT = dictionary;
+            this.SellNormalPrice = SELL_PRICE;
+            this.NeedMillisecondsToCraft = NeedMillisecondsToCraft;
+            this.SPENDING = SPENDING;
+            Name = recipeInfo.ToString();
+            SellRandomPrice = SellNormalPrice;
+            DropToMail = dropToMail;
+        }
 
         RecipeData() { }
 

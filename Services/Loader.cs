@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Hosting;
+using Mvc.Client.Data;
+using Mvc.Client.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,15 +16,6 @@ namespace info
 
     static class Loader
     {
-        //private static ClientData GetData()
-        //{
-        //    //string getGoldAndRepStr = File.ReadAllText(Program.settings.WOW_PATH + @"\_retail_\WTF\Account\449681846#1\SavedVariables\getGoldAndRep.lua");
-        //    //ClientData clientData = JsonConvert.DeserializeObject<ClientData>(ConvertLuaDataToJSON(getGoldAndRepStr));
-        //    //return clientData;
-
-
-        //}
-
         public static Settings DeserializeSettings()
         {
             using (FileStream fs = new FileStream("settings.xml", FileMode.Open))
@@ -30,33 +24,6 @@ namespace info
                 return (Settings)xmlSerializer.Deserialize(fs);
             }
         }
-
-        //private static string ConvertLuaDataToJSON(string getGoldAndRepStr)
-        //{
-        //    getGoldAndRepStr = getGoldAndRepStr.Replace("\n", "").Replace("\r", "").Replace("\t", "").Replace("DB = ", "").Replace("[", "").Replace("]", "").Replace("=", ":");
-        //    return getGoldAndRepStr;
-        //}
-
-        //private static Dictionary<int, RecipeData> DeserializeRecipes()
-        //{
-        //    Dictionary<int, RecipeData> recipeDataById = new Dictionary<int, RecipeData>();
-        //    using (FileStream fs = new FileStream("recipes.xml", FileMode.Open))
-        //    {
-        //        XmlSerializer xmlSerializer = new XmlSerializer(typeof(RecipeData[]));
-        //        RecipeData[] recipeDataArray = (RecipeData[])xmlSerializer.Deserialize(fs);
-        //        foreach (RecipeData recipe in recipeDataArray)
-        //        {
-        //            recipeDataById.Add(recipe.ID, recipe);
-        //        }
-        //    }
-        //    Dictionary<int, ItemData> itemsDataById = DeserializeItemsData();
-        //    foreach (var recipeData in recipeDataById.Values)
-        //    {
-        //        recipeData.SetData(itemsDataById);
-        //    }
-        //    return recipeDataById;
-        //}
-
         private static Dictionary<int, RecipeData> GetRecipeDataById()
         {
             const double DefaultNeedMillisecondsToCraft = 2000d;
@@ -68,97 +35,97 @@ namespace info
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
-                    561697,
+                    389706,
                     BFANeedMillisecondsToCraft,
                     0,
-                    679654,
+                    389706,
                     true),
                 new RecipeData(
                     RecipeInfo.Shimmerscale_Striker_A,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
-                    574983,
+                    398924,
                     BFANeedMillisecondsToCraft,
                     0,
-                    695731,
+                    398924,
                     true),
                 new RecipeData(
                     RecipeInfo.Silkweave_Slippers,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Shaldorei_Silk , 12}
                     },
-                    292241,
+                    139747,
                     DefaultNeedMillisecondsToCraft,
                     5000,
-                    394652),
+                    139747),
                 new RecipeData(
                     RecipeInfo.Tidespray_Linen_Pants_H,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
-                    399124,
+                    276913,
                     BFANeedMillisecondsToCraft,
                     60000,
-                    482941,
+                    276913,
                     true),
                 new RecipeData(
                     RecipeInfo.Tidespray_Linen_Pants_A,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
-                    390773,
+                    271119,
                     BFANeedMillisecondsToCraft,
                     60000,
-                    472837,
+                    271119,
                     true),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_H,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
-                    563788,
+                    391157,
                     BFANeedMillisecondsToCraft,
                     0,
-                    682185,
+                    391157,
                     true),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_A,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
-                    577018,
+                    400336,
                     BFANeedMillisecondsToCraft,
                     0,
-                    698193,
+                    400336,
                     true),
                 new RecipeData(
                     RecipeInfo.Battlebound_Spaulders,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Stormscale , 12}
                     },
-                    279504,
+                    133656,
                     DefaultNeedMillisecondsToCraft,
                     0,
-                    377451),
+                    133656),
                 new RecipeData(
                     RecipeInfo.Warhide_Shoulderguard,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Stonehide_Leather , 12}
                     },
-                    283778,
+                    135700,
                     DefaultNeedMillisecondsToCraft,
                     0,
-                    383224),
+                    135700),
                 new RecipeData(
                     RecipeInfo.Crafted_Dreadful_Gladiators_Cloak_of_Prowess,
                     new XmlSerializableDictionary<int, int>(){
                         {(int)ItemInfo.Windwool_Cloth , 20}
                     },
-                    137455,
+                    0,
                     6000,
                     0,
-                    137455)
+                    0)
             };
             Dictionary<int, RecipeData> recipeDataById = new Dictionary<int, RecipeData>();
             foreach (RecipeData recipe in recipesData)
@@ -173,42 +140,61 @@ namespace info
             return recipeDataById;
         }
 
-        public static Dictionary<string, Server> DeserializeServers()
+        public static Dictionary<string, Server> DeserializeServers(IHostEnvironment hostingEnvironment)
         {
             Dictionary<string, Server> serversByName = new Dictionary<string, Server>();
-            DirectoryInfo directoryInfo = new DirectoryInfo("realms");
-            FileInfo[] files = directoryInfo.GetFiles();
-            //ClientData clientData = GetData();
             Server.RefreshTokenPrice();
             Dictionary<int, RecipeData> recipeDataById = GetRecipeDataById();
-            foreach (var file in files)
+            if (hostingEnvironment.IsDevelopment())
             {
-                //servers.Add(JsonConvert.DeserializeObject<Server>(File.ReadAllText(file.FullName)));
-                using (FileStream fs = new FileStream(file.FullName, FileMode.Open))
+                foreach (var server in Saver.GetServers())
                 {
-                    XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
-                    Server server = (Server)serverXmlSerializer.Deserialize(fs);
                     server.SetData(recipeDataById);
                     serversByName.Add(server.Name, server);
                 }
             }
+            else
+            {
+                using (var db = new DatabaseContext())
+                {
+                    foreach (var file in new DirectoryInfo("realms").GetFiles())
+                    {
+                        using (FileStream fs = new FileStream(file.FullName, FileMode.Open))
+                        {
+                            XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
+                            Server server = (Server)serverXmlSerializer.Deserialize(fs);
+                            var d = new List<ActiveRecipe>();
+                            foreach (var idRecipe in server.idRecipes)
+                            {
+                                d.Add(new ActiveRecipe { IdRecipe = idRecipe });
+                            }
+                            db.Add(new RealmModel
+                            {
+                                Id = server.id,
+                                ConnectedRealmId = server.connectedRealmId,
+                                CharacterId = server.characterId,
+                                Name = server.Name,
+                                TimeUpdate = server.timeUpdate,
+                                ActiveRecipes = d,
+                                FarmMode = server.farmMode,
+                                MoneyMax = server.moneyMax
+                            });
+                        }
+                        file.Delete();
+                    }
+                    db.SaveChanges();
+
+                    var realms = db.Realms;
+                    foreach (var realm in realms)
+                    {
+                        var server = new Server(realm);
+                        server.SetData(recipeDataById);
+                        serversByName.Add(server.Name, server);
+                    }
+                }
+            }
             return serversByName;
         }
-
-        //private static Dictionary<int, ItemData> DeserializeItemsData()
-        //{
-        //    Dictionary<int, ItemData> itemsDataById = new Dictionary<int, ItemData>();
-        //    using (FileStream fs = new FileStream("items.xml", FileMode.Open))
-        //    {
-        //        XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<ItemData>));
-        //        List<ItemData> items = (List<ItemData>)xmlSerializer.Deserialize(fs);
-        //        foreach (ItemData item in items)
-        //        {
-        //            itemsDataById.Add(item.id, item);
-        //        }
-        //    }
-        //    return itemsDataById;
-        //}
 
         private static Dictionary<int, ItemData> GetItemsData()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Mvc.Client.Data;
 using Mvc.Client.Models;
 using wowCalc;
 
@@ -20,6 +21,7 @@ namespace Mvc.Client.Controllers
         // GET: StatisticsController
         public ActionResult Index()
         {
+
             List<StatisticsModel> statisticsModels = new List<StatisticsModel>();
             List<Task> tasks = new List<Task>();
             foreach (var server in parseService.GetModel().Values)
@@ -29,16 +31,22 @@ namespace Mvc.Client.Controllers
                 tasks.Add(task);
             }
             Task.WaitAll(tasks.ToArray());
-            foreach (var server in parseService.GetModel().Values.OrderByDescending(server => server.Money))
+            using (var db = new DatabaseContext())
             {
-                statisticsModels.Add(new StatisticsModel()
+                var realms = db.Realms;
+
+                foreach (var server in parseService.GetModel().Values.OrderByDescending(server => server.Money))
                 {
-                    Money = ParseService.ConvertCopperToGold(server.Money).ToString("N0"),
-                    WaitMoney = ParseService.ConvertCopperToGold(server.moneyMax - server.Money).ToString("N0"),
-                    Name = server.Name,
-                    LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(server.timeUpdate).TotalMinutes),
-                    FarmMode = server.farmMode
-                });
+                    var realm = realms.Where(x => x.Id == server.id).First();
+                    statisticsModels.Add(new StatisticsModel()
+                    {
+                        Money = ParseService.ConvertCopperToGold(server.Money).ToString("N0"),
+                        WaitMoney = ParseService.ConvertCopperToGold(server.moneyMax - server.Money).ToString("N0"),
+                        Name = realm.Name,
+                        LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(realm.TimeUpdate).TotalMinutes),
+                        FarmMode = realm.FarmMode
+                    });
+                }
             }
             return View(statisticsModels);
         }

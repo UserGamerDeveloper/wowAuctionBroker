@@ -6,8 +6,11 @@
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Mvc.Client.Data;
 using Serilog;
+using System.Linq;
 using System.Net;
+using static Mvc.Client.Models.RealmModel;
 
 namespace Mvc.Client
 {
@@ -15,6 +18,7 @@ namespace Mvc.Client
     {
         public static void Main(string[] args)
         {
+            ServicePointManager.DefaultConnectionLimit = 100;
             Log.Logger = new LoggerConfiguration()
                     .WriteTo.File("Exception.log"/*, fileSizeLimitBytes: 1, rollOnFileSizeLimit: true*/)
                     .WriteTo.Console()
