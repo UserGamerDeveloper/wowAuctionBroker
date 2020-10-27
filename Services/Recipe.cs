@@ -13,7 +13,7 @@ namespace info
         public long Profit { get; }
         public Dictionary<int, List<Item>> Items { get; }
         public double IncomeGoldInHour { get; }
-        public double NeedMillisecondsToCraft { get; }
+        public double NeedMillisecondsToCraft { get; private set; }
         public long CostCraft { get; }
 
         public Recipe(RecipeData recipeData, double needMillisecondsToCraft, Dictionary<int, List<Item>> items, long spending, long costCraft)
@@ -24,6 +24,11 @@ namespace info
             NeedMillisecondsToCraft = needMillisecondsToCraft;
             Profit = RecipeData.SellNormalPrice - spending - CostCraft;
             IncomeGoldInHour = ParseService.GetIncomeGoldInHour(Profit, NeedMillisecondsToCraft);
+        }
+
+        internal void SetDefaultNeedMillisecondsToCraft()
+        {
+            NeedMillisecondsToCraft = RecipeData.GetNeedMillisecondsToCraft(false);
         }
     }
 }

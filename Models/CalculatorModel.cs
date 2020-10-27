@@ -13,7 +13,7 @@ namespace Mvc.Client.Models
         public int RequiredIncomeGold { get; set; } = 0;
         public Dictionary<int, long> Items { get; set; } = new Dictionary<int, long>();
         public int SelectedItemID { get; set; } = int.MinValue;
-        public string SelectedRealmName { get; set; }
+        public int SelectedRealmId { get; set; } = -1;
         public List<SelectListItem> ReamlsNameSelectList { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> RecipeTreeNameSelectList { get; internal set; } = new List<SelectListItem>();
         public HashSet<ItemData> ItemList { get; internal set; } = new HashSet<ItemData>();

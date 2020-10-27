@@ -6,6 +6,7 @@ using info;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Mvc.Client.Data;
 using Mvc.Client.Models;
 using Newtonsoft.Json;
 using wowCalc;
@@ -28,14 +29,14 @@ namespace Mvc.Client.Controllers
             //    ReamlsNameSelectList = new SelectList(parseService.GetModel().Values, "Name", "Name")
             //};
             CalculatorModel calculatorModel = new CalculatorModel();
-            foreach (var key in parseService.GetModel().Keys)
+            foreach (var realm in ParseService.GetRealms())
             {
-                calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = key, Value = key });
+                calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = realm.Name, Value = realm.Id.ToString() });
             }
             calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = "Выберите реалм", Value = "", Selected = true, Disabled = true });
             calculatorModel.RequiredIncomeGold = ParseService.settings.TARGET_INCOME_IN_HOUR;
             //TempData["model"] = JsonConvert.SerializeObject(calculatorModel);
-            TempData["LastSelectedRealmName"] = "";
+            TempData["LastSelectedRealmId"] = -1;
             return View(calculatorModel);
         }
 
@@ -49,29 +50,38 @@ namespace Mvc.Client.Controllers
             //CalculatorModel calculatorModela = JsonConvert.DeserializeObject<CalculatorModel>(TempData["model"].ToString());
             //calculatorModel.ReamlsNameSelectList =
             //    new SelectList(parseService.GetModel().Values, "Name", "Name", parseService.GetModel()[calculatorModel.SelectedRealmName]);
-            if (calculatorModel.SelectedRealmName != TempData["LastSelectedRealmName"].ToString())
+            if (calculatorModel.SelectedRealmId != (int)TempData["LastSelectedRealmId"])
             {
                 calculatorModel.SelectedItemID = int.MinValue;
             }
-            foreach (var key in parseService.GetModel().Keys)
+            Server selectedRealm = null;
+            using (var db = new DatabaseContext())
             {
-                if (key == calculatorModel.SelectedRealmName)
+                foreach (var realm in db.Realms)
                 {
-                    calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = key, Value = key, Selected = true });
+                    if (realm.Id == calculatorModel.SelectedRealmId)
+                    {
+                        selectedRealm = new Server(realm, Loader.GetRecipeDataById());
+                        calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = realm.Name, Value = realm.Id.ToString(), Selected = true });
+                    }
+                    else
+                    {
+                        calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = realm.Name, Value = realm.Id.ToString() });
+                    }
                 }
-                else
-                {
-                    calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = key, Value = key });
-                }
+
             }
             HashSet<ItemData> itemsData = new HashSet<ItemData>();
-            foreach (var recipeTreeSet in parseService.GetModel()[calculatorModel.SelectedRealmName].RecipeDataTrees.Values)
+            foreach (var faction in selectedRealm.factions)
             {
-                foreach (var recipeTree in recipeTreeSet)
+                foreach (var recipeTree in faction.Value.RecipeDataTrees.Values)
                 {
-                    foreach (var id in recipeTree.ItemsData)
+                    foreach (var recipe in recipeTree)
                     {
-                        itemsData.Add(id);
+                        foreach (var id in recipe.ItemsData)
+                        {
+                            itemsData.Add(id);
+                        }
                     }
                 }
             }
@@ -79,7 +89,7 @@ namespace Mvc.Client.Controllers
             {
                 if (itemData.id == calculatorModel.SelectedItemID)
                 {
-                    calculatorModel.RecipeTreeNameSelectList.Add(new SelectListItem { Text = itemData.itemName, Value = itemData.id.ToString(), Selected = true});
+                    calculatorModel.RecipeTreeNameSelectList.Add(new SelectListItem { Text = itemData.itemName, Value = itemData.id.ToString(), Selected = true });
                 }
                 else
                 {
@@ -88,28 +98,48 @@ namespace Mvc.Client.Controllers
             }
             if (calculatorModel.SelectedItemID != int.MinValue)
             {
-                Server server = parseService.GetModel()[calculatorModel.SelectedRealmName];
                 HashSet<RecipeData> recipesData = new HashSet<RecipeData>();
-                foreach (var recipesDataTree in server.RecipeDataTrees.Values)
+                foreach (var faction in selectedRealm.factions.Values)
                 {
-                    foreach (var recipeData in recipesDataTree)
+                    foreach (var recipesDataTree in faction.RecipeDataTrees.Values)
                     {
-                        if (recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys.Contains(calculatorModel.SelectedItemID))
+                        foreach (var recipeData in recipesDataTree)
                         {
-                            recipesData.Add(recipeData);
+                            if (recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys.Contains(calculatorModel.SelectedItemID))
+                            {
+                                recipesData.Add(recipeData);
+                            }
                         }
                     }
                 }
                 if (recipesData.Count == 1 && recipesData.First().ItemsData.Count == 1)
                 {
                     RecipeData recipeData = recipesData.First();
-                    long spending = Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
-                    double value = (recipeData.SellNormalPrice - spending - 
+                    string s = "";
+                    float spendingRate = float.MinValue;
+                    if (recipeData.Faction == FactionType.NONE)
+                    {
+                        foreach (var faction in selectedRealm.factions.Values)
+                        {
+                            if (faction.GetSpendingRate() > spendingRate)
+                            {
+                                spendingRate = faction.GetSpendingRate();
+                                s = faction.factionType.ToString();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        spendingRate = selectedRealm.factions[recipeData.Faction].GetSpendingRate();
+                    }
+                    long spending = Convert.ToInt64(recipeData.SPENDING * spendingRate);
+                    double value = (recipeData.SellNormalPrice - spending -
                         calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToCraft()) /
                         recipeData.ID_ITEM_AND_NEED_AMOUNT.Values.First();
                     calculatorModel.Result.Add(
-                        recipeData.Name,
-                        string.Format("  {0:# ##}", Math.Floor(value / 100)));
+                        string.Format("{0} {1}   ", s, recipeData.Name),
+                        string.Format("{0:# ##}", Math.Floor(value / 100)));
                 }
                 else
                 {
@@ -123,7 +153,7 @@ namespace Mvc.Client.Controllers
                             }
                         }
                     }
-                    if (calculatorModel.Items.Count > 0 && 
+                    if (calculatorModel.Items.Count > 0 &&
                         calculatorModel.Items.Keys.SelectMany(
                             id => calculatorModel.ItemList.Where(itemData => itemData.id == id)).Count() == calculatorModel.Items.Count)
                     {
@@ -138,7 +168,7 @@ namespace Mvc.Client.Controllers
                             {
                                 spending += calculatorModel.Items[idItem] * 100 * recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem];
                             }
-                            spending += Convert.ToInt64(recipeData.SPENDING * server.GetSpendingRate());
+                            spending += Convert.ToInt64(recipeData.SPENDING * selectedRealm.factions[recipeData.Faction].GetSpendingRate());
                             double tempValue = (recipeData.SellNormalPrice - spending -
                                 calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToCraft()) /
                                 recipeData.ID_ITEM_AND_NEED_AMOUNT[calculatorModel.SelectedItemID];
@@ -153,7 +183,7 @@ namespace Mvc.Client.Controllers
                 }
             }
             //calculatorModel.LastSelectedRealmName = calculatorModel.SelectedRealmName;
-            TempData["LastSelectedRealmName"] = calculatorModel.SelectedRealmName;
+            TempData["LastSelectedRealmId"] = calculatorModel.SelectedRealmId;
             return View(calculatorModel);
         }
 
@@ -161,13 +191,13 @@ namespace Mvc.Client.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SelectRealm(string realmName)
         {
-            List<SelectListItem> recipeTreeNameSelectListItem = new List<SelectListItem>();
-            foreach (var key in parseService.GetModel()[realmName].RecipeDataTrees.Keys)
-            {
-                recipeTreeNameSelectListItem.Add(
-                    new SelectListItem { Text = key, Value = key });
-            }
-            ViewBag.RecipeTreeNameSelectList = recipeTreeNameSelectListItem;
+            //List<SelectListItem> recipeTreeNameSelectListItem = new List<SelectListItem>();
+            //foreach (var key in parseService.GetModel()[realmName].RecipeDataTrees.Keys)
+            //{
+            //    recipeTreeNameSelectListItem.Add(
+            //        new SelectListItem { Text = key, Value = key });
+            //}
+            //ViewBag.RecipeTreeNameSelectList = recipeTreeNameSelectListItem;
             return View();
         }
 

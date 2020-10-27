@@ -13,7 +13,6 @@ using wowCalc;
 
 namespace info
 {
-
     static class Loader
     {
         public static Settings DeserializeSettings()
@@ -24,7 +23,7 @@ namespace info
                 return (Settings)xmlSerializer.Deserialize(fs);
             }
         }
-        private static Dictionary<int, RecipeData> GetRecipeDataById()
+        public static Dictionary<int, RecipeData> GetRecipeDataById()
         {
             const double DefaultNeedMillisecondsToCraft = 2000d;
             const double BFANeedMillisecondsToCraft = 1000d;
@@ -39,6 +38,7 @@ namespace info
                     BFANeedMillisecondsToCraft,
                     0,
                     389706,
+                    FactionType.HORDE,
                     true),
                 new RecipeData(
                     RecipeInfo.Shimmerscale_Striker_A,
@@ -49,6 +49,7 @@ namespace info
                     BFANeedMillisecondsToCraft,
                     0,
                     398924,
+                    FactionType.ALLIANCE,
                     true),
                 new RecipeData(
                     RecipeInfo.Silkweave_Slippers,
@@ -68,6 +69,7 @@ namespace info
                     BFANeedMillisecondsToCraft,
                     60000,
                     276913,
+                    FactionType.HORDE,
                     true),
                 new RecipeData(
                     RecipeInfo.Tidespray_Linen_Pants_A,
@@ -78,6 +80,7 @@ namespace info
                     BFANeedMillisecondsToCraft,
                     60000,
                     271119,
+                    FactionType.ALLIANCE,
                     true),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_H,
@@ -88,6 +91,7 @@ namespace info
                     BFANeedMillisecondsToCraft,
                     0,
                     391157,
+                    FactionType.HORDE,
                     true),
                 new RecipeData(
                     RecipeInfo.Coarse_Leather_Cestus_A,
@@ -98,6 +102,7 @@ namespace info
                     BFANeedMillisecondsToCraft,
                     0,
                     400336,
+                    FactionType.ALLIANCE,
                     true),
                 new RecipeData(
                     RecipeInfo.Battlebound_Spaulders,
@@ -124,7 +129,6 @@ namespace info
                     },
                     0,
                     6000,
-                    0,
                     0)
             };
             Dictionary<int, RecipeData> recipeDataById = new Dictionary<int, RecipeData>();
@@ -140,60 +144,44 @@ namespace info
             return recipeDataById;
         }
 
-        public static Dictionary<string, Server> DeserializeServers(IHostEnvironment hostingEnvironment)
+        public static List<RealmModel> GetServersByName(IHostEnvironment hostingEnvironment)
         {
-            Dictionary<string, Server> serversByName = new Dictionary<string, Server>();
+            List<RealmModel> realms;
             Server.RefreshTokenPrice();
-            Dictionary<int, RecipeData> recipeDataById = GetRecipeDataById();
-            if (hostingEnvironment.IsDevelopment())
+            using (var db = new DatabaseContext())
             {
-                foreach (var server in Saver.GetServers())
+                if (hostingEnvironment.IsDevelopment())
                 {
-                    server.SetData(recipeDataById);
-                    serversByName.Add(server.Name, server);
+                    foreach (var realm in db.Realms)
+                    {
+                        db.Remove(realm);
+                    }
+                    db.SaveChanges();
+                    foreach (var realmModel in Saver.GetRealmModels())
+                    {
+                        db.Add(realmModel);
+                    }
+                    db.SaveChanges();
                 }
-            }
-            else
-            {
-                using (var db = new DatabaseContext())
+                else
                 {
                     foreach (var file in new DirectoryInfo("realms").GetFiles())
                     {
-                        using (FileStream fs = new FileStream(file.FullName, FileMode.Open))
+                        var realmModel = JsonConvert.DeserializeObject<RealmModel>(File.ReadAllText(file.FullName));
+                        var b = db.Realms.Where(x => x.Id == realmModel.Id);
+                        if (b.Count() > 0)
                         {
-                            XmlSerializer serverXmlSerializer = new XmlSerializer(typeof(Server));
-                            Server server = (Server)serverXmlSerializer.Deserialize(fs);
-                            var d = new List<ActiveRecipe>();
-                            foreach (var idRecipe in server.idRecipes)
-                            {
-                                d.Add(new ActiveRecipe { IdRecipe = idRecipe });
-                            }
-                            db.Add(new RealmModel
-                            {
-                                Id = server.id,
-                                ConnectedRealmId = server.connectedRealmId,
-                                CharacterId = server.characterId,
-                                Name = server.Name,
-                                TimeUpdate = server.timeUpdate,
-                                ActiveRecipes = d,
-                                FarmMode = server.farmMode,
-                                MoneyMax = server.moneyMax
-                            });
+                            db.Remove(b.First());
+                            db.SaveChanges();
                         }
+                        db.Add(realmModel);
                         file.Delete();
                     }
                     db.SaveChanges();
-
-                    var realms = db.Realms;
-                    foreach (var realm in realms)
-                    {
-                        var server = new Server(realm);
-                        server.SetData(recipeDataById);
-                        serversByName.Add(server.Name, server);
-                    }
                 }
+                realms = db.Realms.ToList();
             }
-            return serversByName;
+            return realms;
         }
 
         private static Dictionary<int, ItemData> GetItemsData()

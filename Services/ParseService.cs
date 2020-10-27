@@ -24,39 +24,768 @@ using static Mvc.Client.Models.RealmModel;
 
 namespace wowCalc
 {
+    public class CharacterData
+    {
+        public class Faction
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public FactionType type { get; set; }
+            /// <summary>
+            /// 
+            /// </summary>
+            public string name { get; set; }
+        }
+        //public class Self
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        //public class _links
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Self self { get; set; }
+        //}
+        //public class Gender
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string type { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //}
+        //public class Key
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        //public class Race
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Key key { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public int id { get; set; }
+        //}
+        //public class Key
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        //public class Character_class
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Key key { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public int id { get; set; }
+        //}
+        //public class Key
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        //public class Active_spec
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Key key { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public int id { get; set; }
+        //}
+        //public class Key
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        //public class Realm
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Key key { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public int id { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string slug { get; set; }
+        //}
+        //public class Key
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        //public class Key
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        //public class Realm
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Key key { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public int id { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string slug { get; set; }
+        //}
+        //public class Faction
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string type { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //}
+        //public class Guild
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Key key { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string name { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public int id { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Realm realm { get; set; }
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public Faction faction { get; set; }
+        //}
+
+        //public class Achievements
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Titles
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Pvp_summary
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Encounters
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Media
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Specializations
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Statistics
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Mythic_keystone_profile
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Equipment
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Appearance
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Collections
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Reputations
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Quests
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Achievements_statistics
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+
+        //public class Professions
+        //{
+        //    /// <summary>
+        //    /// 
+        //    /// </summary>
+        //    public string href { get; set; }
+        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        public Faction faction { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public _links _links { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public int id { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public string name { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Gender gender { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Race race { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Character_class character_class { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Active_spec active_spec { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Realm realm { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Guild guild { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public int level { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public int experience { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public int achievement_points { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Achievements achievements { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Titles titles { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Pvp_summary pvp_summary { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Encounters encounters { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Media media { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public int last_login_timestamp { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public int average_item_level { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public int equipped_item_level { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Specializations specializations { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Statistics statistics { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Mythic_keystone_profile mythic_keystone_profile { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Equipment equipment { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Appearance appearance { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Collections collections { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Reputations reputations { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Quests quests { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Achievements_statistics achievements_statistics { get; set; }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //public Professions professions { get; set; }
+    }
+    public class AuctionData
+    {
+        public class Auction
+        {
+            public class Itemm
+            {
+                //public class Modifier
+                //{
+                //    [JsonProperty("type")]
+                //    public int Type { get; set; }
+                //    [JsonProperty("value")]
+                //    public int Value { get; set; }
+                //}
+
+                [JsonProperty("id")]
+                public int Id { get; set; }
+                //[JsonProperty("context")]
+                //public int Context { get; set; }
+                //[JsonProperty("modifiers")]
+                //public List<Modifier> Modifiers { get; set; }
+                //[JsonProperty("pet_breed_id")]
+                //public int PetBreedId { get; set; }
+                //[JsonProperty("pet_level")]
+                //public int PetLevel { get; set; }
+                //[JsonProperty("pet_quality_id")]
+                //public int PetQualityId { get; set; }
+                //[JsonProperty("pet_species_id")]
+                //public int PetSpeciesId { get; set; }
+            }
+
+            [JsonProperty("item")]
+            public Itemm Item { get; set; }
+            [JsonProperty("unit_price")]
+            public long UnitPrice { get; set; }
+            [JsonProperty("quantity")]
+            public int Quantity { get; set; }
+            //[JsonProperty("id")]
+            //public int Id { get; set; }
+            //[JsonProperty("bid")]
+            //public long Bid { get; set; }
+            //[JsonProperty("buyout")]
+            //public long Buyout { get; set; }
+            //[JsonProperty("time_left")]
+            //public string TimeLeft { get; set; }
+        }
+        //public class Links
+        //{
+        //    [JsonProperty("self")]
+        //    public Self Self { get; set; }
+        //}
+        //public class Self
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+        //public class ConnectedRealm
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+
+        [JsonProperty("auctions")]
+        public List<Auction> Auctions { get; set; }
+        //[JsonProperty("_links")]
+        //public Links Links { get; set; }
+        //[JsonProperty("connected_realm")]
+        //public ConnectedRealm ConnectedRealm { get; set; }
+    }
+    public class CharacterProtectedData
+    {
+        public class Character
+        {
+            //[JsonProperty("key")]
+            //public Key Key { get; set; }
+            //[JsonProperty("name")]
+            //public string Name { get; set; }
+            //[JsonProperty("id")]
+            //public int Id { get; set; }
+            [JsonProperty("realm")]
+            public Realm Realm { get; set; }
+        }
+        public class Realm
+        {
+            //[JsonProperty("key")]
+            //public Key Key { get; set; }
+            //[JsonProperty("name")]
+            //public string Name { get; set; }
+            //[JsonProperty("id")]
+            //public int Id { get; set; }
+            [JsonProperty("slug")]
+            public string Slug { get; set; }
+        }
+        //public class Links
+        //{
+        //    [JsonProperty("self")]
+        //    public Self Self { get; set; }
+        //    [JsonProperty("user")]
+        //    public User User { get; set; }
+        //    [JsonProperty("profile")]
+        //    public Profile Profile { get; set; }
+        //}
+        //public class Self
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+        //public class User
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+        //public class Profile
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+        //public class Key
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+        //public class ProtectedStats
+        //{
+        //    [JsonProperty("total_number_deaths")]
+        //    public int TotalNumberDeaths { get; set; }
+        //    [JsonProperty("total_gold_gained")]
+        //    public long TotalGoldGained { get; set; }
+        //    [JsonProperty("total_gold_lost")]
+        //    public long TotalGoldLost { get; set; }
+        //    [JsonProperty("total_item_value_gained")]
+        //    public int TotalItemValueGained { get; set; }
+        //    [JsonProperty("level_number_deaths")]
+        //    public int LevelNumberDeaths { get; set; }
+        //    [JsonProperty("level_gold_gained")]
+        //    public long LevelGoldGained { get; set; }
+        //    [JsonProperty("level_gold_lost")]
+        //    public long LevelGoldLost { get; set; }
+        //    [JsonProperty("level_item_value_gained")]
+        //    public int LevelItemValueGained { get; set; }
+        //}
+        //public class Position
+        //{
+        //    [JsonProperty("zone")]
+        //    public Zone Zone { get; set; }
+        //    [JsonProperty("map")]
+        //    public Map Map { get; set; }
+        //    [JsonProperty("x")]
+        //    public double X { get; set; }
+        //    [JsonProperty("y")]
+        //    public double Y { get; set; }
+        //    [JsonProperty("z")]
+        //    public double Z { get; set; }
+        //    [JsonProperty("facing")]
+        //    public double Facing { get; set; }
+        //}
+        //public class Zone
+        //{
+        //    [JsonProperty("name")]
+        //    public string Name { get; set; }
+        //    [JsonProperty("id")]
+        //    public int Id { get; set; }
+        //}
+        //public class Map
+        //{
+        //    [JsonProperty("name")]
+        //    public string Name { get; set; }
+        //    [JsonProperty("id")]
+        //    public int Id { get; set; }
+        //}
+        //public class BindPosition
+        //{
+        //    [JsonProperty("zone")]
+        //    public Zone Zone { get; set; }
+        //    [JsonProperty("map")]
+        //    public Map Map { get; set; }
+        //    [JsonProperty("x")]
+        //    public double X { get; set; }
+        //    [JsonProperty("y")]
+        //    public double Y { get; set; }
+        //    [JsonProperty("z")]
+        //    public double Z { get; set; }
+        //    [JsonProperty("facing")]
+        //    public double Facing { get; set; }
+        //}
+
+        [JsonProperty("money")]
+        public long Money { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("character")]
+        public Character Characterr { get; set; }
+        //[JsonProperty("_links")]
+        //public Links Links { get; set; }
+        //[JsonProperty("id")]
+        //public int Id { get; set; }
+        //[JsonProperty("protected_stats")]
+        //public ProtectedStats ProtectedStats { get; set; }
+        //[JsonProperty("position")]
+        //public Position Position { get; set; }
+        //[JsonProperty("bind_position")]
+        //public BindPosition BindPosition { get; set; }
+        //[JsonProperty("wow_account")]
+        //public int WowAccount { get; set; }
+    }
+    public class TokenPriceData
+    {
+        //public class Links
+        //{
+        //    [JsonProperty("self")]
+        //    public Self Self { get; set; }
+        //}
+        //public class Self
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+
+        //[JsonProperty("_links")]
+        //public Links Links { get; set; }
+        //[JsonProperty("last_updated_timestamp")]
+        //public long LastUpdatedTimestamp { get; set; }
+        [JsonProperty("price")]
+        public long Price { get; set; }
+    }
+    public class ReputationsData
+    {
+        public class ReputationData
+        {
+            public class Faction
+            {
+                //public class Key
+                //{
+                //    [JsonProperty("href")]
+                //    public string Href { get; set; }
+                //}
+
+                //[JsonProperty("key")]
+                //public Key Key { get; set; }
+                //[JsonProperty("name")]
+                //public string Name { get; set; }
+                [JsonProperty("id")]
+                public int Id { get; set; }
+            }
+            public class Standing
+            {
+                //[JsonProperty("raw")]
+                //public int Raw { get; set; }
+                //[JsonProperty("value")]
+                //public int Value { get; set; }
+                //[JsonProperty("max")]
+                //public int Max { get; set; }
+                [JsonProperty("tier")]
+                public ReputationTier Tier { get; set; }
+                //[JsonProperty("name")]
+                //public string Name { get; set; }
+            }
+
+            [JsonProperty("faction")]
+            public Faction Factionn { get; set; }
+            [JsonProperty("standing")]
+            public Standing Standingg { get; set; }
+        }
+        //public class Links
+        //{
+        //    [JsonProperty("self")]
+        //    public Self Self { get; set; }
+        //}
+        //public class Self
+        //{
+        //    [JsonProperty("href")]
+        //    public string Href { get; set; }
+        //}
+        //public class Character
+        //{
+        //    [JsonProperty("key")]
+        //    public Key Key { get; set; }
+        //    [JsonProperty("name")]
+        //    public string Name { get; set; }
+        //    [JsonProperty("id")]
+        //    public int Id { get; set; }
+        //    [JsonProperty("realm")]
+        //    public Realm Realm { get; set; }
+        //}
+        //public class Realm
+        //{
+        //    [JsonProperty("key")]
+        //    public Key Key { get; set; }
+        //    [JsonProperty("name")]
+        //    public string Name { get; set; }
+        //    [JsonProperty("id")]
+        //    public int Id { get; set; }
+        //    [JsonProperty("slug")]
+        //    public string Slug { get; set; }
+        //}
+
+        [JsonProperty("reputations")]
+        public List<ReputationData> Reputations { get; set; }
+        //[JsonProperty("_links")]
+        //public Links Links { get; set; }
+        //[JsonProperty("character")]
+        //public Character Character { get; set; }
+    }
     public class LogHub : Hub
     {
 
     }
-
     public class ParseService
     {
-        private class Response
-        {
-            public Response(string message, object alertId)
-            {
-                Message = message;
-                AlertId = alertId;
-            }
-
-            public string Message { get; set; }
-            public object AlertId { get; set; }
-        }
-
-        internal Dictionary<string, Server> GetModel()
-        {
-            return serversByName;
-        }
-
         static IHubContext<LogHub> hubContext;
         private static IHostEnvironment HostingEnvironment;
-        static Dictionary<string, Server> serversByName;
-        public static readonly object consoleLocker = new object();
+        public static readonly object logLocker = new object();
         //public static readonly object getAuctionDataLocker = new object();
         public static Settings settings = Loader.DeserializeSettings();
         public const int AmountCopperInGold = 10000;
         private const int AmountCopperInSilver = 100;
-        public const string URL_ITEM_PAGE_FORMAT = "https://eu.api.blizzard.com/data/wow/connected-realm/{0}/auctions?namespace=dynamic-eu&locale=en_US";
+        private const string URL_ITEM_PAGE_FORMAT = "https://eu.api.blizzard.com/data/wow/connected-realm/{0}/auctions?namespace=dynamic-eu&locale=en_US";
+        const string TokenPriceURL = "https://eu.api.blizzard.com/data/wow/token/index?namespace=dynamic-eu&locale=en_US";
+        const string CharacterProtectedDataURLFormat = "https://eu.api.blizzard.com/profile/user/wow/protected-character/{0}-{1}?namespace=profile-eu&locale=en_US";
+        const string ReputationsDataURLFormat = "https://eu.api.blizzard.com/profile/wow/character/{0}/{1}/reputations?namespace=profile-eu&locale=en_US";
+        const string CharacterDataURLFormat = "https://eu.api.blizzard.com/profile/wow/character/{0}/{1}?namespace=profile-eu&locale=en_US";
         public static readonly object exeptionLocker = new object();
         public static string accessToken;
 
@@ -69,15 +798,46 @@ namespace wowCalc
         public void Start(string accessToken)
         {
             ParseService.accessToken = accessToken;
-            serversByName = Loader.DeserializeServers(HostingEnvironment);
-
-            foreach (var server in serversByName.Values)
+            foreach (var server in Loader.GetServersByName(HostingEnvironment))
             {
-                new Thread(new ThreadStart(server.StartParse))
+                new Thread(new ParameterizedThreadStart(Parse))
                 //{
                 //    IsBackground = true
                 //}
-                .Start();
+                .Start(server.Id);
+            }
+        }
+
+        public static List<RealmModel> GetRealms()
+        {
+            using (var db = new DatabaseContext())
+            {
+                return db.Realms.ToList();
+            }
+        }
+
+        private static void Parse(object realmId)
+        {
+            try
+            {
+                while (true)
+                {
+                    Thread.Sleep(ParseAndGetTimeToNextParse(realmId));
+                }
+            }
+            catch (Exception e)
+            {
+                ParseService.ExceptionLogAndAlert(e);
+            }
+            static TimeSpan ParseAndGetTimeToNextParse(object realmId)
+            {
+                Server server;
+                using (var db = new DatabaseContext())
+                {
+                    var realm = db.Realms.Where(x => x.Id == (int)realmId).First();
+                    server = new Server(realm, Loader.GetRecipeDataById());
+                }
+                return server.Parse();
             }
         }
         public static double GetIncomeGoldInHour(double profit, double milliseconds)
@@ -103,13 +863,24 @@ namespace wowCalc
             return copper / AmountCopperInSilver;
         }
 
-        public async static void SendAndLog(string message, object alertId = null)
+        public async static void SendAndLog(List<string> message)
         {
-            await hubContext.Clients.All.SendAsync("Notify", new Response(message, alertId));
+            await hubContext.Clients.All.SendAsync("Notify", message);
 
-            lock (consoleLocker)
+            Log(message);
+        }
+
+        public static void Log(List<string> message)
+        {
+            lock (logLocker)
             {
-                File.AppendAllText("log.log", message.Replace("<br>", "\n").Replace("&#9;", "\t"));
+                foreach (var item in message)
+                {
+                    if (item != null)
+                    {
+                        File.AppendAllText("log.log", item.Replace("<br>", "\n").Replace("&#9;", "\t"));
+                    }
+                }
             }
         }
 
@@ -122,7 +893,7 @@ namespace wowCalc
         public static void ExceptionLogAndAlert(Exception e)
         {
             //throw e;
-            Log.Logger.Error(e, "Exception");
+            Serilog.Log.Logger.Error(e, "Exception");
             lock (exeptionLocker)
             {
                 using (var audioFile = new AudioFileReader("wwwroot/media/music.aac"))
@@ -135,9 +906,11 @@ namespace wowCalc
             }
         }
 
-        static public string GetAuctionDataStr(int idRealm)
+        static public AuctionData GetAuctionData(int idRealm)
         {
-            return GetResponseString(string.Format(URL_ITEM_PAGE_FORMAT, idRealm), Timeout.InfiniteTimeSpan);
+            string auctionDataStr = GetResponseString(string.Format(URL_ITEM_PAGE_FORMAT, idRealm), Timeout.InfiniteTimeSpan);
+            AuctionData auctionData = JsonConvert.DeserializeObject<AuctionData>(auctionDataStr);
+            return auctionData;
         }
 
         static public string GetResponseString(string uri)
@@ -177,7 +950,7 @@ namespace wowCalc
                         }
                         else
                         {
-                            Log.Logger.Debug(e, "Exception");
+                            Serilog.Log.Logger.Debug(e, "Exception");
                         }
                     }
                 }
@@ -201,7 +974,7 @@ namespace wowCalc
                 }
                 catch (WebException e)
                 {
-                    Log.Logger.Error(e, "Exception");
+                    Serilog.Log.Logger.Error(e, "Exception");
                     if (e.Response != null)
                     {
                         ExceptionLogAndAlert(e);
@@ -214,9 +987,34 @@ namespace wowCalc
                 }
                 catch (OperationCanceledException e)
                 {
-                    Log.Logger.Debug(e, "Exception");
+                    Serilog.Log.Logger.Debug(e, "Exception");
                 }
             }
+        }
+
+        public static CharacterProtectedData GetCharacterProtectedData(int id, long characterId)
+        {
+            string CharacterDataStr = GetResponseString(string.Format(CharacterProtectedDataURLFormat, id, characterId));
+            CharacterProtectedData characterData = JsonConvert.DeserializeObject<CharacterProtectedData>(CharacterDataStr);
+            return characterData;
+        }
+        public static CharacterData GetCharacterData(string realmSlug, string characterName)
+        {
+            string CharacterDataStr = GetResponseString(string.Format(CharacterDataURLFormat, realmSlug, characterName.ToLower()));
+            CharacterData characterData = JsonConvert.DeserializeObject<CharacterData>(CharacterDataStr);
+            return characterData;
+        }
+        public static ReputationsData GetReputationsData(string realmSlug, string characterName)
+        {
+            string ReputationsDataStr = GetResponseString(
+                string.Format(ReputationsDataURLFormat, realmSlug, characterName.ToLower()));
+            ReputationsData reputationsData = JsonConvert.DeserializeObject<ReputationsData>(ReputationsDataStr);
+            return reputationsData;
+        }
+        internal static long GetTokenPrice()
+        {
+            string TokenPriceDataStr = GetResponseString(TokenPriceURL);
+            return JsonConvert.DeserializeObject<TokenPriceData>(TokenPriceDataStr).Price;
         }
     }
 }

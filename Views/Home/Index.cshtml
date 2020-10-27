@@ -65,34 +65,45 @@
         //    //console.log("audioElement.remove");
         //});
         hubConnection.on("Notify", function (response) {
-            console.log(response.message);
             //$(messageList).append(response.message);
-            console.log("alertId " + response.alertId);
+            console.log(response[0]);
             let newElement = document.createElement("div");
-            newElement.innerHTML = "<pre>" + response.message + "</pre>";
-            if (response.alertId != null) {
-                switch (response.alertId) {
-                    case 0:
-                        //audioElement.addEventListener('ended', (event) => {
-                        //    audioElement.remove();
-                        //    //console.log("audioElement.remove");
-                        //});
-                        newElement.setAttribute('class', 'alert');
-                        alertElement.play();
-                        break;
-                    case 1:
-                        //if (musicElement.paused) {
-                        //    .attr({
-                        //        'src': 'http://picosong.com/media/songs/a53ac958428e20721ab0b5b2e3cf16c1.mp3',
-                        //        'autoplay': 'autoplay',
-                        //        'loop': 'loop'
-                        //    });
-                        //    isMusicPlayed = true;
-                        //}
-                        newElement.setAttribute('class', 'music');
-                        musicElement.play();
-                        break;
+            newElement.innerHTML = "<pre>" + response[0] + "</pre>";
+            for (var i = 1; i < response.length; i++) {
+                console.log("alertId " + response[i + 1]);
+                if (response[i + 1] != null) {
+                    switch (response[i + 1]) {
+                        case "0":
+                            //audioElement.addEventListener('ended', (event) => {
+                            //    audioElement.remove();
+                            //    //console.log("audioElement.remove");
+                            //});
+                            var elementt = document.createElement("div");
+                            console.log(response[i]);
+                            elementt.innerHTML = "<pre>" + response[i] + "</pre>";
+                            elementt.setAttribute('class', 'alert');
+                            newElement.appendChild(elementt);
+                            alertElement.play();
+                            break;
+                        case "1":
+                            //if (musicElement.paused) {
+                            //    .attr({
+                            //        'src': 'http://picosong.com/media/songs/a53ac958428e20721ab0b5b2e3cf16c1.mp3',
+                            //        'autoplay': 'autoplay',
+                            //        'loop': 'loop'
+                            //    });
+                            //    isMusicPlayed = true;
+                            //}
+                            var elementt = document.createElement("div");
+                            console.log(response[i]);
+                            elementt.innerHTML = "<pre>" + response[i] + "</pre>";
+                            elementt.setAttribute('class', 'music');
+                            newElement.appendChild(elementt);
+                            musicElement.play();
+                            break;
+                    }
                 }
+                i++;
             }
             // создает элемент <p> для сообщения пользователя
             //let elem = document.createElement("p");

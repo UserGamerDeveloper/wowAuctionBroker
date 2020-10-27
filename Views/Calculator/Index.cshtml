@@ -10,10 +10,10 @@
         </p>*@
     <input name="calculatorModel.RequiredIncomeGold" type="number" size="40" value="@Model.RequiredIncomeGold">
     <br>
-    <select name="calculatorModel.SelectedRealmName" asp-items="@Model.ReamlsNameSelectList">
+    <select name="calculatorModel.SelectedRealmId" asp-items="@Model.ReamlsNameSelectList">
         @*<option selected="selected" disabled hidden="">Выберите реалм</option>*@
     </select>
-    @if (Model.SelectedRealmName != null)
+    @if (Model.SelectedRealmId != -1)
     {
         @*@await Html.PartialAsync("_SelectRealm", Model)*@
         <p>

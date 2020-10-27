@@ -35,21 +35,53 @@ namespace Mvc.Client.Migrations
                     b.ToTable("ActiveRecipe");
                 });
 
+            modelBuilder.Entity("Mvc.Client.Models.Character", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RealmId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RealmId");
+
+                    b.ToTable("Character");
+                });
+
+            modelBuilder.Entity("Mvc.Client.Models.FactionModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FactionType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("MoneyMax")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RealmId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RealmId");
+
+                    b.ToTable("FactionModel");
+                });
+
             modelBuilder.Entity("Mvc.Client.Models.RealmModel", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("CharacterId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ConnectedRealmId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("FarmMode")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("MoneyMax")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -68,6 +100,24 @@ namespace Mvc.Client.Migrations
                 {
                     b.HasOne("Mvc.Client.Models.RealmModel", "Company")
                         .WithMany("ActiveRecipes")
+                        .HasForeignKey("RealmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Mvc.Client.Models.Character", b =>
+                {
+                    b.HasOne("Mvc.Client.Models.RealmModel", "Company")
+                        .WithMany("Characters")
+                        .HasForeignKey("RealmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Mvc.Client.Models.FactionModel", b =>
+                {
+                    b.HasOne("Mvc.Client.Models.RealmModel", "Company")
+                        .WithMany("Fractions")
                         .HasForeignKey("RealmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

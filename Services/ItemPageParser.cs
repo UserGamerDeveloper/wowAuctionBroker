@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
-using static info.AuctionData;
+using static wowCalc.AuctionData;
 
 namespace info
 {

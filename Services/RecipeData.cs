@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mvc.Client.Models;
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
@@ -18,13 +19,14 @@ namespace info
         public double NeedMillisecondsToCraft;
         public string Name { get; set; }
         public long SPENDING;
+        public FactionType Faction;
         [XmlIgnore]
         public HashSet<ItemData> ItemsData = new HashSet<ItemData>();
 
         public RecipeData(
             RecipeInfo recipeInfo,
             XmlSerializableDictionary<int, int> dictionary,
-            int SELL_PRICE, double TIME_NEED, long SPENDING, long sellRandomPrice, bool dropToMail = false)
+            int SELL_PRICE, double TIME_NEED, long SPENDING, long sellRandomPrice, FactionType faction = FactionType.NONE, bool dropToMail = false)
         {
             ID = (int)recipeInfo;
             ID_ITEM_AND_NEED_AMOUNT = dictionary;
@@ -33,12 +35,13 @@ namespace info
             this.SPENDING = SPENDING;
             Name = recipeInfo.ToString();
             SellRandomPrice = sellRandomPrice;
+            Faction = faction;
             DropToMail = dropToMail;
         }
         public RecipeData(
             RecipeInfo recipeInfo,
             XmlSerializableDictionary<int, int> dictionary,
-            int SELL_PRICE, double NeedMillisecondsToCraft, long SPENDING, bool dropToMail = false)
+            int SELL_PRICE, double NeedMillisecondsToCraft, long SPENDING, FactionType faction = FactionType.NONE, bool dropToMail = false)
         {
             ID = (int)recipeInfo;
             ID_ITEM_AND_NEED_AMOUNT = dictionary;
@@ -47,6 +50,7 @@ namespace info
             this.SPENDING = SPENDING;
             Name = recipeInfo.ToString();
             SellRandomPrice = SellNormalPrice;
+            Faction = faction;
             DropToMail = dropToMail;
         }
 
@@ -65,9 +69,9 @@ namespace info
             return (SellRandomPrice - SellNormalPrice) * ChanceRandomProfit;
         }
 
-        internal double GetNeedMillisecondsToCraft(long money = 0, long summaryCostCraft = 0, long costCraft = 0)
+        internal double GetNeedMillisecondsToCraft(bool haveMoneyToCraft = true)
         {
-            if (DropToMail && money >= summaryCostCraft + costCraft)
+            if (DropToMail && haveMoneyToCraft)
             {
                 return DropToMailNeedMillisecondsToCraft;
             }

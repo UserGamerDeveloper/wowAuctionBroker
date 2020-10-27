@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using info;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mvc.Client.Data;
@@ -23,31 +24,38 @@ namespace Mvc.Client.Controllers
         {
 
             List<StatisticsModel> statisticsModels = new List<StatisticsModel>();
-            List<Task> tasks = new List<Task>();
-            foreach (var server in parseService.GetModel().Values)
-            {
-                var task = new Task(() => { server.UpdateMoney(); });
-                task.Start();
-                tasks.Add(task);
-            }
-            Task.WaitAll(tasks.ToArray());
+            //List<Task> tasks = new List<Task>();
+            //foreach (var server in parseService.GetModel().Values)
+            //{
+            //    var task = new Task(() => { server.UpdateMoney(); });
+            //    task.Start();
+            //    tasks.Add(task);
+            //}
+            //Task.WaitAll(tasks.ToArray());
             using (var db = new DatabaseContext())
             {
-                var realms = db.Realms;
-
-                foreach (var server in parseService.GetModel().Values.OrderByDescending(server => server.Money))
+                foreach (var realmModel in db.Realms)
                 {
-                    var realm = realms.Where(x => x.Id == server.id).First();
-                    statisticsModels.Add(new StatisticsModel()
+                    var realm = new Server(realmModel, Loader.GetRecipeDataById());
+                    var stat = new StatisticsModel()
                     {
-                        Money = ParseService.ConvertCopperToGold(server.Money).ToString("N0"),
-                        WaitMoney = ParseService.ConvertCopperToGold(server.moneyMax - server.Money).ToString("N0"),
-                        Name = realm.Name,
-                        LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(realm.TimeUpdate).TotalMinutes),
-                        FarmMode = realm.FarmMode
-                    });
+                        RealmName = realm.Name,
+                        LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(realm.timeUpdate).TotalMinutes),
+                        FarmMode = realm.farmMode
+                    };
+                    foreach (var faction in realm.factions.Values)
+                    {
+                        stat.statisticFactions.Add(new StatisticFaction
+                        {
+                            FractionName = faction.factionType.ToString(),
+                            Money = ParseService.ConvertCopperToGold(faction.Money).ToString("N0"),
+                            WaitMoney = ParseService.ConvertCopperToGold(faction.moneyMax - faction.Money).ToString("N0"),
+                        });
+                    }
+                    statisticsModels.Add(stat);
                 }
             }
+
             return View(statisticsModels);
         }
 

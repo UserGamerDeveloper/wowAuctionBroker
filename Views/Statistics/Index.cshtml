@@ -11,9 +11,10 @@
     <table class="table">
         <tr><td><a href="/Calculator">Калькулятор</a></td></tr>
     </table>
-    <table class="table">
+    <table class="table" border="1">
         <tr>
             <td>Сервер</td>
+            <td>Фракция</td>
             <td>Доступное золото</td>
             <td>Ожидающее золото</td>
             <td>Последнее обновление</td>
@@ -21,10 +22,19 @@
         @foreach (var item in Model)
         {
             <tr class="@item.FarmMode.ToString()">
-                <td>@item.Name</td>
-                <td>@item.Money</td>
-                <td>@item.WaitMoney</td>
-                <td>@item.LastUpdate</td>
+                <td rowspan="@item.statisticFactions.Count">@item.RealmName</td>
+                <td>@item.statisticFactions[0].FractionName</td>
+                <td>@item.statisticFactions[0].Money</td>
+                <td>@item.statisticFactions[0].WaitMoney</td>
+                <td rowspan="@item.statisticFactions.Count">@item.LastUpdate</td>
             </tr>
+            @if (item.statisticFactions.Count != 1)
+            {
+                <tr class="@item.FarmMode.ToString()">
+                    <td>@item.statisticFactions[1].FractionName</td>
+                    <td>@item.statisticFactions[1].Money</td>
+                    <td>@item.statisticFactions[1].WaitMoney</td>
+                </tr>
+            }
         }
     </table>
