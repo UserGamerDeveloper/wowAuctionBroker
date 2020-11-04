@@ -32,7 +32,7 @@ namespace info
         public static List<RealmModel> GetRealmModels()
         {
             List<RealmModel> servers = new List<RealmModel>();
-            //servers.Add(GetDraenor());
+            servers.Add(GetDraenor());
             //servers.Add(GetTwistingNether());
             //servers.Add(GetBlackmoore());
             //servers.Add(GetAntonidas());
@@ -60,7 +60,7 @@ namespace info
             //servers.Add(GetNemesis());
             //servers.Add(GetOutland());
 
-            SerializeServers(servers);
+            //SerializeServers(servers);
             return servers;
         }
 

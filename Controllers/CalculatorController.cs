@@ -37,6 +37,7 @@ namespace Mvc.Client.Controllers
             calculatorModel.RequiredIncomeGold = ParseService.settings.TARGET_INCOME_IN_HOUR;
             //TempData["model"] = JsonConvert.SerializeObject(calculatorModel);
             TempData["LastSelectedRealmId"] = -1;
+            TempData["LastSelectedFaction"] = FactionType.NONE;
             return View(calculatorModel);
         }
 
@@ -51,6 +52,10 @@ namespace Mvc.Client.Controllers
             //calculatorModel.ReamlsNameSelectList =
             //    new SelectList(parseService.GetModel().Values, "Name", "Name", parseService.GetModel()[calculatorModel.SelectedRealmName]);
             if (calculatorModel.SelectedRealmId != (int)TempData["LastSelectedRealmId"])
+            {
+                calculatorModel.SelectedFaction = FactionType.NONE;
+            }
+            if (calculatorModel.SelectedFaction != (FactionType)TempData["LastSelectedFaction"])
             {
                 calculatorModel.SelectedItemID = int.MinValue;
             }
@@ -69,12 +74,47 @@ namespace Mvc.Client.Controllers
                         calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = realm.Name, Value = realm.Id.ToString() });
                     }
                 }
-
             }
-            HashSet<ItemData> itemsData = new HashSet<ItemData>();
-            foreach (var faction in selectedRealm.factions)
+            Faction selectedFaction = null;
+            if (selectedRealm.factions.Values.Count == 1)
             {
-                foreach (var recipeTree in faction.Value.RecipeDataTrees.Values)
+                selectedFaction = selectedRealm.factions.Values.First();
+                calculatorModel.SelectedFaction = selectedFaction.factionType;
+                calculatorModel.FactionSelectList.Add(new SelectListItem
+                {
+                    Text = selectedFaction.factionType.ToString(),
+                    Value = ((int)selectedFaction.factionType).ToString(),
+                    Selected = true
+                });
+            }
+            else
+            {
+                foreach (var faction in selectedRealm.factions.Values)
+                {
+                    if (faction.factionType == calculatorModel.SelectedFaction)
+                    {
+                        selectedFaction = selectedRealm.factions[calculatorModel.SelectedFaction];
+                        calculatorModel.FactionSelectList.Add(new SelectListItem
+                        {
+                            Text = faction.factionType.ToString(),
+                            Value = ((int)faction.factionType).ToString(),
+                            Selected = true
+                        });
+                    }
+                    else
+                    {
+                        calculatorModel.FactionSelectList.Add(new SelectListItem
+                        {
+                            Text = faction.factionType.ToString(),
+                            Value = ((int)faction.factionType).ToString(),
+                        });
+                    }
+                }
+            }
+            if (calculatorModel.SelectedFaction != FactionType.NONE)
+            {
+                HashSet<ItemData> itemsData = new HashSet<ItemData>();
+                foreach (var recipeTree in selectedFaction.RecipeDataTrees.Values)
                 {
                     foreach (var recipe in recipeTree)
                     {
@@ -84,24 +124,21 @@ namespace Mvc.Client.Controllers
                         }
                     }
                 }
-            }
-            foreach (var itemData in itemsData)
-            {
-                if (itemData.id == calculatorModel.SelectedItemID)
+                foreach (var itemData in itemsData)
                 {
-                    calculatorModel.RecipeTreeNameSelectList.Add(new SelectListItem { Text = itemData.itemName, Value = itemData.id.ToString(), Selected = true });
+                    if (itemData.id == calculatorModel.SelectedItemID)
+                    {
+                        calculatorModel.RecipeTreeNameSelectList.Add(new SelectListItem { Text = itemData.itemName, Value = itemData.id.ToString(), Selected = true });
+                    }
+                    else
+                    {
+                        calculatorModel.RecipeTreeNameSelectList.Add(new SelectListItem { Text = itemData.itemName, Value = itemData.id.ToString() });
+                    }
                 }
-                else
+                if (calculatorModel.SelectedItemID != int.MinValue)
                 {
-                    calculatorModel.RecipeTreeNameSelectList.Add(new SelectListItem { Text = itemData.itemName, Value = itemData.id.ToString() });
-                }
-            }
-            if (calculatorModel.SelectedItemID != int.MinValue)
-            {
-                HashSet<RecipeData> recipesData = new HashSet<RecipeData>();
-                foreach (var faction in selectedRealm.factions.Values)
-                {
-                    foreach (var recipesDataTree in faction.RecipeDataTrees.Values)
+                    HashSet<RecipeData> recipesData = new HashSet<RecipeData>();
+                    foreach (var recipesDataTree in selectedFaction.RecipeDataTrees.Values)
                     {
                         foreach (var recipeData in recipesDataTree)
                         {
@@ -111,78 +148,62 @@ namespace Mvc.Client.Controllers
                             }
                         }
                     }
-                }
-                if (recipesData.Count == 1 && recipesData.First().ItemsData.Count == 1)
-                {
-                    RecipeData recipeData = recipesData.First();
-                    string s = "";
-                    float spendingRate = float.MinValue;
-                    if (recipeData.Faction == FactionType.NONE)
+                    if (recipesData.Count == 1 && recipesData.First().ItemsData.Count == 1)
                     {
-                        foreach (var faction in selectedRealm.factions.Values)
-                        {
-                            if (faction.GetSpendingRate() > spendingRate)
-                            {
-                                spendingRate = faction.GetSpendingRate();
-                                s = faction.factionType.ToString();
-                            }
-                        }
+                        RecipeData recipeData = recipesData.First();
+                        long spending = Convert.ToInt64(recipeData.SPENDING * selectedFaction.GetSpendingRate());
+                        double value = (recipeData.SellNormalPrice - spending -
+                            calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToGetProfit()) /
+                            recipeData.ID_ITEM_AND_NEED_AMOUNT.Values.First();
+                        calculatorModel.Result.Add(
+                            recipeData.Name,
+                            string.Format("{0:# ##}", Math.Floor(value / 100)));
                     }
                     else
                     {
-                        spendingRate = selectedRealm.factions[recipeData.Faction].GetSpendingRate();
-                    }
-                    long spending = Convert.ToInt64(recipeData.SPENDING * spendingRate);
-                    double value = (recipeData.SellNormalPrice - spending -
-                        calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToGetProfit()) /
-                        recipeData.ID_ITEM_AND_NEED_AMOUNT.Values.First();
-                    calculatorModel.Result.Add(
-                        string.Format("{0} {1}   ", s, recipeData.Name),
-                        string.Format("{0:# ##}", Math.Floor(value / 100)));
-                }
-                else
-                {
-                    foreach (var recipeData in recipesData)
-                    {
-                        foreach (var itemData in recipeData.ItemsData)
-                        {
-                            if (itemData.id != calculatorModel.SelectedItemID)
-                            {
-                                calculatorModel.ItemList.Add(itemData);
-                            }
-                        }
-                    }
-                    if (calculatorModel.Items.Count > 0 &&
-                        calculatorModel.Items.Keys.SelectMany(
-                            id => calculatorModel.ItemList.Where(itemData => itemData.id == id)).Count() == calculatorModel.Items.Count)
-                    {
-                        double value = double.MinValue;
-                        RecipeData recipe = null;
                         foreach (var recipeData in recipesData)
                         {
-                            long spending = 0;
-                            var idItems = recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys.ToList();
-                            idItems.Remove(calculatorModel.SelectedItemID);
-                            foreach (var idItem in idItems)
+                            foreach (var itemData in recipeData.ItemsData)
                             {
-                                spending += calculatorModel.Items[idItem] * 100 * recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem];
-                            }
-                            spending += Convert.ToInt64(recipeData.SPENDING * selectedRealm.factions[recipeData.Faction].GetSpendingRate());
-                            double tempValue = (recipeData.SellNormalPrice - spending -
-                                calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToGetProfit()) /
-                                recipeData.ID_ITEM_AND_NEED_AMOUNT[calculatorModel.SelectedItemID];
-                            if (value < tempValue)
-                            {
-                                value = tempValue;
-                                recipe = recipeData;
+                                if (itemData.id != calculatorModel.SelectedItemID)
+                                {
+                                    calculatorModel.ItemList.Add(itemData);
+                                }
                             }
                         }
-                        calculatorModel.Result.Add(recipe.Name, string.Format("  {0:# ##}", Math.Floor(value / 100)));
+                        if (calculatorModel.Items.Count > 0 &&
+                            calculatorModel.Items.Keys.SelectMany(
+                                id => calculatorModel.ItemList.Where(itemData => itemData.id == id)).Count() == calculatorModel.Items.Count)
+                        {
+                            double value = double.MinValue;
+                            RecipeData recipe = null;
+                            foreach (var recipeData in recipesData)
+                            {
+                                long spending = 0;
+                                var idItems = recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys.ToList();
+                                idItems.Remove(calculatorModel.SelectedItemID);
+                                foreach (var idItem in idItems)
+                                {
+                                    spending += calculatorModel.Items[idItem] * 100 * recipeData.ID_ITEM_AND_NEED_AMOUNT[idItem];
+                                }
+                                spending += Convert.ToInt64(recipeData.SPENDING * selectedFaction.GetSpendingRate());
+                                double tempValue = (recipeData.SellNormalPrice - spending -
+                                    calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToGetProfit()) /
+                                    recipeData.ID_ITEM_AND_NEED_AMOUNT[calculatorModel.SelectedItemID];
+                                if (value < tempValue)
+                                {
+                                    value = tempValue;
+                                    recipe = recipeData;
+                                }
+                            }
+                            calculatorModel.Result.Add(recipe.Name, string.Format("  {0:# ##}", Math.Floor(value / 100)));
+                        }
                     }
                 }
             }
             //calculatorModel.LastSelectedRealmName = calculatorModel.SelectedRealmName;
             TempData["LastSelectedRealmId"] = calculatorModel.SelectedRealmId;
+            TempData["LastSelectedFaction"] = calculatorModel.SelectedFaction;
             return View(calculatorModel);
         }
 

@@ -17,42 +17,50 @@
     {
         @*@await Html.PartialAsync("_SelectRealm", Model)*@
         <p>
-            @*asp-for="SelectedRecipeTreeName"*@
-            <select name="calculatorModel.SelectedItemID" asp-items="@Model.RecipeTreeNameSelectList">
-                <option selected="selected" disabled hidden="">Выберите список рецептов</option>
+            <select name="calculatorModel.SelectedFaction" asp-items="@Model.FactionSelectList">
+                @*<option selected="selected" disabled hidden="">Выберите список рецептов</option>*@
             </select>
-            @if (Model.SelectedItemID != int.MinValue)
-            {
-                <table>
-                    @foreach (var item in Model.ItemList)
-                    {
-                        <tr>
-                            <td>@item.itemName</td>
-                            <td>
-                                @if (Model.Items.ContainsKey(item.id))
-                                {
-                                    <input name="calculatorModel.Items[@item.id]" type="number" size="40" value="@Model.Items[item.id]">
-                                }
-                                else
-                                {
-                                    <input name="calculatorModel.Items[@item.id]" type="number" size="40">
-                                }
-
-                            </td>
-
-                        </tr>
-                    }
-                    @if (Model.Result.Count > 0)
-                    {
-                        @foreach (var keyValuePair in Model.Result)
-                        {
-                            <tr><td>@keyValuePair.Key</td><td>@keyValuePair.Value</td></tr>
-                        }
-                    }
-                </table>
-            }
-            @*<input type="submit" value="Отправить">*@
         </p>
+        @if (Model.SelectedFaction != FactionType.NONE)
+        {
+            <p>
+                @*asp-for="SelectedRecipeTreeName"*@
+                <select name="calculatorModel.SelectedItemID" asp-items="@Model.RecipeTreeNameSelectList">
+                    <option selected="selected" disabled hidden="">Выберите список рецептов</option>
+                </select>
+                @if (Model.SelectedItemID != int.MinValue)
+                {
+                    <table>
+                        @foreach (var item in Model.ItemList)
+                        {
+                            <tr>
+                                <td>@item.itemName</td>
+                                <td>
+                                    @if (Model.Items.ContainsKey(item.id))
+                                    {
+                                        <input name="calculatorModel.Items[@item.id]" type="number" size="40" value="@Model.Items[item.id]">
+                                    }
+                                    else
+                                    {
+                                        <input name="calculatorModel.Items[@item.id]" type="number" size="40">
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+                        @if (Model.Result.Count > 0)
+                        {
+                            @foreach (var keyValuePair in Model.Result)
+                            {
+                                <tr><td>@keyValuePair.Key</td><td>@keyValuePair.Value</td></tr>
+                            }
+                        }
+                    </table>
+                }
+                @*<input type="submit" value="Отправить">*@
+            </p>
+        }
     }
     <input type="submit" value="Отправить">
     @*<select>

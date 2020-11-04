@@ -365,7 +365,7 @@ namespace info
                 else
                 {
                     if (ParseService.ConvertCopperToGold(factionPage.ProfitInTargetIncome + factionPage.ProfitOutTargetIncome) >=
-                        ScallingTargetProfitFromRemainingPersentUntilToken(factions[factionPage.FactionType].moneyMax)) && farmMode)
+                        ScallingTargetProfitFromRemainingPersentUntilToken(factions[factionPage.FactionType].moneyMax) && farmMode)
                     {
                         alertId = Music;
                     }
