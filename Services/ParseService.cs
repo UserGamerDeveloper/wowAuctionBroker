@@ -820,6 +820,7 @@ namespace wowCalc
         {
             try
             {
+                Serilog.Log.ForContext("realmId", realmId);
                 while (true)
                 {
                     Thread.Sleep(ParseAndGetTimeToNextParse(realmId));
@@ -974,7 +975,7 @@ namespace wowCalc
                 }
                 catch (WebException e)
                 {
-                    Serilog.Log.Logger.Error(e, "Exception");
+                    Serilog.Log.Logger.Debug(e, "Exception");
                     if (e.Response != null)
                     {
                         ExceptionLogAndAlert(e);

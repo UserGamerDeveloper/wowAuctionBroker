@@ -22,41 +22,50 @@ namespace Mvc.Client.Controllers
         // GET: StatisticsController
         public ActionResult Index()
         {
-
-            List<StatisticsModel> statisticsModels = new List<StatisticsModel>();
-            //List<Task> tasks = new List<Task>();
-            //foreach (var server in parseService.GetModel().Values)
-            //{
-            //    var task = new Task(() => { server.UpdateMoney(); });
-            //    task.Start();
-            //    tasks.Add(task);
-            //}
-            //Task.WaitAll(tasks.ToArray());
+            StatisticsModel statisticsModel = new StatisticsModel();
+            List<Task<List<FactionStatisticsModel>>> tasks = new List<Task<List<FactionStatisticsModel>>>();
             using (var db = new DatabaseContext())
             {
                 foreach (var realmModel in db.Realms)
                 {
-                    var realm = new Server(realmModel, Loader.GetRecipeDataById());
-                    var stat = new StatisticsModel()
-                    {
-                        RealmName = realm.Name,
-                        LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(realm.timeUpdate).TotalMinutes),
-                        FarmMode = realm.farmMode
-                    };
-                    foreach (var faction in realm.factions.Values)
-                    {
-                        stat.statisticFactions.Add(new StatisticFaction
-                        {
-                            FractionName = faction.factionType.ToString(),
-                            Money = ParseService.ConvertCopperToGold(faction.Money).ToString("N0"),
-                            WaitMoney = ParseService.ConvertCopperToGold(faction.moneyMax - faction.Money).ToString("N0"),
-                        });
-                    }
-                    statisticsModels.Add(stat);
+                    var task = new Task<List<FactionStatisticsModel>>(() => { return GetReamlStats(realmModel.Id); });
+                    task.Start();
+                    tasks.Add(task);
                 }
             }
+            Task.WaitAll();
+            foreach (var task in tasks)
+            {
+                foreach (var item in task.Result)
+                {
+                    statisticsModel.Factions.Add(item);
+                    statisticsModel.AllMoney += item.Money + item.WaitMoney;
+                }
+            }
+            return View(statisticsModel);
+        }
 
-            return View(statisticsModels);
+        private static List<FactionStatisticsModel> GetReamlStats(int realmId)
+        {
+            List<FactionStatisticsModel> statisticsModels = new List<FactionStatisticsModel>();
+            Server realm = null;
+            using (var db = new DatabaseContext())
+            {
+                realm = new Server(db.Realms.Where(x => x.Id == realmId).First(), Loader.GetRecipeDataById());
+            }
+            foreach (var faction in realm.factions.Values)
+            {
+                statisticsModels.Add(new FactionStatisticsModel
+                {
+                    RealmName = realm.Name,
+                    LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(realm.timeUpdate).TotalMinutes),
+                    FarmMode = realm.farmMode,
+                    FractionName = faction.factionType.ToString(),
+                    Money = ParseService.ConvertCopperToGold(faction.Money),
+                    WaitMoney =  ParseService.ConvertCopperToGold(faction.moneyMax - faction.Money)
+                });
+            }
+            return statisticsModels;
         }
 
         // GET: StatisticsController/Details/5

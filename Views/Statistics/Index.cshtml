@@ -1,6 +1,6 @@
 ﻿@using Mvc.Client.Models;
 
-@model List<StatisticsModel>
+@model StatisticsModel
 
     <style type="text/css">
         .True {
@@ -19,22 +19,21 @@
             <td>Ожидающее золото</td>
             <td>Последнее обновление</td>
         </tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Factions.OrderByDescending(x => x.Money))
         {
             <tr class="@item.FarmMode.ToString()">
-                <td rowspan="@item.statisticFactions.Count">@item.RealmName</td>
-                <td>@item.statisticFactions[0].FractionName</td>
-                <td>@item.statisticFactions[0].Money</td>
-                <td>@item.statisticFactions[0].WaitMoney</td>
-                <td rowspan="@item.statisticFactions.Count">@item.LastUpdate</td>
+                <td>@item.RealmName</td>
+                <td>@item.FractionName</td>
+                <td>@item.Money.ToString("N0")</td>
+                <td>@item.WaitMoney.ToString("N0")</td>
+                <td>@item.LastUpdate</td>
             </tr>
-            @if (item.statisticFactions.Count != 1)
-            {
-                <tr class="@item.FarmMode.ToString()">
-                    <td>@item.statisticFactions[1].FractionName</td>
-                    <td>@item.statisticFactions[1].Money</td>
-                    <td>@item.statisticFactions[1].WaitMoney</td>
-                </tr>
-            }
         }
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Всего золота</td>
+            <td>@Model.AllMoney.ToString("N0")</td>
+            <td></td>
+        </tr>
     </table>

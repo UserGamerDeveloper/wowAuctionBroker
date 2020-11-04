@@ -55,7 +55,7 @@ namespace info
     }
     public class FactionPage
     {
-        public string Name { get;}
+        public FactionType FactionType { get; }
         public List<RecipesPage> RecipesPages { get; } = new List<RecipesPage>();
         public double ProfitInTargetIncome { get; } = 0;
         public double TargetIncomeNormalProfit { get; } = 0;
@@ -70,7 +70,7 @@ namespace info
 
         public FactionPage(Faction faction, Dictionary<int, ItemPageParser> parsersByIdItem)
         {
-            Name = faction.factionType.ToString();
+            FactionType = faction.factionType;
             List<Recipe> recipes = new List<Recipe>();
             foreach (var recipeDataTree in faction.RecipeDataTrees)
             {
@@ -100,7 +100,7 @@ namespace info
                                 }
                             }
                             long spending = Convert.ToInt64(recipeData.SPENDING * faction.GetSpendingRate());
-                            double needMillisecondsToCraft = recipeData.GetNeedMillisecondsToCraft(/*faction.moneyMax, summaryCostCraft, costCraft*/);
+                            double needMillisecondsToCraft = recipeData.GetNeedMillisecondsToGetProfit();
                             Recipe recipe = new Recipe(recipeData, needMillisecondsToCraft, items, spending, costCraft);
                             if (recipe.IncomeGoldInHour >= 0)
                             {
@@ -131,7 +131,7 @@ namespace info
             long summaryCostCraft = 0;
             foreach (var recipe in recipes.OrderByDescending(recipe => recipe.IncomeGoldInHour))
             {
-                if (summaryCostCraft + recipe.CostCraft > faction.moneyMax)
+                if (summaryCostCraft + recipe.CostCraft > faction.Money)
                 {
                     recipe.SetDefaultNeedMillisecondsToCraft();
                 }
@@ -162,7 +162,7 @@ namespace info
             foreach (var recipesPage in recipesPagesById.Values)
             {
                 recipesPage.SetData();
-                RecipesPages.Add(recipesPage);
+                //RecipesPages.Add(recipesPage);
                 TargetIncomeNormalProfit += recipesPage.NormalProfit;
                 TargetIncomeRandomProfit += recipesPage.randomProfit;
                 TargetIncomeTimeCraftInMilliseconds += recipesPage.TimeCraftInMilliseconds;
@@ -172,100 +172,199 @@ namespace info
             foreach (var recipesPage in notTargetIncomeRecipesPagesById.Values)
             {
                 recipesPage.SetData();
-                RecipesPages.Add(recipesPage);
+                //RecipesPages.Add(recipesPage);
                 NotTargetIncomeNormalProfit += recipesPage.NormalProfit;
                 NotTargetIncomeRandomProfit += recipesPage.randomProfit;
                 NotTargetIncomeTimeCraftInMilliseconds += recipesPage.TimeCraftInMilliseconds;
                 NotTargetIncomeRecipesCount += recipesPage.Recipes.Count;
             }
             ProfitOutTargetIncome = NotTargetIncomeNormalProfit + NotTargetIncomeRandomProfit;
+            Droptomail(recipes.FindAll(x => x.RecipeData.DropToMail).ToList());
+            NotDroptomail(recipes.FindAll(x => !x.RecipeData.DropToMail).ToList());
+        }
+        void Droptomail(List<Recipe> recipes)
+        {
+            Dictionary<int, RecipesPage> recipesPagesById = new Dictionary<int, RecipesPage>();
+            Dictionary<int, RecipesPage> notTargetIncomeRecipesPagesById = new Dictionary<int, RecipesPage>();
+            foreach (var recipe in recipes)
+            {
+                recipe.SetDropToMailNeedMillisecondsToCraft();
+                double incomeGoldInHourWithRandomProfit = ParseService.GetIncomeGoldInHour(
+                    recipe.Profit + recipe.RecipeData.GetRandomProfit(),
+                    recipe.NeedMillisecondsToCraft);
+                RecipesPage recipesPage;
+                int recipeId = recipe.RecipeData.ID;
+                if (incomeGoldInHourWithRandomProfit < ParseService.settings.TARGET_INCOME_IN_HOUR)
+                {
+                    notTargetIncomeRecipesPagesById.TryAdd(recipeId, new RecipesPage());
+                    recipesPage = notTargetIncomeRecipesPagesById[recipeId];
+                }
+                else
+                {
+                    recipesPagesById.TryAdd(recipeId, new RecipesPage());
+                    recipesPage = recipesPagesById[recipeId];
+                }
+                recipesPage.CostCraft += recipe.CostCraft;
+                recipesPage.NormalProfit += recipe.Profit;
+                recipesPage.TimeCraftInMilliseconds += recipe.NeedMillisecondsToCraft;
+                recipesPage.Recipes.Add(recipe);
+            }
+            var recipesProfit = new List<Recipe>();
+            foreach (var recipesPage in recipesPagesById.Values)
+            {
+                recipesProfit.AddRange(recipesPage.Recipes);
+                recipesPage.SetData();
+                RecipesPages.Add(recipesPage);
+            }
+            var recipesNotProfit = new List<Recipe>();
+            foreach (var item in notTargetIncomeRecipesPagesById.Values)
+            {
+                recipesNotProfit.AddRange(item.Recipes);
+            }
+            DefaultNeedMilliseconds(recipesProfit);
+            DefaultNeedMilliseconds(recipesNotProfit);
+        }
+        void DefaultNeedMilliseconds(List<Recipe> recipes)
+        {
+            Dictionary<int, RecipesPage> recipesPagesById = new Dictionary<int, RecipesPage>();
+            Dictionary<int, RecipesPage> notTargetIncomeRecipesPagesById = new Dictionary<int, RecipesPage>();
+            foreach (var recipe in recipes)
+            {
+                recipe.SetDefaultNeedMillisecondsToCraft();
+                double incomeGoldInHourWithRandomProfit = ParseService.GetIncomeGoldInHour(
+                    recipe.Profit + recipe.RecipeData.GetRandomProfit(),
+                    recipe.NeedMillisecondsToCraft);
+                RecipesPage recipesPage;
+                int recipeId = recipe.RecipeData.ID;
+                if (incomeGoldInHourWithRandomProfit < ParseService.settings.TARGET_INCOME_IN_HOUR)
+                {
+                    notTargetIncomeRecipesPagesById.TryAdd(recipeId, new RecipesPage());
+                    recipesPage = notTargetIncomeRecipesPagesById[recipeId];
+                }
+                else
+                {
+                    recipesPagesById.TryAdd(recipeId, new RecipesPage());
+                    recipesPage = recipesPagesById[recipeId];
+                }
+                recipesPage.CostCraft += recipe.CostCraft;
+                recipesPage.NormalProfit += recipe.Profit;
+                recipesPage.TimeCraftInMilliseconds += recipe.NeedMillisecondsToCraft;
+                recipesPage.Recipes.Add(recipe);
+            }
+            foreach (var recipesPage in recipesPagesById.Values)
+            {
+                recipesPage.SetData();
+                RecipesPages.Add(recipesPage);
+            }
+            foreach (var recipesPage in notTargetIncomeRecipesPagesById.Values)
+            {
+                recipesPage.SetData();
+                RecipesPages.Add(recipesPage);
+            }
+
+        }
+        void NotDroptomail(List<Recipe> recipes)
+        {
+            Dictionary<int, RecipesPage> recipesPagesById = new Dictionary<int, RecipesPage>();
+            Dictionary<int, RecipesPage> notTargetIncomeRecipesPagesById = new Dictionary<int, RecipesPage>();
+            foreach (var recipe in recipes)
+            {
+                double incomeGoldInHourWithRandomProfit = ParseService.GetIncomeGoldInHour(
+                    recipe.Profit + recipe.RecipeData.GetRandomProfit(),
+                    recipe.NeedMillisecondsToCraft);
+                RecipesPage recipesPage;
+                int recipeId = recipe.RecipeData.ID;
+                if (incomeGoldInHourWithRandomProfit < ParseService.settings.TARGET_INCOME_IN_HOUR)
+                {
+                    notTargetIncomeRecipesPagesById.TryAdd(recipeId, new RecipesPage());
+                    recipesPage = notTargetIncomeRecipesPagesById[recipeId];
+                }
+                else
+                {
+                    recipesPagesById.TryAdd(recipeId, new RecipesPage());
+                    recipesPage = recipesPagesById[recipeId];
+                }
+                recipesPage.CostCraft += recipe.CostCraft;
+                recipesPage.NormalProfit += recipe.Profit;
+                recipesPage.TimeCraftInMilliseconds += recipe.NeedMillisecondsToCraft;
+                recipesPage.Recipes.Add(recipe);
+            }
+            foreach (var recipesPage in recipesPagesById.Values)
+            {
+                recipesPage.SetData();
+                RecipesPages.Add(recipesPage);
+            }
+            foreach (var recipesPage in notTargetIncomeRecipesPagesById.Values)
+            {
+                recipesPage.SetData();
+                RecipesPages.Add(recipesPage);
+            }
         }
     }
     class AuctionParser
     {
         public List<FactionPage> Factions { get; } = new List<FactionPage>();
-        public double ProfitInTargetIncome { get; set; } = 0;
-        public double TargetIncomeNormalProfit { get; set; } = 0;
-        public double TargetIncomeRandomProfit { get; set; } = 0;
-        public double TargetIncomeTimeCraftInMilliseconds { get; set; } = 0;
-        public int TargetIncomeRecipesCount { get; set; } = 0;
-        public double ProfitOutTargetIncome { get; set; }
-        public long NotTargetIncomeNormalProfit { get; set; } = 0;
-        public double NotTargetIncomeTimeCraftInMilliseconds { get; set; } = 0;
-        public double NotTargetIncomeRandomProfit { get; set; } = 0;
-        public int NotTargetIncomeRecipesCount { get; set; } = 0;
         public AuctionParser(Server server)
         {
-            HashSet<int> itemsId = new HashSet<int>();
-            HashSet<int> itemsIdOneItemInRecipe = new HashSet<int>();
+            Dictionary<FactionType, Dictionary<int, List<Auction>>> auctionsByIdItem = new Dictionary<FactionType, Dictionary<int, List<Auction>>>();
+            //Dictionary<int, Dictionary<long, int>> quatityItemsByPriceItemByIdItem = new Dictionary<int, Dictionary<long, int>>();
+            //HashSet<int> itemsIdOneItemInRecipe = new HashSet<int>();
             foreach (var faction in server.factions.Values)
             {
+                auctionsByIdItem.Add(faction.factionType, new Dictionary<int, List<Auction>>());
+                HashSet<int> activeItemsId = new HashSet<int>();
                 foreach (var recipeDataTree in faction.RecipeDataTrees)
                 {
                     foreach (var recipeData in recipeDataTree.Value)
                     {
-                        if (recipeData.ItemsData.Count == 1)
-                        {
-                            itemsIdOneItemInRecipe.Add(recipeData.ItemsData.First().id);
-                        }
+                        //if (recipeData.ItemsData.Count == 1)
+                        //{
+                        //    itemsIdOneItemInRecipe.Add(recipeData.ItemsData.First().id);
+                        //}
                         foreach (var itemData in recipeData.ItemsData)
                         {
-                            itemsId.Add(itemData.id);
+                            activeItemsId.Add(itemData.id);
                         }
                     }
                 }
+                foreach (var itemId in activeItemsId)
+                {
+                    auctionsByIdItem[faction.factionType].Add(itemId, new List<Auction>());
+                }
             }
-            Dictionary<int, List<Auction>> auctionsByIdItem = new Dictionary<int, List<Auction>>();
-            Dictionary<int, Dictionary<long, int>> quatityItemsByPriceItemByIdItem = new Dictionary<int, Dictionary<long, int>>();
-            foreach (var itemId in itemsId)
-            {
-                auctionsByIdItem.Add(itemId, new List<Auction>());
-            }
-            foreach (var itemId in itemsIdOneItemInRecipe)
-            {
-                quatityItemsByPriceItemByIdItem.Add(itemId, new Dictionary<long, int>());
-            }
+            //foreach (var itemId in itemsIdOneItemInRecipe)
+            //{
+            //    quatityItemsByPriceItemByIdItem.Add(itemId, new Dictionary<long, int>());
+            //}
             AuctionData auctionData = ParseService.GetAuctionData(server.connectedRealmId);
             foreach (var auction in auctionData.Auctions)
             {
-                if (auctionsByIdItem.Keys.Contains(auction.Item.Id))
+                foreach (var faction in server.factions.Values)
                 {
-                    auctionsByIdItem[auction.Item.Id].Add(auction);
-                }
-                if (quatityItemsByPriceItemByIdItem.Keys.Contains(auction.Item.Id))
-                {
-                    if (!quatityItemsByPriceItemByIdItem[auction.Item.Id].ContainsKey(auction.UnitPrice))
+                    if (auctionsByIdItem[faction.factionType].Keys.Contains(auction.Item.Id))
                     {
-                        quatityItemsByPriceItemByIdItem[auction.Item.Id].Add(auction.UnitPrice, 0);
+                        auctionsByIdItem[faction.factionType][auction.Item.Id].Add(auction);
                     }
-                    quatityItemsByPriceItemByIdItem[auction.Item.Id][auction.UnitPrice] += auction.Quantity;
                 }
+                //if (quatityItemsByPriceItemByIdItem.Keys.Contains(auction.Item.Id))
+                //{
+                //    if (!quatityItemsByPriceItemByIdItem[auction.Item.Id].ContainsKey(auction.UnitPrice))
+                //    {
+                //        quatityItemsByPriceItemByIdItem[auction.Item.Id].Add(auction.UnitPrice, 0);
+                //    }
+                //    quatityItemsByPriceItemByIdItem[auction.Item.Id][auction.UnitPrice] += auction.Quantity;
+                //}
             }
-            Dictionary<int, ItemPageParser> parsersByIdItem = new Dictionary<int, ItemPageParser>();
-            foreach (var keyValuePair in auctionsByIdItem)
-            {
-                parsersByIdItem.Add(keyValuePair.Key, new ItemPageParser(keyValuePair.Value));
-            }
-
             foreach (var faction in server.factions.Values)
             {
+                Dictionary<int, ItemPageParser> parsersByIdItem = new Dictionary<int, ItemPageParser>();
+                foreach (var keyValuePair in auctionsByIdItem[faction.factionType])
+                {
+                    parsersByIdItem.Add(keyValuePair.Key, new ItemPageParser(keyValuePair.Value));
+                }
                 var a = new FactionPage(faction, parsersByIdItem);
-                SetData(a);
                 Factions.Add(a);
             }
-        }
-        private void SetData(FactionPage alliance)
-        {
-            TargetIncomeNormalProfit += alliance.TargetIncomeNormalProfit;
-            TargetIncomeRandomProfit += alliance.TargetIncomeRandomProfit;
-            TargetIncomeTimeCraftInMilliseconds += alliance.TargetIncomeTimeCraftInMilliseconds;
-            TargetIncomeRecipesCount += alliance.TargetIncomeRecipesCount;
-            NotTargetIncomeNormalProfit += alliance.NotTargetIncomeNormalProfit;
-            NotTargetIncomeRandomProfit += alliance.NotTargetIncomeRandomProfit;
-            NotTargetIncomeTimeCraftInMilliseconds += alliance.NotTargetIncomeTimeCraftInMilliseconds;
-            NotTargetIncomeRecipesCount += alliance.NotTargetIncomeRecipesCount;
-            ProfitInTargetIncome += alliance.ProfitInTargetIncome;
-            ProfitOutTargetIncome += alliance.ProfitOutTargetIncome;
         }
     }
 }

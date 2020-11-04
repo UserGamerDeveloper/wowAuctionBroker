@@ -127,7 +127,6 @@ namespace Mvc.Client.Controllers
                                 s = faction.factionType.ToString();
                             }
                         }
-
                     }
                     else
                     {
@@ -135,7 +134,7 @@ namespace Mvc.Client.Controllers
                     }
                     long spending = Convert.ToInt64(recipeData.SPENDING * spendingRate);
                     double value = (recipeData.SellNormalPrice - spending -
-                        calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToCraft()) /
+                        calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToGetProfit()) /
                         recipeData.ID_ITEM_AND_NEED_AMOUNT.Values.First();
                     calculatorModel.Result.Add(
                         string.Format("{0} {1}   ", s, recipeData.Name),
@@ -170,7 +169,7 @@ namespace Mvc.Client.Controllers
                             }
                             spending += Convert.ToInt64(recipeData.SPENDING * selectedRealm.factions[recipeData.Faction].GetSpendingRate());
                             double tempValue = (recipeData.SellNormalPrice - spending -
-                                calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToCraft()) /
+                                calculatorModel.GetTargetIncomeCopperInMillisecond() * recipeData.GetNeedMillisecondsToGetProfit()) /
                                 recipeData.ID_ITEM_AND_NEED_AMOUNT[calculatorModel.SelectedItemID];
                             if (value < tempValue)
                             {

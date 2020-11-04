@@ -25,8 +25,10 @@ namespace info
         }
         public static Dictionary<int, RecipeData> GetRecipeDataById()
         {
-            const double DefaultNeedMillisecondsToCraft = 2000d;
-            const double BFANeedMillisecondsToCraft = 1000d;
+            const double DefaultNeedMillisecondsToCraft = 2000;
+            const double BFANeedMillisecondsToCraft = 1000;
+            const double DefaultNeedMillisecondsToGetProfit = DefaultNeedMillisecondsToCraft + RecipeData.NeedMillisecondsToSell;
+            const double BFANeedMillisecondsToGetProfit = BFANeedMillisecondsToCraft + RecipeData.NeedMillisecondsToSell;
 
             List<RecipeData> recipesData = new List<RecipeData>{
                 new RecipeData(
@@ -35,7 +37,7 @@ namespace info
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     389706,
-                    BFANeedMillisecondsToCraft,
+                    BFANeedMillisecondsToGetProfit,
                     0,
                     389706,
                     FactionType.HORDE,
@@ -46,7 +48,7 @@ namespace info
                         {(int)ItemInfo.Shimmerscale , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     398924,
-                    BFANeedMillisecondsToCraft,
+                    BFANeedMillisecondsToGetProfit,
                     0,
                     398924,
                     FactionType.ALLIANCE,
@@ -57,7 +59,7 @@ namespace info
                         {(int)ItemInfo.Shaldorei_Silk , 12}
                     },
                     139747,
-                    DefaultNeedMillisecondsToCraft,
+                    DefaultNeedMillisecondsToGetProfit,
                     5000,
                     139747),
                 new RecipeData(
@@ -66,7 +68,7 @@ namespace info
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
                     276913,
-                    BFANeedMillisecondsToCraft,
+                    BFANeedMillisecondsToGetProfit,
                     60000,
                     276913,
                     FactionType.HORDE,
@@ -77,7 +79,7 @@ namespace info
                         {(int)ItemInfo.Tidespray_Linen , 17}
                     },
                     271119,
-                    BFANeedMillisecondsToCraft,
+                    BFANeedMillisecondsToGetProfit,
                     60000,
                     271119,
                     FactionType.ALLIANCE,
@@ -88,7 +90,7 @@ namespace info
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     391157,
-                    BFANeedMillisecondsToCraft,
+                    BFANeedMillisecondsToGetProfit,
                     0,
                     391157,
                     FactionType.HORDE,
@@ -99,7 +101,7 @@ namespace info
                         {(int)ItemInfo.CoarseLeather , 10}, {(int)ItemInfo.BloodStainedBone , 8}
                     },
                     400336,
-                    BFANeedMillisecondsToCraft,
+                    BFANeedMillisecondsToGetProfit,
                     0,
                     400336,
                     FactionType.ALLIANCE,
@@ -110,7 +112,7 @@ namespace info
                         {(int)ItemInfo.Stormscale , 12}
                     },
                     133656,
-                    DefaultNeedMillisecondsToCraft,
+                    DefaultNeedMillisecondsToGetProfit,
                     0,
                     133656),
                 new RecipeData(
@@ -119,7 +121,7 @@ namespace info
                         {(int)ItemInfo.Stonehide_Leather , 12}
                     },
                     135700,
-                    DefaultNeedMillisecondsToCraft,
+                    DefaultNeedMillisecondsToGetProfit,
                     0,
                     135700),
                 new RecipeData(

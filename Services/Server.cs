@@ -300,10 +300,11 @@ namespace info
         List<string> GetInfoFaction(FactionPage factionPage, string newLine, string tabulate)
         {
             string printStr = string.Format(
-                "{1}{2}{0}",
+                "{1}{2} {3:0.}{0}",
                 newLine,
                 tabulate,
-                factionPage.Name);
+                factionPage.FactionType,
+                ParseService.ConvertCopperToGold(factions[factionPage.FactionType].Money));
             foreach (var recipesPage in factionPage.RecipesPages.OrderByDescending(pair => pair.IncomeGoldInHour))
             {
                 List<Recipe> recipes = recipesPage.Recipes;
@@ -357,14 +358,14 @@ namespace info
                     tabulate);
 
                 if (ParseService.ConvertCopperToGold(factionPage.ProfitInTargetIncome) >=
-                    ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT))
+                    ScallingTargetProfitFromRemainingPersentUntilToken(factions[factionPage.FactionType].moneyMax))
                 {
                     alertId = Music;
                 }
                 else
                 {
                     if (ParseService.ConvertCopperToGold(factionPage.ProfitInTargetIncome + factionPage.ProfitOutTargetIncome) >=
-                        ScallingValueFromRemainingPersentUntilToken(ParseService.settings.TARGET_PROFIT) && farmMode)
+                        ScallingTargetProfitFromRemainingPersentUntilToken(factions[factionPage.FactionType].moneyMax)) && farmMode)
                     {
                         alertId = Music;
                     }
@@ -398,14 +399,9 @@ namespace info
             RefreshTimeUpdate();
             return timeUpdate != oldTime;
         }
-        public double ScallingValueFromRemainingPersentUntilToken(double value)
+        public double ScallingTargetProfitFromRemainingPersentUntilToken(double moneyMax)
         {
-            double moneyMax = 0;
-            foreach (var faction in factions.Values)
-            {
-                moneyMax += faction.moneyMax;
-            }
-            return value + (value * (((double)moneyMax / TokenPrice) - 1d));
+            return ParseService.settings.TARGET_PROFIT + (ParseService.settings.TARGET_PROFIT * (((double)moneyMax / TokenPrice) - 1d));
         }
 
         //internal double GetTargetIncomeGoldInHour()

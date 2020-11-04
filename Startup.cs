@@ -79,7 +79,6 @@ namespace Mvc.Client
                 IdentityModelEventSource.ShowPII = true;
                 app.UseDeveloperExceptionPage();
             }
-
             // Required to serve files with no extension in the .well-known folder
             var options = new StaticFileOptions()
             {

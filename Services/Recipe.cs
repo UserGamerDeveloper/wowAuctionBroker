@@ -28,7 +28,11 @@ namespace info
 
         internal void SetDefaultNeedMillisecondsToCraft()
         {
-            NeedMillisecondsToCraft = RecipeData.GetNeedMillisecondsToCraft(false);
+            NeedMillisecondsToCraft = RecipeData.GetNeedMillisecondsToGetProfit(false);
+        }
+        internal void SetDropToMailNeedMillisecondsToCraft()
+        {
+            NeedMillisecondsToCraft = RecipeData.DropToMailNeedMillisecondsToGetProfit;
         }
     }
 }

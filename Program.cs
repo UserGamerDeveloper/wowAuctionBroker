@@ -22,6 +22,7 @@ namespace Mvc.Client
             Log.Logger = new LoggerConfiguration()
                     .WriteTo.File("Exception.log"/*, fileSizeLimitBytes: 1, rollOnFileSizeLimit: true*/)
                     .WriteTo.Console()
+                    .MinimumLevel.Debug()
                     /*(new JsonFormatter(renderMessage: true), @"logs\log-{Date}.txt")*/.CreateLogger();
 
             CreateHostBuilder(args).Build().Run();
