@@ -12,10 +12,10 @@
     <div id="messageList"></div>
 
     <style type="text/css">
-        .music {
+        .green {
             background: #AAF387;
         }
-        .alert {
+        .yellow {
             background: #FCFFA1;
         }
     </style>
@@ -64,54 +64,71 @@
         //    //audioElement.remove();
         //    //console.log("audioElement.remove");
         //});
-        hubConnection.on("Notify", function (response) {
+        function display(response) {
             //$(messageList).append(response.message);
-            console.log(response[0]);
+            console.log(response);
             let newElement = document.createElement("div");
-            newElement.innerHTML = "<pre>" + response[0] + "</pre>";
-            for (var i = 1; i < response.length; i++) {
-                console.log("alertId " + response[i + 1]);
-                if (response[i + 1] != null) {
-                    switch (response[i + 1]) {
-                        case "0":
-                            //audioElement.addEventListener('ended', (event) => {
-                            //    audioElement.remove();
-                            //    //console.log("audioElement.remove");
-                            //});
-                            var elementt = document.createElement("div");
-                            console.log(response[i]);
-                            elementt.innerHTML = "<pre>" + response[i] + "</pre>";
-                            elementt.setAttribute('class', 'alert');
-                            newElement.appendChild(elementt);
-                            alertElement.play();
-                            break;
-                        case "1":
-                            //if (musicElement.paused) {
-                            //    .attr({
-                            //        'src': 'http://picosong.com/media/songs/a53ac958428e20721ab0b5b2e3cf16c1.mp3',
-                            //        'autoplay': 'autoplay',
-                            //        'loop': 'loop'
-                            //    });
-                            //    isMusicPlayed = true;
-                            //}
-                            var elementt = document.createElement("div");
-                            console.log(response[i]);
-                            elementt.innerHTML = "<pre>" + response[i] + "</pre>";
-                            elementt.setAttribute('class', 'music');
-                            newElement.appendChild(elementt);
-                            musicElement.play();
-                            break;
-                    }
+            newElement.innerHTML = "<pre>" + response.head + "</pre>";
+            for (var i = 0; i < response.factions.length; i++) {
+                var faction = document.createElement("div");
+                faction.innerHTML = "<pre>" + response.factions[i].name + "</pre>";
+                for (var j = 0; j < response.factions[i].messages.length; j++) {
+                    var message = document.createElement("div");
+                    message.innerHTML = "<pre>" + response.factions[i].messages[j].messageStr + "</pre>";
+                    message.setAttribute('class', response.factions[i].messages[j].colorName);
+                    //switch (response.factions[i].messages[j].colorId) {
+                    //    case 0:
+                    //        message.setAttribute('class', 'green');
+                    //        break;
+                    //    case 1:
+                    //        message.setAttribute('class', 'yellow');
+                    //        break;
+                    //}
+                    faction.appendChild(message);
                 }
-                i++;
+                if (response.factions[i].playMusic) {
+                    musicElement.play();
+                }
+                else {
+                    alertElement.play();
+                }
+                //switch (response[i + 1]) {
+                //    case 0:
+                //        //audioElement.addEventListener('ended', (event) => {
+                //        //    audioElement.remove();
+                //        //    //console.log("audioElement.remove");
+                //        //});
+                //        elementt.innerHTML = "<pre>" + response[i] + "</pre>";
+                //        elementt.setAttribute('class', 'alert');
+                //        newElement.appendChild(elementt);
+                //        alertElement.play();
+                //        break;
+                //    case 1:
+                //        //if (musicElement.paused) {
+                //        //    .attr({
+                //        //        'src': 'http://picosong.com/media/songs/a53ac958428e20721ab0b5b2e3cf16c1.mp3',
+                //        //        'autoplay': 'autoplay',
+                //        //        'loop': 'loop'
+                //        //    });
+                //        //    isMusicPlayed = true;
+                //        //}
+                //        var elementt = document.createElement("div");
+                //        elementt.innerHTML = "<pre>" + response[i] + "</pre>";
+                //        elementt.setAttribute('class', 'music');
+                //        musicElement.play();
+                //        break;
+                //}
+                newElement.appendChild(faction);
             }
+
             // создает элемент <p> для сообщения пользователя
             //let elem = document.createElement("p");
             //elem.appendChild(document.createTextNode(message));
 
             parentElement.insertBefore(newElement, parentElement.firstChild);
 
-        });
+        }
+        hubConnection.on("Notify", display);
 
         async function start() {
             try {

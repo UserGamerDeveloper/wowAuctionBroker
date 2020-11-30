@@ -12,6 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201108111715_Fractions.cs" />
+    <Compile Remove="Migrations\20201108111715_Fractions.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenIdConnect.Primitives" Version="2.0.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
     <PackageReference Include="Microsoft.Build" Version="16.7.0" />

@@ -1,4 +1,5 @@
-﻿using Mvc.Client.Data;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Mvc.Client.Data;
 using Mvc.Client.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,36 @@ using wowCalc;
 
 namespace info
 {
+    public class Message
+    {
+        public string MessageStr { get; set; }
+        public string ColorName { get; set; }
+    }
+    public class ResponseFaction{
+        public string Name { get; set; }
+        public List<Message> Messages { get; set; } = new List<Message>();
+        public bool PlayMusic { get; set; }
+    }
+    public class Response {
+        public string Head { get; set; }
+        public List<ResponseFaction> Factions { get; set; } = new List<ResponseFaction>();
+
+        public override string ToString()
+        {
+            string str = Head;
+            foreach (var faction in Factions)
+            {
+                str += $"{faction.Name}\n";
+                foreach (var message in faction.Messages)
+                {
+                    str += message.MessageStr;
+                    str += $"DisplayPriority { message.ColorName }\n";
+                }
+                str += $"PlayMusic {faction.PlayMusic}\n";
+            }
+            return str;
+        }
+    }
     public class Faction
     {
         public int id;
@@ -20,6 +51,7 @@ namespace info
         public ReputationTier reputationTier = ReputationTier.Neutral;
         [XmlIgnore]
         public Dictionary<string, HashSet<RecipeData>> RecipeDataTrees { get; } = new Dictionary<string, HashSet<RecipeData>>();
+        public bool farmMode;
 
         public Faction(FactionModel fraction)
         {
@@ -27,6 +59,7 @@ namespace info
             //factionType = Enum.Parse<FactionType>(fraction.FactionType);
             factionType = fraction.FactionType;
             moneyMax = fraction.MoneyMax;
+            this.farmMode = fraction.FarmMode;
         }
         internal void SetMoneyMax()
         {
@@ -122,13 +155,10 @@ namespace info
     }
     public class Server
     {
-        private const string Alert = "0";
-        private const string Music = "1";
         public int id;
         public int connectedRealmId;
         public string Name { get; set; }
         public DateTime timeUpdate;
-        public bool farmMode;
         public Dictionary<FactionType, Faction> factions = new Dictionary<FactionType, Faction>();
         public static long TokenPrice;
 
@@ -138,7 +168,6 @@ namespace info
             this.connectedRealmId = realm.ConnectedRealmId;
             Name = realm.Name;
             this.timeUpdate = realm.TimeUpdate;
-            this.farmMode = realm.FarmMode;
             SetFactionData(realm, recipeDataById);
         }
         internal void SetFactionData(RealmModel realm, Dictionary<int, RecipeData> recipeDataById)
@@ -253,25 +282,24 @@ namespace info
                         //string newLine = Environment.NewLine;
                         string newLine = "<br>";
                         string tabulate = "&#9;";
-                        string printStr = string.Format("{3}{2}{3}{0} {1}{3}", Name, timeUpdate, DateTime.Now, newLine);
-                        List<string> response = new List<string>
+                        Response response = new Response
                         {
-                            printStr
+                            Head = string.Format("{3}{2}{3}{0} {1}{3}", Name, timeUpdate, DateTime.Now, newLine)
                         };
                         foreach (var faction in auctionData.Factions)
                         {
-                            if (faction.RecipesPages.Count > 0)
+                            if (faction.RecipesCount > 0)
                             {
-                                response.AddRange(GetInfoFaction(faction, newLine, tabulate));
+                                response.Factions.Add(GetInfoFaction(faction, newLine, tabulate));
                             }
                         }
-                        if (response.Count == 1)
+                        if (response.Factions.Count > 0)
                         {
-                            ParseService.Log(response);
+                            ParseService.SendAndLog(response);
                         }
                         else
                         {
-                            ParseService.SendAndLog(response);
+                            ParseService.Log(response);
                         }
                         using (var db = new DatabaseContext())
                         {
@@ -297,91 +325,32 @@ namespace info
             }
 
         }
-        List<string> GetInfoFaction(FactionPage factionPage, string newLine, string tabulate)
+        ResponseFaction GetInfoFaction(FactionPage factionPage, string newLine, string tabulate)
         {
-            string printStr = string.Format(
-                "{1}{2} {3:0.}{0}",
-                newLine,
-                tabulate,
-                factionPage.FactionType,
-                ParseService.ConvertCopperToGold(factions[factionPage.FactionType].Money));
-            foreach (var recipesPage in factionPage.RecipesPages.OrderByDescending(pair => pair.IncomeGoldInHour))
-            {
-                List<Recipe> recipes = recipesPage.Recipes;
-                RecipeData recipeData = recipesPage.recipeData;
-                printStr += string.Format(
-                    "{5} {0,-50} Профит: {6:0.} ({1:0.} + {3:0.}) {2:0.}{4}",
-                    string.Format("{0} x {1} = {2:0.}", recipeData.Name, recipes.Count, ParseService.ConvertCopperToGold(recipesPage.CostCraft)),
-                    ParseService.ConvertCopperToGold(recipesPage.NormalProfit),
-                    recipesPage.IncomeGoldInHour,
-                    ParseService.ConvertCopperToGold(recipesPage.randomProfit),
+            var s = factionPage.FactionType;
+            ResponseFaction faction = new ResponseFaction { 
+                Name = string.Format(
+                    "{1}{2} {3:0.} + {4:0.} = {5:0.}",
                     newLine,
                     tabulate,
-                    ParseService.ConvertCopperToGold(recipesPage.NormalProfit + recipesPage.randomProfit));
-                foreach (var itemData in recipeData.ItemsData)
-                {
-                    printStr += string.Format(
-                        "{3}{3}{0}{2}{3}{3}{3}Макс цена: {3}{1:# ## ##.}{2}",
-                        itemData.itemName,
-                        ParseService.ConvertCopperToSilver(recipesPage.GetMaxPrice(itemData)),
-                        newLine,
-                        tabulate);
-                }
-            }
-            string alertId = null;
-            if (factionPage.ProfitInTargetIncome + factionPage.ProfitOutTargetIncome > 0)
+                    factionPage.FactionType,
+                    ParseService.ConvertCopperToGold(factions[s].Money),
+                    ParseService.ConvertCopperToGold(factions[s].moneyMax - factions[s].Money),
+                    ParseService.ConvertCopperToGold(factions[s].moneyMax)),
+                PlayMusic = factionPage.PlayMusic
+            };
+            foreach (var target in factionPage.Targets.OrderBy(x => x.PriorityDisplay))
             {
-                if (factionPage.ProfitInTargetIncome > 0)
+                Message message = new Message
                 {
-                    printStr += string.Format("{7}Профит в таргете {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
-                        ParseService.ConvertCopperToGold(factionPage.TargetIncomeNormalProfit),
-                        ParseService.GetIncomeGoldInHour(
-                            factionPage.ProfitInTargetIncome,
-                            factionPage.TargetIncomeTimeCraftInMilliseconds),
-                        TimeSpan.FromMilliseconds(factionPage.TargetIncomeTimeCraftInMilliseconds).TotalMinutes,
-                        factionPage.TargetIncomeRecipesCount,
-                        ParseService.ConvertCopperToGold(factionPage.TargetIncomeRandomProfit),
-                        newLine,
-                        ParseService.ConvertCopperToGold(factionPage.ProfitInTargetIncome),
-                        tabulate);
-                }
-                printStr += string.Format("{7}Профит вне таргета {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин, рецептов {3}{5}",
-                    ParseService.ConvertCopperToGold(factionPage.NotTargetIncomeNormalProfit),
-                    ParseService.GetIncomeGoldInHour(
-                        factionPage.ProfitOutTargetIncome,
-                        factionPage.NotTargetIncomeTimeCraftInMilliseconds),
-                    TimeSpan.FromMilliseconds(factionPage.NotTargetIncomeTimeCraftInMilliseconds).TotalMinutes,
-                    factionPage.NotTargetIncomeRecipesCount,
-                    ParseService.ConvertCopperToGold(factionPage.NotTargetIncomeRandomProfit),
-                    newLine,
-                    ParseService.ConvertCopperToGold(factionPage.ProfitOutTargetIncome),
-                    tabulate);
-
-                if (ParseService.ConvertCopperToGold(factionPage.ProfitInTargetIncome) >=
-                    ScallingTargetProfitFromRemainingPersentUntilToken(factions[factionPage.FactionType].moneyMax))
-                {
-                    alertId = Music;
-                }
-                else
-                {
-                    if (ParseService.ConvertCopperToGold(factionPage.ProfitInTargetIncome + factionPage.ProfitOutTargetIncome) >=
-                        ScallingTargetProfitFromRemainingPersentUntilToken(factions[factionPage.FactionType].moneyMax) && farmMode)
-                    {
-                        alertId = Music;
-                    }
-                    else
-                    {
-                        alertId = Alert;
-                    }
-                }
+                    MessageStr = target.ToString(newLine, tabulate),
+                    ColorName = target.GetColor()
+                };
+                faction.Messages.Add(message);
             }
-            List<string> response = new List<string>
-                        {
-                            printStr,
-                            alertId
-                        };
-            return response;
+            return faction;
         }
+
         internal static void RefreshTokenPrice()
         {
             TokenPrice = ParseService.GetTokenPrice();

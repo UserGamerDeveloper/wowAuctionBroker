@@ -818,17 +818,17 @@ namespace wowCalc
 
         private static void Parse(object realmId)
         {
-            try
+            Serilog.Log.ForContext("realmId", realmId);
+            while (true)
             {
-                Serilog.Log.ForContext("realmId", realmId);
-                while (true)
+                try
                 {
                     Thread.Sleep(ParseAndGetTimeToNextParse(realmId));
                 }
-            }
-            catch (Exception e)
-            {
-                ParseService.ExceptionLogAndAlert(e);
+                catch (Exception e)
+                {
+                    ParseService.ExceptionLogAndAlert(e);
+                }
             }
             static TimeSpan ParseAndGetTimeToNextParse(object realmId)
             {
@@ -864,24 +864,18 @@ namespace wowCalc
             return copper / AmountCopperInSilver;
         }
 
-        public async static void SendAndLog(List<string> message)
+        public async static void SendAndLog(Response message)
         {
             await hubContext.Clients.All.SendAsync("Notify", message);
 
             Log(message);
         }
 
-        public static void Log(List<string> message)
+        public static void Log(Response message)
         {
             lock (logLocker)
             {
-                foreach (var item in message)
-                {
-                    if (item != null)
-                    {
-                        File.AppendAllText("log.log", item.Replace("<br>", "\n").Replace("&#9;", "\t"));
-                    }
-                }
+                File.AppendAllText("log.log", message.ToString().Replace("<br>", "\n").Replace("&#9;", "\t"));
             }
         }
 
@@ -1016,6 +1010,11 @@ namespace wowCalc
         {
             string TokenPriceDataStr = GetResponseString(TokenPriceURL);
             return JsonConvert.DeserializeObject<TokenPriceData>(TokenPriceDataStr).Price;
+        }
+        public static T Clone<T>(object parsersByIdItem)
+        {
+            string s = JsonConvert.SerializeObject(parsersByIdItem);
+            return JsonConvert.DeserializeObject<T>(s);
         }
     }
 }

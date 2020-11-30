@@ -59,7 +59,7 @@ namespace Mvc.Client.Controllers
                 {
                     RealmName = realm.Name,
                     LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(realm.timeUpdate).TotalMinutes),
-                    FarmMode = realm.farmMode,
+                    FarmMode = faction.farmMode,
                     FractionName = faction.factionType.ToString(),
                     Money = ParseService.ConvertCopperToGold(faction.Money),
                     WaitMoney =  ParseService.ConvertCopperToGold(faction.moneyMax - faction.Money)

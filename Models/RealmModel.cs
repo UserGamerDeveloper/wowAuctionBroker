@@ -22,10 +22,9 @@ namespace Mvc.Client.Models
         public string Name { get; set; }
         public DateTime TimeUpdate { get; set; }
         public virtual List<ActiveRecipe> ActiveRecipes { get; set; }
-        public bool FarmMode { get; set; }
         public virtual List<FactionModel> Fractions { get; set; }
         public virtual List<Character> Characters { get; set; }
-
+        public bool FarmMode { get; set; }
     }
     public class ActiveRecipe
     {
@@ -41,6 +40,7 @@ namespace Mvc.Client.Models
         public int Id { get; set; }
         public FactionType FactionType { get; set; }
         public long MoneyMax { get; set; }
+        public bool FarmMode { get; set; }
         public int RealmId { get; set; }
         [Required]
         [ForeignKey("RealmId")]

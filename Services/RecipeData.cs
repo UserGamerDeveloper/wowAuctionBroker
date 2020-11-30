@@ -9,8 +9,8 @@ namespace info
     public class RecipeData
     {
         public const double NeedMillisecondsToSell = 22000d / 136d;
-        public const double DropToMailNeedMillisecondsToCraft = 48000d / 136d;
-        public const double DropToMailNeedMillisecondsToGetProfit = DropToMailNeedMillisecondsToCraft + NeedMillisecondsToSell;
+        public const double NeedMillisecondsDropToMail = 48000d / 136d;
+        //public const double DropToMailNeedMillisecondsToGetProfit = DropToMailNeedMillisecondsToCraft + NeedMillisecondsToSell;
         private const double ChanceRandomProfit = 0.177637947725073d;
 
         public int ID;
@@ -71,16 +71,20 @@ namespace info
             return (SellRandomPrice - SellNormalPrice) * ChanceRandomProfit;
         }
 
-        internal double GetNeedMillisecondsToGetProfit(bool haveMoneyToCraft = true)
+        internal double GetNeedMillisecondsToGetProfit()
         {
-            if (DropToMail && haveMoneyToCraft)
-            {
-                return DropToMailNeedMillisecondsToGetProfit;
-            }
-            else
-            {
-                return NeedMillisecondsToCraft;
-            }
+            return NeedMillisecondsToCraft;
         }
+        //internal double GetNeedMillisecondsForLongCraft()
+        //{
+        //    if (DropToMail)
+        //    {
+        //        return NeedMillisecondsToSell + NeedMillisecondsDropToMail;
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("recipe not DropToMail");
+        //    }
+        //}
     }
 }

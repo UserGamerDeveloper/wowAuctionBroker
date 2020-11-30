@@ -32,13 +32,13 @@ namespace info
         public static List<RealmModel> GetRealmModels()
         {
             List<RealmModel> servers = new List<RealmModel>();
-            servers.Add(GetDraenor());
+            //servers.Add(GetDraenor());
             //servers.Add(GetTwistingNether());
-            //servers.Add(GetBlackmoore());
+            servers.Add(GetBlackmoore());
             //servers.Add(GetAntonidas());
             //servers.Add(GetRavencrest());
             //servers.Add(GetSvezewatel());
-            servers.Add(GetGorduni());
+            //servers.Add(GetGorduni());
             //servers.Add(GetAzjolNerub());
             //servers.Add(GetKazzak());
             //servers.Add(GetSilvermoon());
@@ -80,7 +80,7 @@ namespace info
                 Name = "Draenor",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(50326495),
                 Characters = GetCharacters(new long[] { 159994996 })
             };
@@ -94,7 +94,7 @@ namespace info
                 Name = "Twisting Nether",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllBestRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 950143768),
                 Characters = GetCharacters(new long[] { 145432820, 173932966 })
             };
@@ -108,7 +108,7 @@ namespace info
                 Name = "Blackmoore",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllBestRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 863898942),
                 Characters = GetCharacters(new long[] { 135371269, 165420727 })
             };
@@ -122,7 +122,7 @@ namespace info
                 Name = "Antonidas",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 0),
                 Characters = GetCharacters(new long[] { 106880759, 155553194 })
             };
@@ -136,7 +136,7 @@ namespace info
                 Name = "Ravencrest",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 0),
                 Characters = GetCharacters(new long[] { 106799868, 155553178 })
             };
@@ -150,7 +150,7 @@ namespace info
                 Name = "Свежеватель душ",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllBestRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 1054117211),
                 Characters = GetCharacters(new long[] { 166396992, 243483699 })
             };
@@ -164,7 +164,7 @@ namespace info
                 Name = "Гордунни",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(268692993, 0),
                 Characters = GetCharacters(new long[] { 181666336, 243869269 })
             };
@@ -178,7 +178,7 @@ namespace info
                 Name = "Azjol Nerub",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(1673272262),
                 Characters = GetCharacters(new long[] { 154866560 })
             };
@@ -192,7 +192,7 @@ namespace info
                 Name = "Kazzak",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllBestRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 484932767),
                 Characters = GetCharacters(new long[] { 186121814, 193865192 })
             };
@@ -206,7 +206,7 @@ namespace info
                 Name = "Silvermoon",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(1108814681, 0),
                 Characters = GetCharacters(new long[] { 186033540, 194930011 })
             };
@@ -220,7 +220,7 @@ namespace info
                 Name = "Tyrande",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllBestRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 340788698),
                 Characters = GetCharacters(new long[] { 162670117, 175763203 })
             };
@@ -234,8 +234,8 @@ namespace info
                 Name = "Hyjal",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllBestRecipes(),
-                FarmMode = false,
-                Fractions = GetAllFactions(0, 1107497274),
+                
+                Fractions = GetAllFactions(0, 0),
                 Characters = GetCharacters(new long[] { 187157904, 194654802 })
             };
         }
@@ -248,9 +248,9 @@ namespace info
                 Name = "Ревущий фьорд",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllBestRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAllFactions(0, 242140920),
-                Characters = GetCharacters(new long[] { 165853118, 174499728 })
+                Characters = GetCharacters(new long[] { 165853118, 176033760 })
             };
         }
         private static RealmModel GetMalganis()
@@ -262,7 +262,7 @@ namespace info
                 Name = "Malganis",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetAllAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(1058206149),
                 Characters = GetCharacters(new long[] { 153387171 })
             };
@@ -276,9 +276,9 @@ namespace info
                 Name = "Tarren Mill",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
-                Fractions = GetAlliance(0),
-                Characters = GetCharacters(new long[] { 165821812 })
+                
+                Fractions = GetAlliance(6000),
+                Characters = GetCharacters(new long[] { 166232245 })
             };
         }
         private static RealmModel GetSanguino()
@@ -290,7 +290,7 @@ namespace info
                 Name = "Sanguino",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 175815695 })
             };
@@ -304,7 +304,7 @@ namespace info
                 Name = "Burning Legion",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 175817505 })
             };
@@ -318,7 +318,7 @@ namespace info
                 Name = "Stormscale",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 155309807 })
             };
@@ -332,7 +332,7 @@ namespace info
                 Name = "Ambossar",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 165954703 })
             };
@@ -346,7 +346,7 @@ namespace info
                 Name = "Burning Blade",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 165825780 })
             };
@@ -360,7 +360,7 @@ namespace info
                 Name = "Ysondre",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 155347612 })
             };
@@ -374,7 +374,7 @@ namespace info
                 Name = "Ragnaros",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 174625955 })
             };
@@ -388,9 +388,9 @@ namespace info
                 Name = "Eredar",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
-                Characters = GetCharacters(new long[] { 155347589 })
+                Characters = GetCharacters(new long[] { 155665676 })
             };
         }
         private static RealmModel GetBlackrock()
@@ -402,7 +402,7 @@ namespace info
                 Name = "Blackrock",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 165976699 })
             };
@@ -416,7 +416,7 @@ namespace info
                 Name = "Vashj",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 166107334 })
             };
@@ -430,7 +430,7 @@ namespace info
                 Name = "Nemesis",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultAllianceRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 195039858 })
             };
@@ -444,7 +444,7 @@ namespace info
                 Name = "Outland",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
                 ActiveRecipes = GetDefaultHordeRecipes(),
-                FarmMode = false,
+                
                 Fractions = GetHorde(0),
                 Characters = GetCharacters(new long[] { 195040393 })
             };
