@@ -52,6 +52,13 @@ namespace info
                 NormalProfit + RecipeData.GetRandomProfit(),
                 NeedMillisecondsToCraft);
         }
+        internal double GetIncomeRUBInHour()
+        {
+            return ParseService.GetIncomeRUBInHour(
+                NormalProfit + RecipeData.GetRandomProfit(),
+                NeedMillisecondsToCraft);
+        }
+
         internal double GetProfit()
         {
             return NormalProfit + RecipeData.GetRandomProfit();

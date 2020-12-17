@@ -39,7 +39,7 @@ namespace Mvc.Client.Controllers
                 foreach (var item in task.Result)
                 {
                     statisticsModel.Factions.Add(item);
-                    statisticsModel.AllMoney += item.Money + item.WaitMoney;
+                    statisticsModel.AllMoney += item.MaxGold;
                 }
             }
             return View(statisticsModel);
@@ -51,7 +51,7 @@ namespace Mvc.Client.Controllers
             Server realm = null;
             using (var db = new DatabaseContext())
             {
-                realm = new Server(db.Realms.Where(x => x.Id == realmId).First(), Loader.GetRecipeDataById());
+                realm = new Server(db.Realms.Where(x => x.Id == realmId).First());
             }
             foreach (var faction in realm.factions.Values)
             {
@@ -61,8 +61,9 @@ namespace Mvc.Client.Controllers
                     LastUpdate = string.Format("{0:0.} минут назад", DateTime.Now.Subtract(realm.timeUpdate).TotalMinutes),
                     FarmMode = faction.farmMode,
                     FractionName = faction.factionType.ToString(),
-                    Money = ParseService.ConvertCopperToGold(faction.Money),
-                    WaitMoney =  ParseService.ConvertCopperToGold(faction.moneyMax - faction.Money)
+                    Gold = ParseService.ConvertCopperToGold(faction.Money),
+                    WaitMoney = ParseService.ConvertCopperToGold(faction.moneyMax - faction.Money),
+                    MaxGold = ParseService.ConvertCopperToGold(faction.moneyMax)
                 });
             }
             return statisticsModels;

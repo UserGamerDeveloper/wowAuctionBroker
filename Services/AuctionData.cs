@@ -22,18 +22,21 @@ namespace info
         }
         public List<Recipe> Recipes { get; } = new List<Recipe>();
         public long NormalProfit { get; private set; } = 0;
-        public double IncomeGoldInHour { get; private set; }
+        public double IncomeRUBInHour { get; private set; }
         public double TimeCraftInMilliseconds { get; private set; } = 0;
         public double RandomProfit { get; private set; }
-        public RecipeData recipeData { get; private set; }
+        public HashSet<RecipeData> RecipeData { get; private set; } = new HashSet<RecipeData>();
         public long CostCraft { get; private set; } = 0;
         public double Profit { get; set; }
 
         public void SetData()
         {
-            recipeData = Recipes[0].RecipeData;
-            RandomProfit = Recipes.Count * recipeData.GetRandomProfit();
-            IncomeGoldInHour = ParseService.GetIncomeGoldInHour(NormalProfit + RandomProfit, TimeCraftInMilliseconds);
+            foreach (var recipe in Recipes)
+            {
+                RecipeData.Add(recipe.RecipeData);
+            }
+            RandomProfit = Recipes.Count * RecipeData.First().GetRandomProfit();
+            IncomeRUBInHour = ParseService.GetIncomeRUBInHour(NormalProfit + RandomProfit, TimeCraftInMilliseconds);
             Profit = NormalProfit + RandomProfit;
         }
         public void AddRecipe(Recipe recipe)
@@ -43,31 +46,51 @@ namespace info
             TimeCraftInMilliseconds += recipe.NeedMillisecondsToCraft;
             Recipes.Add(recipe);
         }
-        public long GetMaxPrice(ItemData itemData)
+        internal string ItemsToString(string newLine, string tabulate)
         {
-            Dictionary<long, List<Item>> bidsItemInRecipeByCost = new Dictionary<long, List<Item>>();
+            Dictionary<int, Dictionary<long, int>> quantityByCostByItemId = new Dictionary<int, Dictionary<long, int>>();
             foreach (var recipe in Recipes)
             {
-                foreach (var item in recipe.Items[itemData.id])
+                foreach (var keyValuePair in recipe.Items)
                 {
-                    if (!bidsItemInRecipeByCost.ContainsKey(item.cost))
+                    int idItem = keyValuePair.Key;
+                    quantityByCostByItemId.TryAdd(idItem, new Dictionary<long, int>());
+                    foreach (var item in keyValuePair.Value)
                     {
-                        bidsItemInRecipeByCost.Add(item.cost, new List<Item>());
+                        quantityByCostByItemId[idItem].TryAdd(item.cost, 0);
+                        quantityByCostByItemId[idItem][item.cost]++;
                     }
-                    bidsItemInRecipeByCost[item.cost].Add(item);
                 }
             }
-            long maxPrice = 0;
-            foreach (var bidsItemInRecipeByCostPair in bidsItemInRecipeByCost.OrderByDescending(pair => pair.Key))
+            string messageStr = "";
+            foreach (var recipeData in RecipeData)
             {
-                maxPrice = bidsItemInRecipeByCostPair.Key;
-                if (bidsItemInRecipeByCostPair.Value.Count >= recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id])
+                foreach (var itemData in recipeData.ItemsData)
                 {
-                    break;
+                    messageStr += string.Format(
+                        "{3}{3}{0}{2}{3}{3}{3}Макс цена: {3}{1:# ## ##.}{2}",
+                        itemData.itemName,
+                        ParseService.ConvertCopperToSilver(GetMaxPrice(quantityByCostByItemId[itemData.id], recipeData.ID_ITEM_AND_NEED_AMOUNT[itemData.id])),
+                        newLine,
+                        tabulate);
                 }
             }
+            return messageStr;
 
-            return maxPrice;
+            long GetMaxPrice(Dictionary<long, int> quantityByCost, int needAmountItemsForCraft)
+            {
+                long maxPrice = 0;
+                foreach (var bidsItemInRecipeByCostPair in quantityByCost.OrderByDescending(pair => pair.Key))
+                {
+                    maxPrice = bidsItemInRecipeByCostPair.Key;
+                    if (bidsItemInRecipeByCostPair.Value >= needAmountItemsForCraft)
+                    {
+                        break;
+                    }
+                }
+
+                return maxPrice;
+            }
         }
     }
     public class FactionPage
@@ -103,7 +126,7 @@ namespace info
 
             protected void SetDataa(RecipesPage recipesPage)
             {
-                if (ParseService.ConvertCopperToGold(recipesPage.Profit) >= ParseService.settings.TARGET_PROFIT / 2)
+                if (ParseService.ConvertCopperToRUB(recipesPage.Profit) >= ParseService.settings.TargetProfitInRUB * 0.1)
                 {
                     RecipesPages.Add(recipesPage);
                     NormalProfit += recipesPage.NormalProfit;
@@ -128,51 +151,35 @@ namespace info
             internal virtual string ToString(string newLine, string tabulate)
             {
                 string messageStr = "";
-                foreach (var recipesPage in RecipesPages.OrderByDescending(pair => pair.IncomeGoldInHour))
+                foreach (var recipesPage in RecipesPages.OrderByDescending(pair => pair.IncomeRUBInHour))
                 {
                     List<Recipe> recipes = recipesPage.Recipes;
-                    RecipeData recipeData = recipesPage.recipeData;
+                    RecipeData recipeData = recipesPage.RecipeData.First();
                     messageStr += string.Format(
                         "{5} {0,-50} Профит: {6:0.} ({1:0.} + {3:0.}) {2:0.}{4}",
                         string.Format("{0} x {1} = {2:0.}", recipeData.Name, recipes.Count, ParseService.ConvertCopperToGold(recipesPage.CostCraft)),
-                        ParseService.ConvertCopperToGold(recipesPage.NormalProfit),
-                        recipesPage.IncomeGoldInHour,
-                        ParseService.ConvertCopperToGold(recipesPage.RandomProfit),
+                        ParseService.ConvertCopperToRUB(recipesPage.NormalProfit),
+                        recipesPage.IncomeRUBInHour,
+                        ParseService.ConvertCopperToRUB(recipesPage.RandomProfit),
                         newLine,
                         tabulate,
-                        ParseService.ConvertCopperToGold(recipesPage.NormalProfit + recipesPage.RandomProfit));
-                    messageStr += ItemsToString(newLine, tabulate, recipesPage, recipeData);
+                        ParseService.ConvertCopperToRUB(recipesPage.NormalProfit + recipesPage.RandomProfit));
+                    messageStr += recipesPage.ItemsToString(newLine, tabulate);
                 }
                 messageStr += string.Format("{7} {8,-50} Профит: {6:0.} ({0:0.} + {4:0.}) {1:0.} {2:0.} мин{5}",
-                    ParseService.ConvertCopperToGold(NormalProfit),
-                    ParseService.GetIncomeGoldInHour(
+                    ParseService.ConvertCopperToRUB(NormalProfit),
+                    ParseService.GetIncomeRUBInHour(
                         Profit,
                         TimeCraftInMilliseconds),
                     TimeSpan.FromMilliseconds(TimeCraftInMilliseconds).TotalMinutes,
                     RecipesCount,
-                    ParseService.ConvertCopperToGold(RandomProfit),
+                    ParseService.ConvertCopperToRUB(RandomProfit),
                     newLine,
-                    ParseService.ConvertCopperToGold(Profit),
+                    ParseService.ConvertCopperToRUB(Profit),
                     tabulate,
                     Name);
                 return messageStr;
             }
-            internal static string ItemsToString(string newLine, string tabulate, RecipesPage recipesPage, RecipeData recipeData)
-            {
-                string messageStr = "";
-                foreach (var itemData in recipeData.ItemsData)
-                {
-                    messageStr += string.Format(
-                        "{3}{3}{0}{2}{3}{3}{3}Макс цена: {3}{1:# ## ##.}{2}",
-                        itemData.itemName,
-                        ParseService.ConvertCopperToSilver(recipesPage.GetMaxPrice(itemData)),
-                        newLine,
-                        tabulate);
-                }
-
-                return messageStr;
-            }
-
         }
         public class RemoteCraft : Target
         {
@@ -210,20 +217,20 @@ namespace info
             internal override string ToString(string newLine, string tabulate)
             {
                 string messageStr = "";
-                foreach (var recipesPage in RecipesPages.OrderByDescending(pair => pair.IncomeGoldInHour))
+                foreach (var recipesPage in RecipesPages.OrderByDescending(pair => pair.IncomeRUBInHour))
                 {
                     List<Recipe> recipes = recipesPage.Recipes;
-                    RecipeData recipeData = recipesPage.recipeData;
+                    RecipeData recipeData = recipesPage.RecipeData.First();
                     messageStr += string.Format(
                         "{5} {0,-50} Профит: {6:0.} ({1:0.} + {3:0.}){4}",
                         string.Format("{0} x {1} = {2:0.}", recipeData.Name, recipes.Count, ParseService.ConvertCopperToGold(recipesPage.CostCraft)),
-                        ParseService.ConvertCopperToGold(recipesPage.NormalProfit),
-                        recipesPage.IncomeGoldInHour,
-                        ParseService.ConvertCopperToGold(recipesPage.RandomProfit),
+                        ParseService.ConvertCopperToRUB(recipesPage.NormalProfit),
+                        recipesPage.IncomeRUBInHour,
+                        ParseService.ConvertCopperToRUB(recipesPage.RandomProfit),
                         newLine,
                         tabulate,
-                        ParseService.ConvertCopperToGold(recipesPage.NormalProfit + recipesPage.RandomProfit));
-                    messageStr += ItemsToString(newLine, tabulate, recipesPage, recipeData);
+                        ParseService.ConvertCopperToRUB(recipesPage.NormalProfit + recipesPage.RandomProfit));
+                    messageStr += recipesPage.ItemsToString(newLine, tabulate);
                 }
                 messageStr += string.Format("{1} {2}{0}",
                     newLine,
@@ -244,7 +251,7 @@ namespace info
                     recipesPagesById[recipeId].AddRecipe(recipe);
                 }
                 PriorityDisplay = PriorityDisplay.CraftTargetIncome;
-                Name = $"Target Income { ParseService.settings.TARGET_INCOME_IN_HOUR } gold";
+                Name = $"Target Income { ParseService.settings.TargetIncomeInHourInRub } RUB";
                 SetData(recipesPagesById.Values.ToList());
             }
         }
@@ -316,7 +323,7 @@ namespace info
                         for (int i = 0; i < recipesPages.Count - 1; i++)
                         {
                             recipesPages[i].SetData();
-                            if (ParseService.ConvertCopperToGold(recipesPages[i].Profit) < ParseService.settings.TARGET_PROFIT / 2)
+                            if (ParseService.ConvertCopperToRUB(recipesPages[i].Profit) < ParseService.settings.TargetProfitInRUB / 2)
                             {
                                 var s = new List<Recipe>();
                                 s.AddRange(recipesPages[i].Recipes);
@@ -365,16 +372,33 @@ namespace info
         public int RecipesCount { get; } = 0;
         public bool PlayMusic { get; private set; } = false;
 
-        public FactionPage(Faction faction, Dictionary<int, ItemPageParser> parsersByIdItem)
+        public FactionPage(Faction faction, Dictionary<int, ItemPageParser> parsersByIdItem/*, Dictionary<int, Dictionary<long, int>> items*/)
         {
+            HashSet<RecipeData> recipesDatasDropToMail = new HashSet<RecipeData>();
+            Dictionary<int, ItemPageParser> parsersDropToMailItemsByIdItem = new Dictionary<int, ItemPageParser>();
+            foreach (var recipesDataSet in faction.RecipeDataTrees)
+            {
+                foreach (var recipeData in recipesDataSet)
+                {
+                    if (recipeData.DropToMail)
+                    {
+                        recipesDatasDropToMail.Add(recipeData);
+                        foreach (var itemData in recipeData.ItemsData)
+                        {
+                            parsersDropToMailItemsByIdItem.TryAdd(itemData.id, parsersByIdItem[itemData.id]);
+                        }
+                    }
+                }
+            }
             Task[] tasks = new Task[]
             {
-                SetRemoteCraftTarget(faction, ParseService.Clone<Dictionary<int, ItemPageParser>>(parsersByIdItem)),
+                //SetBuyTarget(faction, items),
+                SetRemoteCraftTarget(faction, ParseService.Clone<Dictionary<int, ItemPageParser>>(parsersDropToMailItemsByIdItem), recipesDatasDropToMail),
                 SetDefaultTarget(faction, parsersByIdItem)
             };
             FactionType = faction.factionType;
-            Task.WaitAll(tasks);
             var temp = new List<Target>();
+            Task.WaitAll(tasks);
             foreach (var target in Targets)
             {
                 if (target.RecipesCount == 0)
@@ -391,22 +415,21 @@ namespace info
                 Targets.Remove(target);
             }
 
-            async Task SetRemoteCraftTarget(Faction faction, Dictionary<int, ItemPageParser> parsersByIdItem)
+            Task SetBuyTarget(Faction faction, Dictionary<int, Dictionary<long, int>> items)
             {
-                await Task.Run(() => {
-                    Dictionary<RecipeData, List<Recipe>> recipesById = new Dictionary<RecipeData, List<Recipe>>();
-                    foreach (var recipesDataSet in faction.RecipeDataTrees.Values)
+                return Task.Run(() => {
+
+                    //Targets.Add(new RemoteCraft(recipesById.Values, faction.Money));
+                });
+            }
+
+            Task SetRemoteCraftTarget(Faction faction, Dictionary<int, ItemPageParser> parsersByIdItem, IEnumerable<RecipeData> recipesDatasDropToMail)
+            {
+                return Task.Run(() => {
+                    Dictionary<RecipeData, List<Recipe>> recipesByRecipeData = new Dictionary<RecipeData, List<Recipe>>();
+                    foreach (var recipeData in recipesDatasDropToMail)
                     {
-                        foreach (var recipeData in recipesDataSet)
-                        {
-                            if (recipeData.DropToMail)
-                            {
-                                recipesById.TryAdd(recipeData, new List<Recipe>());
-                            }
-                        }
-                    }
-                    foreach (var recipeData in recipesById.Keys)
-                    {
+                        recipesByRecipeData.Add(recipeData, new List<Recipe>());
                         Dictionary<int, ItemPageParser> cloneParsersByIdItem = new Dictionary<int, ItemPageParser>();
                         foreach (var itemData in recipeData.ItemsData)
                         {
@@ -419,84 +442,87 @@ namespace info
                             {
                                 break;
                             }
-                            recipesById[recipe.RecipeData].Add(recipe);
+                            recipesByRecipeData[recipe.RecipeData].Add(recipe);
                             recipe.ReserveItems(cloneParsersByIdItem);
                         }
                     }
-                    Targets.Add(new RemoteCraft(recipesById.Values, faction.Money));
+                    Targets.Add(new RemoteCraft(recipesByRecipeData.Values, faction.Money));
                 });
             }
 
-            async Task SetDefaultTarget(Faction faction, Dictionary<int, ItemPageParser> parsersByIdItem)
+            Task SetDefaultTarget(Faction faction, Dictionary<int, ItemPageParser> parsersByIdItem)
             {
-                double minIncome = ParseService.settings.TARGET_INCOME_IN_HOUR * 0.8;
-                List<Recipe> recipesForCraftTargetIncome = new List<Recipe>();
-                List<Recipe> recipesForCraftNotTargetIncome = new List<Recipe>();
-                foreach (var recipeDataTree in faction.RecipeDataTrees)
+                return Task.Run(async () =>
                 {
-                    while (true)
+                    double minIncome = ParseService.settings.TargetIncomeInHourInRub * 0.8;
+                    List<Recipe> recipesForCraftTargetIncome = new List<Recipe>();
+                    List<Recipe> recipesForCraftNotTargetIncome = new List<Recipe>();
+                    foreach (var recipeDataTree in faction.RecipeDataTrees)
                     {
-                        List<Recipe> profitableRecipes = new List<Recipe>();
-                        foreach (var recipeData in recipeDataTree.Value)
+                        while (true)
                         {
-                            if (EnoughItemsForCraftRecipe(parsersByIdItem, recipeData))
+                            List<Recipe> profitableRecipes = new List<Recipe>();
+                            foreach (var recipeData in recipeDataTree)
                             {
-                                Recipe recipe = new Recipe(recipeData, parsersByIdItem, faction);
-                                if (ParseService.GetIncomeGoldInHour(recipe.NormalProfit, recipe.NeedMillisecondsToCraft) >= minIncome)
+                                if (EnoughItemsForCraftRecipe(parsersByIdItem, recipeData))
                                 {
-                                    profitableRecipes.Add(recipe);
+                                    Recipe recipe = new Recipe(recipeData, parsersByIdItem, faction);
+                                    if (ParseService.GetIncomeRUBInHour(recipe.NormalProfit, recipe.NeedMillisecondsToCraft) >= minIncome)
+                                    {
+                                        profitableRecipes.Add(recipe);
+                                    }
                                 }
                             }
-                        }
-                        if (profitableRecipes.Count > 0)
-                        {
-                            Recipe maxProfitableRecipe = profitableRecipes.OrderByDescending(recipe => recipe.GetIncomeGoldInHour()).First();
-                            if (maxProfitableRecipe.GetIncomeGoldInHour() < ParseService.settings.TARGET_INCOME_IN_HOUR)
+                            if (profitableRecipes.Count > 0)
                             {
-                                recipesForCraftNotTargetIncome.Add(maxProfitableRecipe);
+                                Recipe maxProfitableRecipe = profitableRecipes.OrderByDescending(recipe => recipe.GetIncomeGoldInHour()).First();
+                                if (maxProfitableRecipe.GetIncomeRUBInHour() < ParseService.settings.TargetIncomeInHourInRub)
+                                {
+                                    recipesForCraftNotTargetIncome.Add(maxProfitableRecipe);
+                                }
+                                else
+                                {
+                                    recipesForCraftTargetIncome.Add(maxProfitableRecipe);
+                                }
+                                maxProfitableRecipe.ReserveItems(parsersByIdItem);
                             }
                             else
                             {
-                                recipesForCraftTargetIncome.Add(maxProfitableRecipe);
+                                break;
                             }
-                            maxProfitableRecipe.ReserveItems(parsersByIdItem);
+                        }
+                    }
+                    var craftTargetIncome = await Task.Run(() => {
+                        return new CraftTargetIncome(recipesForCraftTargetIncome);
+                    });
+                    Targets.Add(craftTargetIncome);
+                    var craftNotTargetIncome = await Task.Run(() => {
+                        return new CraftNotTargetIncome(recipesForCraftNotTargetIncome, minIncome);
+                    });
+                    Targets.Add(craftNotTargetIncome);
+                    if (craftTargetIncome.RecipesCount + craftNotTargetIncome.RecipesCount > 0)
+                    {
+                        if (ParseService.ConvertCopperToRUB(craftTargetIncome.Profit) >= ParseService.settings.TargetProfitInRUB)
+                        {
+                            if (faction.farmMode)
+                            {
+                                craftNotTargetIncome.IsReached = true;
+                            }
+                            PlayMusic = true;
+                            craftTargetIncome.IsReached = true;
                         }
                         else
                         {
-                            break;
+                            if (ParseService.ConvertCopperToRUB(craftTargetIncome.Profit + craftNotTargetIncome.Profit) >=
+                                ParseService.settings.TargetProfitInRUB && faction.farmMode)
+                            {
+                                PlayMusic = true;
+                                craftTargetIncome.IsReached = true;
+                                craftNotTargetIncome.IsReached = true;
+                            }
                         }
                     }
-                }
-                var craftTargetIncome = await Task.Run(() => {
-                    return new CraftTargetIncome(recipesForCraftTargetIncome);
                 });
-                Targets.Add(craftTargetIncome);
-                var craftNotTargetIncome = await Task.Run(() => {
-                    return new CraftNotTargetIncome(recipesForCraftNotTargetIncome, minIncome);
-                });
-                Targets.Add(craftNotTargetIncome);
-                if (craftTargetIncome.RecipesCount + craftNotTargetIncome.RecipesCount > 0)
-                {
-                    if (ParseService.ConvertCopperToGold(craftTargetIncome.Profit) >= ParseService.settings.TARGET_PROFIT)
-                    {
-                        if (faction.farmMode)
-                        {
-                            craftNotTargetIncome.IsReached = true;
-                        }
-                        PlayMusic = true;
-                        craftTargetIncome.IsReached = true;
-                    }
-                    else
-                    {
-                        if (ParseService.ConvertCopperToGold(craftTargetIncome.Profit + craftNotTargetIncome.Profit) >=
-                            ParseService.settings.TARGET_PROFIT && faction.farmMode)
-                        {
-                            PlayMusic = true;
-                            craftTargetIncome.IsReached = true;
-                            craftNotTargetIncome.IsReached = true;
-                        }
-                    }
-                }
             }
 
             static bool EnoughItemsForCraftRecipe(Dictionary<int, ItemPageParser> parsersByIdItem, RecipeData recipeData)
@@ -527,7 +553,7 @@ namespace info
                 HashSet<int> activeItemsId = new HashSet<int>();
                 foreach (var recipeDataTree in faction.RecipeDataTrees)
                 {
-                    foreach (var recipeData in recipeDataTree.Value)
+                    foreach (var recipeData in recipeDataTree)
                     {
                         //if (recipeData.ItemsData.Count == 1)
                         //{

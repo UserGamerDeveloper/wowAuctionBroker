@@ -34,7 +34,7 @@ namespace Mvc.Client.Controllers
                 calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = realm.Name, Value = realm.Id.ToString() });
             }
             calculatorModel.ReamlsNameSelectList.Add(new SelectListItem { Text = "Выберите реалм", Value = "", Selected = true, Disabled = true });
-            calculatorModel.RequiredIncomeGold = ParseService.settings.TARGET_INCOME_IN_HOUR;
+            calculatorModel.RequiredIncomeGold = ParseService.settings.TargetIncomeInHourInRub;
             //TempData["model"] = JsonConvert.SerializeObject(calculatorModel);
             TempData["LastSelectedRealmId"] = -1;
             TempData["LastSelectedFaction"] = FactionType.NONE;
@@ -114,7 +114,7 @@ namespace Mvc.Client.Controllers
             if (calculatorModel.SelectedFaction != FactionType.NONE)
             {
                 HashSet<ItemData> itemsData = new HashSet<ItemData>();
-                foreach (var recipeTree in selectedFaction.RecipeDataTrees.Values)
+                foreach (var recipeTree in selectedFaction.RecipeDataTrees)
                 {
                     foreach (var recipe in recipeTree)
                     {
@@ -138,7 +138,7 @@ namespace Mvc.Client.Controllers
                 if (calculatorModel.SelectedItemID != int.MinValue)
                 {
                     HashSet<RecipeData> recipesData = new HashSet<RecipeData>();
-                    foreach (var recipesDataTree in selectedFaction.RecipeDataTrees.Values)
+                    foreach (var recipesDataTree in selectedFaction.RecipeDataTrees)
                     {
                         foreach (var recipeData in recipesDataTree)
                         {

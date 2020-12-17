@@ -21,8 +21,8 @@ namespace Mvc.Client.Models
         [Required]
         public string Name { get; set; }
         public DateTime TimeUpdate { get; set; }
-        public virtual List<ActiveRecipe> ActiveRecipes { get; set; }
         public virtual List<FactionModel> Fractions { get; set; }
+        public virtual List<ActiveRecipe> ActiveRecipes { get; set; }
         public virtual List<Character> Characters { get; set; }
         public bool FarmMode { get; set; }
     }

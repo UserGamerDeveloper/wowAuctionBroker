@@ -34,33 +34,46 @@ namespace info
             List<RealmModel> servers = new List<RealmModel>();
             //servers.Add(GetDraenor());
             //servers.Add(GetTwistingNether());
-            servers.Add(GetBlackmoore());
-            //servers.Add(GetAntonidas());
-            //servers.Add(GetRavencrest());
-            //servers.Add(GetSvezewatel());
-            //servers.Add(GetGorduni());
-            //servers.Add(GetAzjolNerub());
-            //servers.Add(GetKazzak());
-            //servers.Add(GetSilvermoon());
+            //servers.Add(GetBlackmoore());
+            ////servers.Add(GetAntonidas());
+            ////servers.Add(GetRavencrest());
+            ////servers.Add(GetSvezewatel());
+            ////servers.Add(GetGorduni());
+            ////servers.Add(GetAzjolNerub());
+            ////servers.Add(GetKazzak());
+            ////servers.Add(GetSilvermoon());
             //servers.Add(GetTyrande());
             //servers.Add(GetHyjal());
-            //servers.Add(GetHowlingFjord());
-            //servers.Add(GetMalganis());
+            ////servers.Add(GetHowlingFjord());
+            ////servers.Add(GetMalganis());
             //servers.Add(GetTarrenMill());
-            //servers.Add(GetSanguino());
-            //servers.Add(GetBurningLegion());
-            //servers.Add(GetStormscale());
-            //servers.Add(GetAmbossar());
-            //servers.Add(GetBurningBlade());
-            //servers.Add(GetYsondre());
-            //servers.Add(GetRagnaros());
-            //servers.Add(GetEredar());
-            //servers.Add(GetBlackrock());
-            //servers.Add(GetVashj());
+            ////servers.Add(GetSanguino());
+            ////servers.Add(GetBurningLegion());
+            ////servers.Add(GetStormscale());
+            ////servers.Add(GetAmbossar());
+            ////servers.Add(GetBurningBlade());
+            ////servers.Add(GetYsondre());
+            ////servers.Add(GetRagnaros());
+            ////servers.Add(GetEredar());
+            ////servers.Add(GetBlackrock());
+            ////servers.Add(GetVashj());
             //servers.Add(GetNemesis());
-            //servers.Add(GetOutland());
+            ////servers.Add(GetOutland());
+            ////servers.Add(GetArgentDawn());
+            ////servers.Add(GetDefiasBrotherhood());
+            ////servers.Add(GetThermaplugg());
+            ////servers.Add(GetArchimonde());
+            ////servers.Add(GetArathor());
+            ////servers.Add(GetDeepholm());
+            ////servers.Add(GetAshenvale());
+            ////servers.Add(GetAzuregos());
+            ////servers.Add(GetGreymane());
+            ////servers.Add(GetDeathguard());
+            //servers.Add(GetFordragon());
+            //servers.Add(GetEversong());
+            //servers.Add(GetTuralyon());
 
-            //SerializeServers(servers);
+            SerializeServers(servers);
             return servers;
         }
 
@@ -79,10 +92,10 @@ namespace info
                 ConnectedRealmId = 1403,
                 Name = "Draenor",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(50326495),
-                Characters = GetCharacters(new long[] { 159994996 })
+                Characters = GetCharacters(new long[] { 163098237 })
             };
         }
         private static RealmModel GetTwistingNether()
@@ -93,10 +106,10 @@ namespace info
                 ConnectedRealmId = 3674,
                 Name = "Twisting Nether",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllBestRecipes(),
+                ActiveRecipes = GetAllHordeRecipes(),
                 
-                Fractions = GetAllFactions(0, 950143768),
-                Characters = GetCharacters(new long[] { 145432820, 173932966 })
+                Fractions = GetHorde(0),
+                Characters = GetCharacters(new long[] { 145432820 })
             };
         }
         private static RealmModel GetBlackmoore()
@@ -107,10 +120,10 @@ namespace info
                 ConnectedRealmId = 580,
                 Name = "Blackmoore",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllBestRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
-                Fractions = GetAllFactions(0, 863898942),
-                Characters = GetCharacters(new long[] { 135371269, 165420727 })
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 165420727 })
             };
         }
         private static RealmModel GetAntonidas()
@@ -121,10 +134,9 @@ namespace info
                 ConnectedRealmId = 3686,
                 Name = "Antonidas",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllRecipes(),
-                
-                Fractions = GetAllFactions(0, 0),
-                Characters = GetCharacters(new long[] { 106880759, 155553194 })
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(72899),
+                Characters = GetCharacters(new long[] { 106880759 })
             };
         }
         private static RealmModel GetRavencrest()
@@ -149,10 +161,10 @@ namespace info
                 ConnectedRealmId = 1604,
                 Name = "Свежеватель душ",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllBestRecipes(),
+                ActiveRecipes = GetAllRecipes(),
                 
-                Fractions = GetAllFactions(0, 1054117211),
-                Characters = GetCharacters(new long[] { 166396992, 243483699 })
+                Fractions = GetAllFactions(0, 110333),
+                Characters = GetCharacters(new long[] { 166396992, 245608575 })
             };
         }
         private static RealmModel GetGorduni()
@@ -163,10 +175,10 @@ namespace info
                 ConnectedRealmId = 1602,
                 Name = "Гордунни",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
-                Fractions = GetAllFactions(268692993, 0),
-                Characters = GetCharacters(new long[] { 181666336, 243869269 })
+                Fractions = GetAlliance(268692993),
+                Characters = GetCharacters(new long[] { 181666336 })
             };
         }
         private static RealmModel GetAzjolNerub()
@@ -191,10 +203,10 @@ namespace info
                 ConnectedRealmId = 1305,
                 Name = "Kazzak",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllBestRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
-                Fractions = GetAllFactions(0, 484932767),
-                Characters = GetCharacters(new long[] { 186121814, 193865192 })
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 197222240 })
             };
         }
         private static RealmModel GetSilvermoon()
@@ -205,10 +217,10 @@ namespace info
                 ConnectedRealmId = 3391,
                 Name = "Silvermoon",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllRecipes(),
+                ActiveRecipes = GetAllHordeRecipes(),
                 
-                Fractions = GetAllFactions(1108814681, 0),
-                Characters = GetCharacters(new long[] { 186033540, 194930011 })
+                Fractions = GetHorde(160000000),
+                Characters = GetCharacters(new long[] { 194930011 })
             };
         }
         private static RealmModel GetTyrande()
@@ -219,10 +231,9 @@ namespace info
                 ConnectedRealmId = 1384,
                 Name = "Tyrande",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllBestRecipes(),
-                
-                Fractions = GetAllFactions(0, 340788698),
-                Characters = GetCharacters(new long[] { 162670117, 175763203 })
+                ActiveRecipes = GetAllHordeRecipes(),
+                Fractions = GetHorde(340788698),
+                Characters = GetCharacters(new long[] { 162670117 })
             };
         }
         private static RealmModel GetHyjal()
@@ -233,10 +244,9 @@ namespace info
                 ConnectedRealmId = 1390,
                 Name = "Hyjal",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllBestRecipes(),
-                
-                Fractions = GetAllFactions(0, 0),
-                Characters = GetCharacters(new long[] { 187157904, 194654802 })
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 197231158 })
             };
         }
         private static RealmModel GetHowlingFjord()
@@ -247,7 +257,7 @@ namespace info
                 ConnectedRealmId = 1615,
                 Name = "Ревущий фьорд",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetAllBestRecipes(),
+                ActiveRecipes = GetAllRecipes(),
                 
                 Fractions = GetAllFactions(0, 242140920),
                 Characters = GetCharacters(new long[] { 165853118, 176033760 })
@@ -275,10 +285,9 @@ namespace info
                 ConnectedRealmId = 1084,
                 Name = "Tarren Mill",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
-                
-                Fractions = GetAlliance(6000),
-                Characters = GetCharacters(new long[] { 166232245 })
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 169765279 })
             };
         }
         private static RealmModel GetSanguino()
@@ -289,7 +298,7 @@ namespace info
                 ConnectedRealmId = 1379,
                 Name = "Sanguino",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 175815695 })
@@ -303,7 +312,7 @@ namespace info
                 ConnectedRealmId = 3713,
                 Name = "Burning Legion",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 175817505 })
@@ -317,7 +326,7 @@ namespace info
                 ConnectedRealmId = 2073,
                 Name = "Stormscale",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 155309807 })
@@ -331,7 +340,7 @@ namespace info
                 ConnectedRealmId = 604,
                 Name = "Ambossar",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 165954703 })
@@ -345,7 +354,7 @@ namespace info
                 ConnectedRealmId = 1092,
                 Name = "Burning Blade",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 165825780 })
@@ -359,7 +368,7 @@ namespace info
                 ConnectedRealmId = 1335,
                 Name = "Ysondre",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 155347612 })
@@ -373,7 +382,7 @@ namespace info
                 ConnectedRealmId = 3682,
                 Name = "Ragnaros",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 174625955 })
@@ -387,7 +396,7 @@ namespace info
                 ConnectedRealmId = 3692,
                 Name = "Eredar",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 155665676 })
@@ -401,7 +410,7 @@ namespace info
                 ConnectedRealmId = 581,
                 Name = "Blackrock",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 165976699 })
@@ -415,7 +424,7 @@ namespace info
                 ConnectedRealmId = 3656,
                 Name = "Vashj",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllAllianceRecipes(),
                 
                 Fractions = GetAlliance(0),
                 Characters = GetCharacters(new long[] { 166107334 })
@@ -429,10 +438,10 @@ namespace info
                 ConnectedRealmId = 1316,
                 Name = "Nemesis",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultAllianceRecipes(),
+                ActiveRecipes = GetAllHordeRecipes(),
                 
-                Fractions = GetAlliance(0),
-                Characters = GetCharacters(new long[] { 195039858 })
+                Fractions = GetHorde(0),
+                Characters = GetCharacters(new long[] { 197245888 })
             };
         }
         private static RealmModel GetOutland()
@@ -443,65 +452,238 @@ namespace info
                 ConnectedRealmId = 1301,
                 Name = "Outland",
                 TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
-                ActiveRecipes = GetDefaultHordeRecipes(),
+                ActiveRecipes = GetAllHordeRecipes(),
                 
                 Fractions = GetHorde(0),
                 Characters = GetCharacters(new long[] { 195040393 })
+            };
+        }
+        private static RealmModel GetArgentDawn()
+        {
+            return new RealmModel
+            {
+                Id = 536,
+                ConnectedRealmId = 3702,
+                Name = "Argent Dawn",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 168371145 })
+            };
+        }
+        private static RealmModel GetDefiasBrotherhood()
+        {
+            return new RealmModel
+            {
+                Id = 635,
+                ConnectedRealmId = 1096,
+                Name = "Defias Brotherhood",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllHordeRecipes(),
+                Fractions = GetHorde(0),
+                Characters = GetCharacters(new long[] { 167458503 })
+            };
+        }
+        private static RealmModel GetThermaplugg()
+        {
+            return new RealmModel
+            {
+                Id = 1926,
+                ConnectedRealmId = 1929,
+                Name = "Термоштепсель",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllHordeRecipes(),
+                Fractions = GetHorde(0),
+                Characters = GetCharacters(new long[] { 246027016 })
+            };
+        }
+        private static RealmModel GetArchimonde()
+        {
+            return new RealmModel
+            {
+                Id = 539,
+                ConnectedRealmId = 1302,
+                Name = "Archimonde",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllHordeRecipes(),
+                Fractions = GetHorde(0),
+                Characters = GetCharacters(new long[] { 196924079 })
+            };
+        }
+        private static RealmModel GetArathor()
+        {
+            return new RealmModel
+            {
+                Id = 501,
+                ConnectedRealmId = 1587,
+                Name = "Arathor",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 245763295 })
+            };
+        }
+        private static RealmModel GetDeepholm()
+        {
+            return new RealmModel
+            {
+                Id = 1609,
+                ConnectedRealmId = 1614,
+                Name = "Подземье",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 176239290 })
+            };
+        }
+        private static RealmModel GetAshenvale()
+        {
+            return new RealmModel
+            {
+                Id = 1923,
+                ConnectedRealmId = 1923,
+                Name = "Ясеневый лес",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 245763357 })
+            };
+        }
+        private static RealmModel GetAzuregos()
+        {
+            return new RealmModel
+            {
+                Id = 1922,
+                ConnectedRealmId = 1922,
+                Name = "Азурегос",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 245764170 })
+            };
+        }
+        private static RealmModel GetGreymane()
+        {
+            return new RealmModel
+            {
+                Id = 1610,
+                ConnectedRealmId = 1928,
+                Name = "Седогрив",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 245764119 })
+            };
+        }
+        private static RealmModel GetDeathguard()
+        {
+            return new RealmModel
+            {
+                Id = 1605,
+                ConnectedRealmId = 1605,
+                Name = "Страж Смерти",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllHordeRecipes(),
+                Fractions = GetHorde(0),
+                Characters = GetCharacters(new long[] { 246240897 })
+            };
+        }
+        private static RealmModel GetFordragon()
+        {
+            return new RealmModel
+            {
+                Id = 1623,
+                ConnectedRealmId = 1623,
+                Name = "Дракономор",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllHordeRecipes(),
+                Fractions = GetHorde(0),
+                Characters = GetCharacters(new long[] { 176821096 })
+            };
+        }
+        private static RealmModel GetEversong()
+        {
+            return new RealmModel
+            {
+                Id = 1925,
+                ConnectedRealmId = 1925,
+                Name = "Вечная Песня",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 246573063 })
+            };
+        }
+        private static RealmModel GetTuralyon()
+        {
+            return new RealmModel
+            {
+                Id = 553,
+                ConnectedRealmId = 1402,
+                Name = "Turalyon",
+                TimeUpdate = DateTime.Parse("Sat, 18 Aug 2018 07:22:16 GMT"),
+                ActiveRecipes = GetAllAllianceRecipes(),
+                Fractions = GetAlliance(0),
+                Characters = GetCharacters(new long[] { 162609411 })
             };
         }
 
         private static List<ActiveRecipe> GetAllRecipes()
         {
             var a = new List<ActiveRecipe>();
-            a.AddRange(GetDefaultAllianceRecipes());
-            a.AddRange(GetBestHordeRecipes());
+            a.AddRange(GetDefaultRecipes());
             a.AddRange(GetRecipes());
             return a;
+
         }
-        private static List<ActiveRecipe> GetAllBestRecipes()
+        static List<ActiveRecipe> GetDefaultRecipes()
         {
             var a = new List<ActiveRecipe>();
-            a.AddRange(GetBestAllianceRecipes());
-            a.AddRange(GetBestHordeRecipes());
-            a.AddRange(GetRecipes());
+            a.AddRange(GetDefaultAllianceRecipes());
+            a.AddRange(GetDefaultHordeRecipes());
             return a;
         }
+
+        //private static List<ActiveRecipe> GetAllBestRecipes()
+        //{
+        //    var a = new List<ActiveRecipe>();
+        //    a.AddRange(GetBestAllianceRecipes());
+        //    a.AddRange(GetBestHordeRecipes());
+        //    a.AddRange(GetRecipes());
+        //    return a;
+        //}
         private static List<ActiveRecipe> GetAllAllianceRecipes()
         {
             var a = new List<ActiveRecipe>();
-            a.AddRange(GetBestAllianceRecipes());
-            a.AddRange(GetAllianceRecipes());
+            a.AddRange(GetDefaultAllianceRecipes());
             a.AddRange(GetRecipes());
             return a;
+
         }
-        private static List<ActiveRecipe> GetDefaultRecipes()
+        static List<ActiveRecipe> GetDefaultAllianceRecipes()
         {
             var a = new List<ActiveRecipe>();
             a.AddRange(GetBestAllianceRecipes());
-            a.AddRange(GetBestHordeRecipes());
+            a.AddRange(GetNotBestAllianceRecipes());
             return a;
         }
-        private static List<ActiveRecipe> GetDefaultAllianceRecipes()
-        {
-            var a = new List<ActiveRecipe>();
-            a.AddRange(GetBestAllianceRecipes());
-            a.AddRange(GetAllianceRecipes());
-            return a;
-        }
-        private static List<ActiveRecipe> GetDefaultHordeRecipes()
-        {
-            var a = new List<ActiveRecipe>();
-            a.AddRange(GetBestHordeRecipes());
-            a.AddRange(GetHordeRecipes());
-            return a;
-        }
+
         private static List<ActiveRecipe> GetAllHordeRecipes()
         {
             var a = new List<ActiveRecipe>();
-            a.AddRange(GetBestHordeRecipes());
+            a.AddRange(GetDefaultHordeRecipes());
             a.AddRange(GetRecipes());
             return a;
+
         }
+        static List<ActiveRecipe> GetDefaultHordeRecipes()
+        {
+            var a = new List<ActiveRecipe>();
+            a.AddRange(GetBestHordeRecipes());
+            a.AddRange(GetNotBestHordeRecipes());
+            return a;
+        }
+
         private static List<ActiveRecipe> GetBestAllianceRecipes()
         {
             return new List<ActiveRecipe>{
@@ -512,15 +694,51 @@ namespace info
                 new ActiveRecipe
                 {
                     IdRecipe = (int)RecipeInfo.Shimmerscale_Striker_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.MagneticDiscombobulator_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.HonorableCombatantsEtchedVessel_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.MonelHardenedPolearm_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.KyaniteRing_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.SolstoneRing_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.KubilineRing_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.GoldenBerylRing_A
                 }
             };
         }
-        private static List<ActiveRecipe> GetAllianceRecipes()
+        private static List<ActiveRecipe> GetNotBestAllianceRecipes()
         {
             return new List<ActiveRecipe>{
                 new ActiveRecipe
                 {
                     IdRecipe = (int)RecipeInfo.Tidespray_Linen_Pants_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.EnchantersUmbralWand_A
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.HonorableCombatantsPolearm_A
                 }
             };
         }
@@ -547,10 +765,38 @@ namespace info
                 new ActiveRecipe
                 {
                     IdRecipe = (int)RecipeInfo.Tidespray_Linen_Pants_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.EnchantersUmbralWand_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.MagneticDiscombobulator_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.HonorableCombatantsPolearm_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.KyaniteRing_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.SolstoneRing_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.KubilineRing_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.GoldenBerylRing_H
                 }
             };
         }
-        private static List<ActiveRecipe> GetHordeRecipes()
+        private static List<ActiveRecipe> GetNotBestHordeRecipes()
         {
             return new List<ActiveRecipe>{
                 new ActiveRecipe
@@ -560,6 +806,14 @@ namespace info
                 new ActiveRecipe
                 {
                     IdRecipe = (int)RecipeInfo.Shimmerscale_Striker_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.HonorableCombatantsEtchedVessel_H
+                },
+                new ActiveRecipe
+                {
+                    IdRecipe = (int)RecipeInfo.MonelHardenedPolearm_H
                 }
             };
         }

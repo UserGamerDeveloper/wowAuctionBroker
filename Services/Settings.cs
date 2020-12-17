@@ -9,11 +9,10 @@ namespace info
     [Serializable]
     public class Settings
     {
-        public int TARGET_PROFIT;
-        public int TARGET_INCOME_IN_HOUR;
-        public string WOW_PATH;
-        public string ClientId;
-        public string ClientSecret;
+        public double TargetProfitInRUB = 10;
+        public double TargetIncomeInHourInRub = 50;
+        public string ClientId = "2822529a2c004a43896c9a67395969dd";
+        public string ClientSecret = "8wBVDXSb3owSWimdkioCAHjVwAMo8Hq9";
 
         public Settings() { }
     }

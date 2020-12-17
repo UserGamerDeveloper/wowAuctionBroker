@@ -10,7 +10,7 @@ namespace Mvc.Client.Models
 {
     public class CalculatorModel
     {
-        public int RequiredIncomeGold { get; set; } = 0;
+        public double RequiredIncomeGold { get; set; } = 0;
         public Dictionary<int, long> Items { get; set; } = new Dictionary<int, long>();
         public int SelectedItemID { get; set; } = int.MinValue;
         public FactionType SelectedFaction { get; set; } = FactionType.NONE;

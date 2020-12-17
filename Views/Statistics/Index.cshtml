@@ -17,23 +17,26 @@
             <td>Фракция</td>
             <td>Доступное золото</td>
             <td>Ожидающее золото</td>
+            <td>Макс золото</td>
             <td>Последнее обновление</td>
         </tr>
-        @foreach (var item in Model.Factions.OrderByDescending(x => x.Money))
+        @foreach (var item in Model.Factions.OrderByDescending(x => x.MaxGold))
         {
-            <tr class="@item.FarmMode.ToString()">
-                <td>@item.RealmName</td>
-                <td>@item.FractionName</td>
-                <td>@item.Money.ToString("N0")</td>
-                <td>@item.WaitMoney.ToString("N0")</td>
-                <td>@item.LastUpdate</td>
-            </tr>
+    <tr class="@item.FarmMode.ToString()">
+        <td>@item.RealmName</td>
+        <td>@item.FractionName</td>
+        <td>@item.Gold.ToString("N0")</td>
+        <td>@item.WaitMoney.ToString("N0")</td>
+        <td>@item.MaxGold.ToString("N0")</td>
+        <td>@item.LastUpdate</td>
+    </tr>
         }
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Всего золота</td>
-            <td>@Model.AllMoney.ToString("N0")</td>
-            <td></td>
-        </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Всего золота</td>
+        <td>@Model.AllMoney.ToString("N0")</td>
+        <td></td>
+    </tr>
     </table>

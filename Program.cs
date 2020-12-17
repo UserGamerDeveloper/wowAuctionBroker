@@ -10,6 +10,7 @@ using Mvc.Client.Data;
 using Serilog;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using static Mvc.Client.Models.RealmModel;
 
 namespace Mvc.Client

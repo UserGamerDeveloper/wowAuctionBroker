@@ -50,7 +50,7 @@ namespace info
         [XmlIgnore]
         public ReputationTier reputationTier = ReputationTier.Neutral;
         [XmlIgnore]
-        public Dictionary<string, HashSet<RecipeData>> RecipeDataTrees { get; } = new Dictionary<string, HashSet<RecipeData>>();
+        public HashSet<HashSet<RecipeData>> RecipeDataTrees { get; } = new HashSet<HashSet<RecipeData>>();
         public bool farmMode;
 
         public Faction(FactionModel fraction)
@@ -68,15 +68,15 @@ namespace info
                 moneyMax = Money;
             }
         }
-        internal void SetRecipeDataTrees(List<RecipeData> recipes)
+        internal void SetRecipeDataTrees(HashSet<RecipeData> recipes)
         {
-            List<RecipeData> serverRecipesList = new List<RecipeData>(recipes);
-            while (serverRecipesList.Count > 0)
+            while (recipes.Count > 0)
             {
                 HashSet<RecipeData> recipeDataTree = new HashSet<RecipeData>();
-                foreach (var idItem in serverRecipesList[0].ID_ITEM_AND_NEED_AMOUNT.Keys)
+                RecipeData root = recipes.First();
+                foreach (var idItem in root.ID_ITEM_AND_NEED_AMOUNT.Keys)
                 {
-                    foreach (RecipeData recipe in serverRecipesList)
+                    foreach (RecipeData recipe in recipes)
                     {
                         if (recipe.ID_ITEM_AND_NEED_AMOUNT.ContainsKey(idItem))
                         {
@@ -84,41 +84,41 @@ namespace info
                         }
                     }
                 }
-                List<RecipeData> recipeDataList = new List<RecipeData>(recipeDataTree);
-                recipeDataList.Remove(recipes[0]);
-                while (recipeDataList.Count > 0)
+                foreach (var recipe in recipeDataTree)
                 {
-                    RecipeData recipeData = recipeDataList[0];
-                    recipeDataList.Remove(recipeData);
-
-                    foreach (var idItem in recipeData.ID_ITEM_AND_NEED_AMOUNT.Keys)
+                    recipes.Remove(recipe);
+                }
+                HashSet<RecipeData> notCheckRecipeDataInTree = new HashSet<RecipeData>(recipeDataTree);
+                notCheckRecipeDataInTree.Remove(root);
+                while (notCheckRecipeDataInTree.Count > 0)
+                {
+                    RecipeData targetForCheck = notCheckRecipeDataInTree.First();
+                    foreach (var idItem in targetForCheck.ID_ITEM_AND_NEED_AMOUNT.Keys)
                     {
-                        List<RecipeData> recipeDataListNotInTree = new List<RecipeData>(recipes);
-                        foreach (var item in recipeDataTree)
-                        {
-                            recipeDataListNotInTree.Remove(item);
-                        }
-                        foreach (RecipeData recipe in recipeDataListNotInTree)
+                        foreach (var recipe in GetRecipesDatasNotInTree(recipeDataTree))
                         {
                             if (recipe.ID_ITEM_AND_NEED_AMOUNT.ContainsKey(idItem))
                             {
                                 recipeDataTree.Add(recipe);
-                                recipeDataList.Add(recipe);
+                                notCheckRecipeDataInTree.Add(recipe);
+                                recipes.Remove(recipe);
                             }
                         }
                     }
+                    notCheckRecipeDataInTree.Remove(targetForCheck);
                 }
+                RecipeDataTrees.Add(recipeDataTree);
+            }
+
+            HashSet<RecipeData> GetRecipesDatasNotInTree(HashSet<RecipeData> recipeDataTree)
+            {
+                HashSet<RecipeData> recipesDatasNotInTree = new HashSet<RecipeData>(recipes);
                 foreach (var item in recipeDataTree)
                 {
-                    serverRecipesList.Remove(item);
+                    recipesDatasNotInTree.Remove(item);
                 }
-                string name = "";
-                foreach (var item in recipeDataTree)
-                {
-                    serverRecipesList.Remove(item);
-                    name += item.Name + "    ";
-                }
-                RecipeDataTrees.Add(name, recipeDataTree);
+
+                return recipesDatasNotInTree;
             }
         }
 
@@ -160,80 +160,87 @@ namespace info
         public string Name { get; set; }
         public DateTime timeUpdate;
         public Dictionary<FactionType, Faction> factions = new Dictionary<FactionType, Faction>();
-        public static long TokenPrice;
+        public static long TokenPrice = 1770000000;
 
-        public Server(RealmModel realm, Dictionary<int, RecipeData> recipeDataById)
+        public Server(RealmModel realm)
         {
             this.id = realm.Id;
             this.connectedRealmId = realm.ConnectedRealmId;
             Name = realm.Name;
             this.timeUpdate = realm.TimeUpdate;
-            SetFactionData(realm, recipeDataById);
-        }
-        internal void SetFactionData(RealmModel realm, Dictionary<int, RecipeData> recipeDataById)
-        {
-            foreach (var fraction in realm.Fractions)
+            SetFaction(realm);
+
+            void SetFaction(RealmModel realm)
             {
-                factions.Add(fraction.FactionType, new Faction(fraction));
-            }
-            foreach (var character in realm.Characters)
-            {
-                CharacterProtectedData characterProtectedData = ParseService.GetCharacterProtectedData(realm.Id, character.Id);
-                CharacterData characterData = ParseService.GetCharacterData(characterProtectedData.Characterr.Realm.Slug, characterProtectedData.Name);
-                Faction faction = factions[characterData.faction.type];
-                faction.Money += characterProtectedData.Money;
-                ReputationsData reputationsData = ParseService.GetReputationsData(characterProtectedData.Characterr.Realm.Slug, characterProtectedData.Name);
-                int factionId = int.MinValue;
-                switch (faction.factionType)
+                foreach (var fraction in realm.Fractions)
                 {
-                    case FactionType.ALLIANCE:
-                        {
-                            factionId = 2160;
-                            break;
-                        }
-                    case FactionType.HORDE:
-                        {
-                            factionId = 2103;
-                            break;
-                        }
-                    default:
-                        throw new Exception($"неизвестная фракция {faction.factionType}");
+                    factions.Add(fraction.FactionType, new Faction(fraction));
                 }
-                var reputationData = reputationsData.Reputations.Find(rep => rep.Factionn.Id == factionId);
-                if (reputationData != null)
+                foreach (var character in realm.Characters)
                 {
-                    ReputationTier reputationTier = reputationData.Standingg.Tier;
-                    if (reputationTier > faction.reputationTier)
+                    CharacterProtectedData characterProtectedData = ParseService.GetCharacterProtectedData(realm.Id, character.Id);
+                    CharacterData characterData = ParseService.GetCharacterData(characterProtectedData.Characterr.Realm.Slug, characterProtectedData.Name);
+                    Faction faction = factions[characterData.faction.type];
+                    faction.Money += characterProtectedData.Money;
+                    ReputationsData reputationsData = ParseService.GetReputationsData(characterProtectedData.Characterr.Realm.Slug, characterProtectedData.Name);
+                    int factionId = int.MinValue;
+                    switch (faction.factionType)
                     {
-                        faction.reputationTier = reputationTier;
+                        case FactionType.ALLIANCE:
+                            {
+                                factionId = 2160;
+                                break;
+                            }
+                        case FactionType.HORDE:
+                            {
+                                factionId = 2103;
+                                break;
+                            }
+                        default:
+                            throw new Exception($"неизвестная фракция {faction.factionType}");
+                    }
+                    var reputationData = reputationsData.Reputations.Find(rep => rep.Factionn.Id == factionId);
+                    if (reputationData != null)
+                    {
+                        ReputationTier reputationTier = reputationData.Standingg.Tier;
+                        if (reputationTier > faction.reputationTier)
+                        {
+                            faction.reputationTier = reputationTier;
+                        }
                     }
                 }
+                foreach (var faction in factions.Values)
+                {
+                    faction.SetMoneyMax();
+                }
             }
+        }
+        public Server(RealmModel realm, Dictionary<int, List<RecipeData>> recipeDataById) : this(realm)
+        {
             Dictionary<FactionType, List<RecipeData>> a = new Dictionary<FactionType, List<RecipeData>>();
             foreach (var faction in factions.Values)
             {
-                faction.SetMoneyMax();
                 a.Add(faction.factionType, new List<RecipeData>());
             }
             foreach (var activeRecipe in realm.ActiveRecipes)
             {
-                switch (recipeDataById[activeRecipe.IdRecipe].Faction)
+                switch (recipeDataById[activeRecipe.IdRecipe].First().Faction)
                 {
                     case FactionType.ALLIANCE:
                         {
-                            a[FactionType.ALLIANCE].Add(recipeDataById[activeRecipe.IdRecipe]);
+                            a[FactionType.ALLIANCE].AddRange(recipeDataById[activeRecipe.IdRecipe]);
                             break;
                         }
                     case FactionType.HORDE:
                         {
-                            a[FactionType.HORDE].Add(recipeDataById[activeRecipe.IdRecipe]);
+                            a[FactionType.HORDE].AddRange(recipeDataById[activeRecipe.IdRecipe]);
                             break;
                         }
                     case FactionType.NONE:
                         {
                             if (factions.Count == 1)
                             {
-                                a[factions.Values.First().factionType].Add(recipeDataById[activeRecipe.IdRecipe]);
+                                a[factions.Values.First().factionType].AddRange(recipeDataById[activeRecipe.IdRecipe]);
                             }
                             else
                             {
@@ -243,30 +250,30 @@ namespace info
                                 var repAlliance = factionAlliance.reputationTier;
                                 if (repAlliance > repHorde)
                                 {
-                                    a[FactionType.ALLIANCE].Add(recipeDataById[activeRecipe.IdRecipe]);
+                                    a[FactionType.ALLIANCE].AddRange(recipeDataById[activeRecipe.IdRecipe]);
                                 }
                                 else
                                 {
                                     if (repAlliance < repHorde)
                                     {
-                                        a[FactionType.HORDE].Add(recipeDataById[activeRecipe.IdRecipe]);
+                                        a[FactionType.HORDE].AddRange(recipeDataById[activeRecipe.IdRecipe]);
                                     }
                                     else
                                     {
-                                        a[FactionType.HORDE].Add(recipeDataById[activeRecipe.IdRecipe]);
-                                        a[FactionType.ALLIANCE].Add(recipeDataById[activeRecipe.IdRecipe]);
+                                        a[FactionType.HORDE].AddRange(recipeDataById[activeRecipe.IdRecipe]);
+                                        a[FactionType.ALLIANCE].AddRange(recipeDataById[activeRecipe.IdRecipe]);
                                     }
                                 }
                             }
                             break;
                         }
                     default:
-                        throw new Exception($"неизвестная фракция {recipeDataById[activeRecipe.Id].Faction}");
+                        throw new Exception($"неизвестная фракция {recipeDataById[activeRecipe.Id].First().Faction}");
                 }
             }
             foreach (var faction in factions.Values)
             {
-                faction.SetRecipeDataTrees(a[faction.factionType]);
+                faction.SetRecipeDataTrees(a[faction.factionType].ToHashSet());
             }
         }
         public TimeSpan Parse()
@@ -370,7 +377,7 @@ namespace info
         }
         public double ScallingTargetProfitFromRemainingPersentUntilToken(double moneyMax)
         {
-            return ParseService.settings.TARGET_PROFIT + (ParseService.settings.TARGET_PROFIT * (((double)moneyMax / TokenPrice) - 1d));
+            return ParseService.settings.TargetProfitInRUB + (ParseService.settings.TargetProfitInRUB * (((double)moneyMax / TokenPrice) - 1d));
         }
 
         //internal double GetTargetIncomeGoldInHour()

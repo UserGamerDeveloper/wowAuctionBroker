@@ -772,13 +772,226 @@ namespace wowCalc
     {
 
     }
+    public class ConnectedRealmData
+    {
+        public class ConnectedRealm
+        {
+            public class Data
+            {
+                //public class Key
+                //{
+                //    public string href { get; set; }
+                //}
+
+                //public class Name
+                //{
+                //    public string it_IT { get; set; }
+                //    public string ru_RU { get; set; }
+                //    public string en_GB { get; set; }
+                //    public string zh_TW { get; set; }
+                //    public string ko_KR { get; set; }
+                //    public string en_US { get; set; }
+                //    public string es_MX { get; set; }
+                //    public string pt_BR { get; set; }
+                //    public string es_ES { get; set; }
+                //    public string zh_CN { get; set; }
+                //    public string fr_FR { get; set; }
+                //    public string de_DE { get; set; }
+                //}
+
+                //public class Name2
+                //{
+                //    public string it_IT { get; set; }
+                //    public string ru_RU { get; set; }
+                //    public string en_GB { get; set; }
+                //    public string zh_TW { get; set; }
+                //    public string ko_KR { get; set; }
+                //    public string en_US { get; set; }
+                //    public string es_MX { get; set; }
+                //    public string pt_BR { get; set; }
+                //    public string es_ES { get; set; }
+                //    public string zh_CN { get; set; }
+                //    public string fr_FR { get; set; }
+                //    public string de_DE { get; set; }
+                //}
+
+                //public class Region
+                //{
+                //    public Name2 name { get; set; }
+                //    public int id { get; set; }
+                //}
+
+                //public class Category
+                //{
+                //    public string it_IT { get; set; }
+                //    public string ru_RU { get; set; }
+                //    public string en_GB { get; set; }
+                //    public string zh_TW { get; set; }
+                //    public string ko_KR { get; set; }
+                //    public string en_US { get; set; }
+                //    public string es_MX { get; set; }
+                //    public string pt_BR { get; set; }
+                //    public string es_ES { get; set; }
+                //    public string zh_CN { get; set; }
+                //    public string fr_FR { get; set; }
+                //    public string de_DE { get; set; }
+                //}
+
+                //public class Name3
+                //{
+                //    public string it_IT { get; set; }
+                //    public string ru_RU { get; set; }
+                //    public string en_GB { get; set; }
+                //    public string zh_TW { get; set; }
+                //    public string ko_KR { get; set; }
+                //    public string en_US { get; set; }
+                //    public string es_MX { get; set; }
+                //    public string pt_BR { get; set; }
+                //    public string es_ES { get; set; }
+                //    public string zh_CN { get; set; }
+                //    public string fr_FR { get; set; }
+                //    public string de_DE { get; set; }
+                //}
+
+                //public class Type
+                //{
+                //    public Name3 name { get; set; }
+                //    public string type { get; set; }
+                //}
+
+                //public class Realm
+                //{
+                //    public bool is_tournament { get; set; }
+                //    public string timezone { get; set; }
+                //    public Name name { get; set; }
+                //    public int id { get; set; }
+                //    public Region region { get; set; }
+                //    public Category category { get; set; }
+                //    public string locale { get; set; }
+                //    public Type type { get; set; }
+                //    public string slug { get; set; }
+                //}
+
+                //public class Name4
+                //{
+                //    public string it_IT { get; set; }
+                //    public string ru_RU { get; set; }
+                //    public string en_GB { get; set; }
+                //    public string zh_TW { get; set; }
+                //    public string ko_KR { get; set; }
+                //    public string en_US { get; set; }
+                //    public string es_MX { get; set; }
+                //    public string pt_BR { get; set; }
+                //    public string es_ES { get; set; }
+                //    public string zh_CN { get; set; }
+                //    public string fr_FR { get; set; }
+                //    public string de_DE { get; set; }
+                //}
+
+                //public class Status
+                //{
+                //    public Name4 name { get; set; }
+                //    public string type { get; set; }
+                //}
+
+                //public class Name5
+                //{
+                //    public string it_IT { get; set; }
+                //    public string ru_RU { get; set; }
+                //    public string en_GB { get; set; }
+                //    public string zh_TW { get; set; }
+                //    public string ko_KR { get; set; }
+                //    public string en_US { get; set; }
+                //    public string es_MX { get; set; }
+                //    public string pt_BR { get; set; }
+                //    public string es_ES { get; set; }
+                //    public string zh_CN { get; set; }
+                //    public string fr_FR { get; set; }
+                //    public string de_DE { get; set; }
+                //}
+
+                //public class Data
+                //{
+                //    public List<Realm> realms { get; set; }
+                //    public int id { get; set; }
+                //    public bool has_queue { get; set; }
+                //    public Status status { get; set; }
+                //    public Population population { get; set; }
+                //}
+
+                //public class Result
+                //{
+                //    public Key key { get; set; }
+                //    public Data data { get; set; }
+                //}
+
+                //public class Root
+                //{
+                //    public int page { get; set; }
+                //    public int pageSize { get; set; }
+                //    public int maxPageSize { get; set; }
+                //    public int pageCount { get; set; }
+                //    public List<Result> results { get; set; }
+                //}
+
+                public class Realm
+                {
+                    public class Name
+                    {
+                        public string it_IT { get; set; }
+                        public string ru_RU { get; set; }
+                        public string en_GB { get; set; }
+                        public string zh_TW { get; set; }
+                        public string ko_KR { get; set; }
+                        public string en_US { get; set; }
+                        public string es_MX { get; set; }
+                        public string pt_BR { get; set; }
+                        public string es_ES { get; set; }
+                        public string zh_CN { get; set; }
+                        public string fr_FR { get; set; }
+                        public string de_DE { get; set; }
+                    }
+
+                    //public bool is_tournament { get; set; }
+                    //public string timezone { get; set; }
+                    public Name name { get; set; }
+                    //public int id { get; set; }
+                    //public Region region { get; set; }
+                    //public Category category { get; set; }
+                    //public string locale { get; set; }
+                    //public Type type { get; set; }
+                    //public string slug { get; set; }
+                }
+                public class Population
+                {
+                    //public Name5 name { get; set; }
+                    public string type { get; set; }
+                }
+
+                public List<Realm> realms { get; set; }
+                public int id { get; set; }
+                public Population population { get; set; }
+                //public bool has_queue { get; set; }
+                //public Status status { get; set; }
+            }
+
+            //public Key key { get; set; }
+            public Data data { get; set; }
+        }
+
+        //public int page { get; set; }
+        //public int pageSize { get; set; }
+        //public int maxPageSize { get; set; }
+        //public int pageCount { get; set; }
+        public List<ConnectedRealm> results { get; set; }
+    }
     public class ParseService
     {
         static IHubContext<LogHub> hubContext;
         private static IHostEnvironment HostingEnvironment;
         public static readonly object logLocker = new object();
         //public static readonly object getAuctionDataLocker = new object();
-        public static Settings settings = Loader.DeserializeSettings();
+        public static Settings settings = new Settings();
         public const int AmountCopperInGold = 10000;
         private const int AmountCopperInSilver = 100;
         private const string URL_ITEM_PAGE_FORMAT = "https://eu.api.blizzard.com/data/wow/connected-realm/{0}/auctions?namespace=dynamic-eu&locale=en_US";
@@ -786,6 +999,7 @@ namespace wowCalc
         const string CharacterProtectedDataURLFormat = "https://eu.api.blizzard.com/profile/user/wow/protected-character/{0}-{1}?namespace=profile-eu&locale=en_US";
         const string ReputationsDataURLFormat = "https://eu.api.blizzard.com/profile/wow/character/{0}/{1}/reputations?namespace=profile-eu&locale=en_US";
         const string CharacterDataURLFormat = "https://eu.api.blizzard.com/profile/wow/character/{0}/{1}?namespace=profile-eu&locale=en_US";
+        const string ConnectedRealmListURL = "https://eu.api.blizzard.com/data/wow/search/connected-realm?namespace=dynamic-eu&locale=en_US&status.type=UP&orderby=population.type&_page=1";
         public static readonly object exeptionLocker = new object();
         public static string accessToken;
 
@@ -798,6 +1012,19 @@ namespace wowCalc
         public void Start(string accessToken)
         {
             ParseService.accessToken = accessToken;
+            //var s = GetConnectedRealmData();
+            //string str = "";
+            //foreach (var connectedRealm in s.results)
+            //{
+            //    str += connectedRealm.data.id + ";";
+            //    foreach (var realm in connectedRealm.data.realms)
+            //    {
+            //        str += realm.name.ru_RU + " / ";
+            //    }
+            //    str += ";";
+            //    str += connectedRealm.data.population.type + "\n";
+            //}
+            //File.WriteAllText("realmsco.txt", str);
             foreach (var server in Loader.GetServersByName(HostingEnvironment))
             {
                 new Thread(new ParameterizedThreadStart(Parse))
@@ -854,9 +1081,27 @@ namespace wowCalc
             }
         }
 
+        public static double GetIncomeRUBInHour(double profit, double milliseconds)
+        {
+            TimeSpan timeSpan = TimeSpan.FromMilliseconds(milliseconds);
+            if (timeSpan.Ticks != 0)
+            {
+                return ConvertCopperToRUB(profit / timeSpan.Ticks * TimeSpan.TicksPerHour);
+            }
+            else
+            {
+                return double.NaN;
+            }
+        }
+
         public static double ConvertCopperToGold(double copper)
         {
             return copper / AmountCopperInGold;
+        }
+        public static double ConvertCopperToRUB(double copper)
+        {
+            const int costTokenInRUB = 825;
+            return costTokenInRUB * copper / Server.TokenPrice;
         }
 
         public static double ConvertCopperToSilver(double copper)
@@ -905,6 +1150,12 @@ namespace wowCalc
         {
             string auctionDataStr = GetResponseString(string.Format(URL_ITEM_PAGE_FORMAT, idRealm), Timeout.InfiniteTimeSpan);
             AuctionData auctionData = JsonConvert.DeserializeObject<AuctionData>(auctionDataStr);
+            return auctionData;
+        }
+        static public ConnectedRealmData GetConnectedRealmData()
+        {
+            string auctionDataStr = GetResponseString(ConnectedRealmListURL, TimeSpan.FromSeconds(4));
+            ConnectedRealmData auctionData = JsonConvert.DeserializeObject<ConnectedRealmData>(auctionDataStr);
             return auctionData;
         }
 
